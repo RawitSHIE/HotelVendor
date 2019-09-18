@@ -6,11 +6,12 @@
 - การจองห้องของโรงแรม
 
 ## Busniuess Flow
+![BusniuessChart](/ReadmeResource/BusinessChart.png)
 
 ## โครงสร้างของระบบ
-![BusniuessChart](/ReadmeResource/BusinessChart.png)
-## Json ของ Entity มีดังนี้
 ![ProjectStructure]()
+
+## Json ของ Entity มีดังนี้
 ### Hotel
 ```json
 {
