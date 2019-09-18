@@ -10,10 +10,11 @@
 
 ![BusniuessChart](/ReadmeResource/BusinessChart.png)
 
-## API Structure overview
+## API Structure overview Plan
 > Not yet finalize
-
-![ProjectStructure](/ReadmeResource/apiStructure.png)
+<center>
+  <image src="ReadmeResource/apiStructure.png" alt="api overview"/>
+</center>
 
 ## Json ของ Entity มีดังนี้
 ### Hotel
@@ -106,5 +107,12 @@
   "totalPrice" : "number"
 }
 ```
+> price may vary overtime dedicate price store foreach booking is needed*
 
 ## API Endpoint ที่จำเป็นต่อ Busniess
+- API ในการรับผิดชอบการ Filter โรงแรมตาม Attribute การ Search ของลูกค้า
+- API ในการรับชอบการตรวจสอบ สถานะของห้องในการจองในช่วงเวลานั้นโดยไม่เกิดการทับกันของการจอง
+- API ในการ Update Entity Room โดยยึดจาก Entity Booking
+- API ในการ Add และ Update Entity Room ตามโรงแรมต้องการ
+- API การสร้าง Notification ของ Booking ให้กับโรงแรม
+- API การสร้าง Invoice สำหรับการจอง
