@@ -8,7 +8,7 @@
 ## Busniuess Flow
 
 ## โครงสร้างของระบบ
-![BusniuessChart]()
+![BusniuessChart](/ReadmeResource/BusinessChart.png)
 ## Json ของ Entity มีดังนี้
 ![ProjectStructure]()
 ### Hotel
