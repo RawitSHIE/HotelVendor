@@ -21,17 +21,30 @@
 
 ## API Structure overview Plan
 > Not yet finalize
-<center>
+<p align="center">
   <image src="ReadmeResource/apiStructure.png" alt="api overview"/>
-</center>
+</p>
+
+- Interface คือหน้าการใช้งานของระบบ
+- Possible Basic Require API คือ API ที่มีหน้าที่ใน Interface นั้นๆ
+- Possiblne Outsource API คือ API ของ Service อื่นที่เป็นเป็นไปได้เป็นไปได้
+
 
 ## API Endpoint ที่จำเป็นต่อ Busniess
+
+### Feature Endpoint
 - API ในการรับผิดชอบการ Filter โรงแรมตาม Attribute การ Search ของลูกค้า
 - API ในการรับชอบการตรวจสอบ สถานะของห้องในการจองในช่วงเวลานั้นโดยไม่เกิดการทับกันของการจอง
 - API ในการ Update Entity Room โดยยึดจาก Entity Booking
 - API ในการ Add และ Update Entity Room ตามโรงแรมต้องการ
 - API การสร้าง Notification ของ Booking ให้กับโรงแรม
 - API การสร้าง Invoice สำหรับการจอง
+
+### Entity
+- Room
+- Hotel
+- User
+- Booking
 
 
 ## Json ของ Entity มีดังนี้
