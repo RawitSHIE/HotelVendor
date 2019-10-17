@@ -3,6 +3,8 @@ package sop.project.hotel.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "hotel")
@@ -25,18 +27,33 @@ public class Hotel extends AuditModel {
 
     @NotNull
     @Size(min = 1, max=100)
+    private String district;
+
+    @NotNull
+    @Size(min = 1, max=100)
     private String street;
 
     @Column(columnDefinition = "text")
     private String additionalDetail;
 
     @NotNull
-    private boolean isAvailible;
+    private boolean availible;
 
-    private String tel;
+    @ElementCollection
+    @CollectionTable(
+            name = "hotel_tel",
+            joinColumns = @JoinColumn(name = "hotel_id")
+    )
+    @Column(name = "tel")
+    private Set<String> tel = new HashSet<>();
 
-    private String email;
-
+    @ElementCollection
+    @CollectionTable(
+            name = "hotel_email",
+            joinColumns = @JoinColumn(name = "hotel_id")
+    )
+    @Column(name = "email")
+    private Set<String> email = new HashSet<>();
 
     public long getHotelId() {
         return hotelId;
@@ -54,6 +71,10 @@ public class Hotel extends AuditModel {
         return provinceState;
     }
 
+    public String getDistrict() {
+        return district;
+    }
+
     public String getStreet() {
         return street;
     }
@@ -62,20 +83,16 @@ public class Hotel extends AuditModel {
         return additionalDetail;
     }
 
-    public boolean isAvailible() {
-        return isAvailible;
+    public boolean getAvailible() {
+        return availible;
     }
 
-    public String getTel() {
+    public Set<String> getTel() {
         return tel;
     }
 
-    public String getEmail() {
+    public Set<String> getEmail() {
         return email;
-    }
-
-    public void setHotelId(long hotelId) {
-        this.hotelId = hotelId;
     }
 
     public void setHotelName(String hotelName) {
@@ -90,6 +107,10 @@ public class Hotel extends AuditModel {
         this.provinceState = provinceState;
     }
 
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
     public void setStreet(String street) {
         this.street = street;
     }
@@ -99,14 +120,14 @@ public class Hotel extends AuditModel {
     }
 
     public void setAvailible(boolean availible) {
-        isAvailible = availible;
+        this.availible = availible;
     }
 
-    public void setTel(String tel) {
+    public void setTel(Set<String> tel) {
         this.tel = tel;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Set<String> email) {
         this.email = email;
     }
 }
