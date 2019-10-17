@@ -32,6 +32,14 @@ public class HotelController {
     }
 
     @RequestMapping(
+            value = "/hoteldetail/{hotelId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public Object getHotelDetails(@PathVariable("hotelId") long hotelId){
+        return hotelRespository.findById(hotelId);
+    }
+
+    @RequestMapping(
             value = "/createHotel",
             produces = {"application/json"},
             method = RequestMethod.POST)
