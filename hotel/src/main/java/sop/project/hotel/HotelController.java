@@ -3,6 +3,7 @@ package sop.project.hotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.bind.annotation.*;
 import sop.project.hotel.exception.NotFoundException;
@@ -15,6 +16,7 @@ import java.util.List;
 @SpringBootApplication
 @RestController
 @EnableJpaAuditing
+@EnableDiscoveryClient
 public class HotelController {
     @Autowired
     private HotelRespository hotelRespository;
