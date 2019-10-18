@@ -6,19 +6,21 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@EnableDiscoveryClient
 public class UserController {
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@GetMapping("/alluser")
 	public List<User> index(){
 		return userRepository.findAll();
 	}
-	
+
 	@GetMapping("user/{id}")
 	public User show(@PathVariable String id) {
 		int userId = Integer.parseInt(id);
