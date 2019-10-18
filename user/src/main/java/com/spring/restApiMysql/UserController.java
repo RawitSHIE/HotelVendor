@@ -1,7 +1,9 @@
 package com.spring.restApiMysql;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,7 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@GetMapping("/user")
+	@GetMapping("/alluser")
 	public List<User> index(){
 		return userRepository.findAll();
 	}
@@ -22,14 +24,9 @@ public class UserController {
 		int userId = Integer.parseInt(id);
 		return userRepository.findById(userId).orElse(null);
 	}
-	
+
 	@PostMapping("/user")
-	public User create(@RequestBody Map<String, String> body) {
-		String firstname = body.get("firstname");
-		String middlename = body.get("middlename");
-		String lastname = body.get("lastname");
-		String tel = body.get("tel");
-		String email = body.get("email");
-		return userRepository.save(new User(firstname, middlename, lastname, tel, email));
+	public User create(@RequestBody User user) {
+		return userRepository.save(user);
 	}
 }

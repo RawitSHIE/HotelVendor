@@ -1,9 +1,9 @@
 package com.spring.restApiMysql;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -11,29 +11,40 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 //	name
-	private String firstname;
-	private String middlename;
-	private String lastname;
-	
-//	contactInfo
-	private String tel;
+	@NotNull(message = "can't be empty")
+	private String firstName;
+
+	private String middleName;
+
+	@NotNull(message = "can't be empty")
+	private String lastName;
+
+	@ElementCollection
+	@CollectionTable(
+			name = "user_tel",
+			joinColumns = @JoinColumn(name = "user_id")
+	)
+	@Column(name = "tel")
+	private Set<String> tel = new HashSet<String>();
+
+	@NotNull(message = "can't be empty")
 	private String email;
 	
 	public User() {}
 	
-	public User(String firstname, String middlename, String lastname, String tel, String email) {
-		this.firstname = firstname;
-		this.middlename = middlename;
-		this.lastname = lastname;
+	public User(String firstName, String middleName, String lastName, Set<String> tel, String email) {
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
 		this.tel = tel;
 		this.email = email;
 	}
 
-	public User(int id, String firstname, String middlename, String lastname, String tel, String email) {
+	public User(int id, String firstName, String middleName, String lastName, Set<String> tel, String email) {
 		this.id = id;
-		this.firstname = firstname;
-		this.middlename = middlename;
-		this.lastname = lastname;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
 		this.tel = tel;
 		this.email = email;
 	}
@@ -46,35 +57,35 @@ public class User {
 		this.id = id;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getMiddlename() {
-		return middlename;
+	public String getMiddleName() {
+		return middleName;
 	}
 
-	public void setMiddleName(String middlename) {
-		this.middlename = middlename;
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getTel() {
+	public Set<String> getTel() {
 		return tel;
 	}
 
-	public void setTel(String tel) {
+	public void setTel(Set<String> tel) {
 		this.tel = tel;
 	}
 
@@ -88,7 +99,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User {id=" + id + ", firstname=" + firstname + ", middlename=" + middlename + ", lastname=" + lastname
-				+ ", tel=" + tel + ", email=" + email + "}";
+		return "User {id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName
+				+ ", email=" + email + "}";
 	}
 }
