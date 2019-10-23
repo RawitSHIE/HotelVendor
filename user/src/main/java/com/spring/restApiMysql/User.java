@@ -10,7 +10,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-//	name
+
 	@NotNull(message = "can't be empty")
 	private String firstName;
 

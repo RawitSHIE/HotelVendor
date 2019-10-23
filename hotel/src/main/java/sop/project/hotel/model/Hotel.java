@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "hotel")
 public class Hotel extends AuditModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long hotelId;
