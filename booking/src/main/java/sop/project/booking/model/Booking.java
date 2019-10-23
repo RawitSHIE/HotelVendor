@@ -2,13 +2,12 @@ package sop.project.booking.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "Booking")
 public class Booking extends AuditModel{
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
@@ -23,19 +22,17 @@ public class Booking extends AuditModel{
     private String bookingStatus;
 
     @NotNull
-    private Date bookingCreateDate;
+    private Date startDate = new Date();
 
     @NotNull
+    private Date endDate = new Date();
+
     private Date checkInDate;
 
-    @NotNull
     private Date checkOutDate;
 
     @NotNull
-    private List<RoomDetail> RoomDetails = new ArrayList<RoomDetail>();
-
-    @NotNull
-    private long totalPrice = 0;
+    private long totalPrice;
 
     public long getId() {
         return id;
@@ -53,8 +50,12 @@ public class Booking extends AuditModel{
         return bookingStatus;
     }
 
-    public Date getBookingCreateDate() {
-        return bookingCreateDate;
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
     }
 
     public Date getCheckInDate() {
@@ -63,10 +64,6 @@ public class Booking extends AuditModel{
 
     public Date getCheckOutDate() {
         return checkOutDate;
-    }
-
-    public List<RoomDetail> getRoomDetails() {
-        return RoomDetails;
     }
 
     public long getTotalPrice() {
@@ -85,8 +82,12 @@ public class Booking extends AuditModel{
         this.bookingStatus = bookingStatus;
     }
 
-    public void setBookingCreateDate(Date bookingCreateDate) {
-        this.bookingCreateDate = bookingCreateDate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public void setCheckInDate(Date checkInDate) {
@@ -97,15 +98,8 @@ public class Booking extends AuditModel{
         this.checkOutDate = checkOutDate;
     }
 
-    public void setRoomDetails(List<RoomDetail> RoomDetails) {
-        this.RoomDetails = RoomDetails;
-        RoomDetails.forEach(RoomDetail ->
-                this.setTotalPrice(RoomDetail.getPrice())
-        );
-    }
-
     public void setTotalPrice(long totalPrice) {
-        this.totalPrice += totalPrice;
+        this.totalPrice = totalPrice;
     }
 
 }
