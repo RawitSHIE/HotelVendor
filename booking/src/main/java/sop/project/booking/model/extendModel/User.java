@@ -1,35 +1,17 @@
-package com.spring.restApiMysql;
+package sop.project.booking.model.extendModel;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	private int id;
-
-	@NotNull(message = "can't be empty")
 	private String firstName;
-
 	private String middleName;
-
-	@NotNull(message = "can't be empty")
 	private String lastName;
-
-	@ElementCollection
-	@CollectionTable(
-			name = "user_tel",
-			joinColumns = @JoinColumn(name = "user_id")
-	)
-	@Column(name = "tel")
 	private Set<String> tel = new HashSet<String>();
-
-	@NotNull(message = "can't be empty")
 	private String email;
-	
+
 	public User() {}
 	
 	public User(String firstName, String middleName, String lastName, Set<String> tel, String email) {

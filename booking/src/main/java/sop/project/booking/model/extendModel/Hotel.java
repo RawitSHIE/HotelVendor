@@ -1,59 +1,19 @@
-package sop.project.hotel.model;
+package sop.project.booking.model.extendModel;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "hotel")
-public class Hotel extends AuditModel {
+public class Hotel  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long hotelId;
-
-    @NotNull
-    @Size(min = 1, max = 30)
     private String hotelName;
-
-    @NotNull
-    @Size(min = 1, max=100)
     private String country;
-
-    @NotNull
-    @Size(min = 1, max=100)
     private String provinceState;
-
-    @NotNull
-    @Size(min = 1, max=100)
     private String district;
-
-    @NotNull
-    @Size(min = 1, max=100)
     private String street;
-
-    @Column(columnDefinition = "text")
     private String additionalDetail;
-
-    @NotNull
     private boolean availible;
-
-    @ElementCollection
-    @CollectionTable(
-            name = "hotel_tel",
-            joinColumns = @JoinColumn(name = "hotel_id")
-    )
-    @Column(name = "tel")
     private Set<String> tel = new HashSet<>();
-
-    @ElementCollection
-    @CollectionTable(
-            name = "hotel_email",
-            joinColumns = @JoinColumn(name = "hotel_id")
-    )
-    @Column(name = "email")
     private Set<String> email = new HashSet<>();
 
     public long getHotelId() {
