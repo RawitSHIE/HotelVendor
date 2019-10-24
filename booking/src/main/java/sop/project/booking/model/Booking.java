@@ -22,6 +22,9 @@ public class Booking extends AuditModel{
     private String bookingStatus;
 
     @NotNull
+    private Date bookingCreateDate;
+
+    @NotNull
     private Date startDate = new Date();
 
     @NotNull
@@ -70,6 +73,10 @@ public class Booking extends AuditModel{
         return totalPrice;
     }
 
+    public Date getBookingCreateDate() {
+        return bookingCreateDate;
+    }
+
     public void setUserId(long userId) {
         this.userId = userId;
     }
@@ -100,6 +107,10 @@ public class Booking extends AuditModel{
 
     public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public void setBookingCreateDate(Date bookingCreateDate) {
+        this.bookingCreateDate = bookingCreateDate;
     }
 
 }
