@@ -1,16 +1,18 @@
 package sop.project.booking.model.extendModel;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Hotel  {
-
     private long hotelId;
     private String hotelName;
     private String country;
     private String provinceState;
     private String district;
     private String street;
+    private List<String> hotelImages = new ArrayList<String>();
     private String additionalDetail;
     private boolean availible;
     private Set<String> tel = new HashSet<>();
@@ -56,6 +58,10 @@ public class Hotel  {
         return email;
     }
 
+    public List<String> getHotelImages() {
+        return hotelImages;
+    }
+
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
     }
@@ -90,5 +96,13 @@ public class Hotel  {
 
     public void setEmail(Set<String> email) {
         this.email = email;
+    }
+
+    public void setHotelImages(List<String> hotelImages) {
+        this.hotelImages = hotelImages;
+    }
+
+    public void addHotelImages(String imageUrl){
+        this.hotelImages.add(imageUrl);
     }
 }
