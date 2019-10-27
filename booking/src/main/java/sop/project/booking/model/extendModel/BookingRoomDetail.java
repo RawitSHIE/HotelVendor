@@ -1,7 +1,7 @@
 package sop.project.booking.model.extendModel;
 
 import sop.project.booking.model.Booking;
-import sop.project.booking.model.RoomDetail;
+import sop.project.booking.model.RoomTypeDetail;
 
 import java.util.Date;
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.List;
 public class BookingRoomDetail {
     private long userId;
     private long hotelId;
-    private String bookingStatus;
+    private BookingStatus bookingStatus;
     private Date bookingCreateDate = new Date();
-    private Date checkInDate;
-    private Date checkOutDate;
+    private Date bookingStartDate = new Date();
+    private Date bookingEndDate = new Date();
     private long totalPrice;
-    private List<RoomDetail> roomDetail;
+    private List<RoomTypeDetail> roomTypeDetail;
 
     public Booking createBooking() {
         Booking booking = new Booking();
@@ -22,8 +22,8 @@ public class BookingRoomDetail {
         booking.setHotelId(hotelId);
         booking.setBookingStatus(bookingStatus);
         booking.setBookingCreateDate(bookingCreateDate);
-        booking.setCheckInDate(checkInDate);
-        booking.setCheckOutDate(checkOutDate);
+        booking.setBookingStartDate(bookingStartDate);
+        booking.setBookingEndDate(bookingEndDate);
         booking.setTotalPrice(totalPrice);
 
         return booking;
@@ -37,7 +37,7 @@ public class BookingRoomDetail {
         return hotelId;
     }
 
-    public String getBookingStatus() {
+    public BookingStatus getBookingStatus() {
         return bookingStatus;
     }
 
@@ -45,19 +45,19 @@ public class BookingRoomDetail {
         return bookingCreateDate;
     }
 
-    public Date getCheckInDate() {
-        return checkInDate;
+    public Date getBookingStartDate() {
+        return bookingStartDate;
     }
 
-    public Date getCheckOutDate() {
-        return checkOutDate;
+    public Date getBookingEndDate() {
+        return bookingEndDate;
     }
 
     public long getTotalPrice() {
         return totalPrice;
     }
 
-    public List<RoomDetail> getRoomDetail() {
-        return roomDetail;
+    public List<RoomTypeDetail> getRoomDetail() {
+        return roomTypeDetail;
     }
 }
