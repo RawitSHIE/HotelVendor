@@ -42,4 +42,14 @@ public class ServiceDiscoveryClient {
         return restExchange.getBody();
     }
 
+    public User getRoomType(long id) {
+        String hotelId = String.valueOf(id);
+        RestTemplate restTemplate = new RestTemplate();
+        List<ServiceInstance> instances = discoveryClient.getInstances("hotelroomdetail");
+        String serviceUri = String.format("%s/user/%s", instances.get(0).getUri().toString(), hotelId);
+        ResponseEntity<User> restExchange =
+                restTemplate.exchange(serviceUri, HttpMethod.GET,null, User.class, hotelId);
+
+        return restExchange.getBody();
+    }
 }
