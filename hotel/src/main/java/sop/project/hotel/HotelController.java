@@ -82,11 +82,11 @@ public class HotelController {
     }
 
     @RequestMapping(
-            value = "/searchHotel/{searchterm}",
+            value = "/searchHotel/{hotelName}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public List<Hotel> getSearchHotelDetails(@PathVariable("searchterm") String searchterm){
-        List<Hotel> hotel = hotelRespository.findHotelByHotelNameStartingWith(searchterm);
+    public List<Hotel> getSearchHotelDetails(@PathVariable("hotelName") String hotelName){
+        List<Hotel> hotel = hotelRespository.findHotelByHotelNameStartingWith(hotelName);
         return hotel;
     }
 
