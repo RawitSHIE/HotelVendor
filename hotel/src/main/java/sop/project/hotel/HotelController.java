@@ -81,6 +81,15 @@ public class HotelController {
         }).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
     }
 
+    @RequestMapping(
+            value = "/searchHotel/{searchterm}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public List<Hotel> getSearchHotelDetails(@PathVariable("searchterm") String searchterm){
+        List<Hotel> hotel = hotelRespository.findHotelByHotelNameStartingWith(searchterm);
+        return hotel;
+    }
+
 //    room
     @RequestMapping(
             value = "/createroomtype/{hotelId}",
