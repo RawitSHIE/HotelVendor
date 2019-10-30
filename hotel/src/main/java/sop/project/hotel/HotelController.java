@@ -82,11 +82,20 @@ public class HotelController {
     }
 
     @RequestMapping(
-            value = "/searchHotel/{hotelName}",
+            value = "/searchName/{hotelName}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public List<Hotel> getSearchHotelDetails(@PathVariable("hotelName") String hotelName){
+    public List<Hotel> getSearchHotelName(@PathVariable("hotelName") String hotelName){
         List<Hotel> hotel = hotelRespository.findHotelByHotelNameStartingWith(hotelName);
+        return hotel;
+    }
+
+    @RequestMapping(
+            value = "/searchProvince/{provinceState}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public List<Hotel> getSearchProvince(@PathVariable("provinceState") String provinceState){
+        List<Hotel> hotel = hotelRespository.findHotelByProvinceStateIgnoreCase(provinceState);
         return hotel;
     }
 
