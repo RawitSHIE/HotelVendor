@@ -1,4 +1,4 @@
-package sop.project.booking.model.extendModel;
+package sop.project.booking.model.extendModel.requestModel;
 
 import java.util.HashSet;
 import java.util.Set;
