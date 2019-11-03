@@ -1,6 +1,5 @@
-package sop.project.booking.model.extendModel;
+package sop.project.booking.model.extendModel.requestModel;
 
-import sop.project.booking.model.extendModel.Hotel;
 import java.util.ArrayList;
 import java.util.List;
 
