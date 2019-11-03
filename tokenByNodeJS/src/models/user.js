@@ -11,10 +11,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    token: {
-        type: String,
-        require: true
-    }
+    tokens: [{
+        token: {
+            type: String,
+            require: true
+        }
+    }]
 })
 
 userSchema.statics.findByCredentials = async (username, password) => {
@@ -35,7 +37,7 @@ userSchema.methods.generateAuthToken = async function() {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'canihavesometea')
 
-    user.token = token
+    user.tokens = user.tokens.concat({ token })
     await user.save()
     return token
 }
