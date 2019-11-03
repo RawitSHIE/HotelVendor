@@ -8,17 +8,19 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "RoomDetail")
-public class RoomDetail {
-
+public class RoomTypeDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @NotNull
-    private String roomId;
+    private String roomTypeName;
 
     @NotNull
     private long price;
+
+    @NotNull
+    private long quantity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "bookingId", nullable = false)
@@ -30,24 +32,32 @@ public class RoomDetail {
         return id;
     }
 
-    public String getRoomId() {
-        return roomId;
-    }
-
-    public Booking getBooking() {
-        return booking;
+    public String getRoomTypeName() {
+        return roomTypeName;
     }
 
     public long getPrice() {
         return price;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setRoomTypeName(String roomTypeName) {
+        this.roomTypeName = roomTypeName;
     }
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
     public void setBooking(Booking booking) {

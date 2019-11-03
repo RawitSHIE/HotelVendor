@@ -1,5 +1,6 @@
 package sop.project.booking.model;
 
+import sop.project.booking.model.extendModel.BookingStatus;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -19,20 +20,16 @@ public class Booking extends AuditModel{
     private long hotelId;
 
     @NotNull
-    private String bookingStatus;
+    private BookingStatus bookingStatus;
 
     @NotNull
     private Date bookingCreateDate;
 
     @NotNull
-    private Date startDate = new Date();
+    private Date bookingStartDate = new Date();
 
     @NotNull
-    private Date endDate = new Date();
-
-    private Date checkInDate;
-
-    private Date checkOutDate;
+    private Date bookingEndDate = new Date();
 
     @NotNull
     private long totalPrice;
@@ -49,32 +46,24 @@ public class Booking extends AuditModel{
         return hotelId;
     }
 
-    public String getBookingStatus() {
+    public BookingStatus getBookingStatus() {
         return bookingStatus;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public Date getCheckInDate() {
-        return checkInDate;
-    }
-
-    public Date getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public long getTotalPrice() {
-        return totalPrice;
     }
 
     public Date getBookingCreateDate() {
         return bookingCreateDate;
+    }
+
+    public Date getBookingStartDate() {
+        return bookingStartDate;
+    }
+
+    public Date getBookingEndDate() {
+        return bookingEndDate;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
     }
 
     public void setUserId(long userId) {
@@ -85,32 +74,23 @@ public class Booking extends AuditModel{
         this.hotelId = hotelId;
     }
 
-    public void setBookingStatus(String bookingStatus) {
+    public void setBookingStatus(BookingStatus bookingStatus) {
         this.bookingStatus = bookingStatus;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setCheckInDate(Date checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public void setCheckOutDate(Date checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public void setTotalPrice(long totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public void setBookingCreateDate(Date bookingCreateDate) {
         this.bookingCreateDate = bookingCreateDate;
     }
 
+    public void setBookingStartDate(Date bookingStartDate) {
+        this.bookingStartDate = bookingStartDate;
+    }
+
+    public void setBookingEndDate(Date bookingEndDate) {
+        this.bookingEndDate = bookingEndDate;
+    }
+
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }
