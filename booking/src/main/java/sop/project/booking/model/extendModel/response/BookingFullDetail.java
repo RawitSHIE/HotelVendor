@@ -2,8 +2,8 @@ package sop.project.booking.model.extendModel.response;
 
 import sop.project.booking.model.Booking;
 import sop.project.booking.model.RoomTypeDetail;
-import sop.project.booking.model.extendModel.Hotel;
-import sop.project.booking.model.extendModel.User;
+import sop.project.booking.model.extendModel.requestModel.Hotel;
+import sop.project.booking.model.extendModel.requestModel.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,22 @@ public class BookingFullDetail {
         this.user = user;
         this.booking = booking;
         this.roomTypeDetails = roomTypeDetails;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public List<RoomTypeDetail> getRoomTypeDetails() {
+        return roomTypeDetails;
     }
 
     public void setHotel(Hotel hotel) {
