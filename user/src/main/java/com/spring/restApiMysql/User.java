@@ -10,7 +10,14 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-
+	
+	@NotNull(message = "can't be empty")
+	@Column(unique=true)
+	private String username;
+	
+	@NotNull(message = "can't be empty")
+	private String password;
+	
 	@NotNull(message = "can't be empty")
 	private String firstName;
 
@@ -32,7 +39,9 @@ public class User {
 	
 	public User() {}
 	
-	public User(String firstName, String middleName, String lastName, Set<String> tel, String email) {
+	public User(String username, String password, String firstName, String middleName, String lastName, Set<String> tel, String email) {
+		this.username = username;
+		this.password = password;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
@@ -40,13 +49,31 @@ public class User {
 		this.email = email;
 	}
 
-	public User(int id, String firstName, String middleName, String lastName, Set<String> tel, String email) {
+	public User(int id, String username, String password, String firstName, String middleName, String lastName, Set<String> tel, String email) {
 		this.id = id;
+		this.username = username;
+		this.password = password;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
 		this.tel = tel;
 		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public int getId() {

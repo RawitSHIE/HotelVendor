@@ -1,0 +1,21 @@
+{
+  "name": "TokenByNodeJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "middleware": "^1.0.0",
+    "mongoose": "^5.7.7",
+    "nodemon": "^1.19.4",
+    "request": "^2.88.0"
+  }
+}
