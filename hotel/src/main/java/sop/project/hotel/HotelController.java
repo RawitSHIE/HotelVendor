@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.bind.annotation.*;
 import sop.project.hotel.exception.NotFoundException;
 import sop.project.hotel.model.*;
+import sop.project.hotel.model.responseModel.HotelFullDetail;
 import sop.project.hotel.respository.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +115,22 @@ public class HotelController {
 
             return roomTypeRepository.save(roomType);
         }).orElseThrow(() -> new NotFoundException("Hotel not found"));
+    }
+
+    @RequestMapping(
+            value = "/fullhoteldetail/{hotelId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public Object getHotelFullDetail(@PathVariable("hotelId") long hotelId) {
+        Hotel hotel = hotelRespository.findById(hotelId).map(thatHotel -> thatHotel)
+                .orElseThrow(() -> new NotFoundException("no Hotel found"));
+        List<RoomType> roomTypes = new ArrayList<RoomType>();
+        roomTypeRepository.findAll().forEach(eachType -> {
+            if (eachType.getHotel().getHotelId() == hotelId) {
+                roomTypes.add(eachType);
+            }
+        });
+        return new HotelFullDetail(hotel.getHotelId(), hotel, roomTypes);
     }
 
     @RequestMapping(
