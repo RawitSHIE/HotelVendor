@@ -1,18 +1,18 @@
 package sop.project.booking;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.bind.annotation.*;
 import sop.project.booking.exception.NotFoundException;
 import sop.project.booking.model.Booking;
 import sop.project.booking.model.RoomTypeDetail;
 import sop.project.booking.model.extendModel.BookingRoomDetail;
-import sop.project.booking.model.extendModel.Hotel;
-import sop.project.booking.model.extendModel.User;
+import sop.project.booking.model.extendModel.requestModel.Hotel;
+import sop.project.booking.model.extendModel.requestModel.User;
 import sop.project.booking.model.extendModel.response.BookingFullDetail;
 import sop.project.booking.repository.BookingRepository;
 import sop.project.booking.repository.RoomTypeDetailRepository;
@@ -46,11 +46,22 @@ public class BookingController {
         User user = serviceDiscoveryClient.getUser(bookingRoomTypeDetail.getUserId());
         if (hotel != null && user != null) {
             Booking booking = bookingRepository.save(bookingRoomTypeDetail.createBooking());
-            bookingRoomTypeDetail.getRoomDetail().forEach(roomTypeDetail -> {
-                List<String> roomTypes = new ArrayList<String>();
+            List<String> roomTypes = new ArrayList<>();
+            serviceDiscoveryClient.getHotelFullDetail(hotel.getHotelId()).getRoomTypes().forEach(roomType -> {
+                roomTypes.add(roomType.getRoomTypeName());
+            });
+            for (int i = 0; i < bookingRoomTypeDetail.getRoomTypeRequests().size(); i++) {
+                String roomRequestName = bookingRoomTypeDetail.getRoomTypeRequests().get(i).getRoomTypeName();
+                if (roomTypes.size() == 0 || !roomTypes.contains(roomRequestName)) {
+                    return "invalid room type";
+                }
+            }
 
-
-                if (roomTypeDetail.getRoomTypeName())
+            bookingRoomTypeDetail.getRoomTypeRequests().forEach(roomTypeRequest -> {
+                RoomTypeDetail roomTypeDetail = new RoomTypeDetail();
+                roomTypeDetail.setRoomTypeName(roomTypeRequest.getRoomTypeName());
+                roomTypeDetail.setQuantity(roomTypeRequest.getQuantity());
+                roomTypeDetail.setPrice(roomTypeRequest.getPrice());
                 roomTypeDetail.setBooking(booking);
                 roomTypeDetailRepository.save(roomTypeDetail);
             });
@@ -63,9 +74,9 @@ public class BookingController {
             });
 
             return new BookingFullDetail(hotel, user, booking, roomTypeDetails);
-        } else {
-            return "invalid booking information";
         }
+
+        return "invalid booking information";
     }
 
     @RequestMapping(
@@ -100,6 +111,14 @@ public class BookingController {
         });
 
         return bookings;
+    }
+
+    @RequestMapping(
+            value = "/hoteldetail/allroomtype/{hotelId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public Object getAllRoomTypes (@PathVariable("hotelId") long hotelId) {
+        return serviceDiscoveryClient.getHotelFullDetail(hotelId);
     }
 
     @RequestMapping(
