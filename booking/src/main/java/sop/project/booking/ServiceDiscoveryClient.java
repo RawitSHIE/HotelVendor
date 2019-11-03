@@ -8,8 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import sop.project.booking.model.extendModel.Hotel;
-import sop.project.booking.model.extendModel.User;
+import sop.project.booking.model.extendModel.requestModel.Hotel;
+import sop.project.booking.model.extendModel.requestModel.HotelFullDetail;
+import sop.project.booking.model.extendModel.requestModel.User;
 
 import java.util.List;
 
@@ -42,13 +43,13 @@ public class ServiceDiscoveryClient {
         return restExchange.getBody();
     }
 
-    public User getRoomType(long id) {
-        String hotelId = String.valueOf(id);
+    public HotelFullDetail getHotelFullDetail(long hotelId) {
         RestTemplate restTemplate = new RestTemplate();
         List<ServiceInstance> instances = discoveryClient.getInstances("hotelroomdetail");
-        String serviceUri = String.format("%s/user/%s", instances.get(0).getUri().toString(), hotelId);
-        ResponseEntity<User> restExchange =
-                restTemplate.exchange(serviceUri, HttpMethod.GET,null, User.class, hotelId);
+        String serviceUri = String.format("%s/fullhoteldetail/%s",
+                instances.get(0).getUri().toString(), String.valueOf(hotelId));
+        ResponseEntity<HotelFullDetail> restExchange =
+                restTemplate.exchange(serviceUri, HttpMethod.GET,null, HotelFullDetail.class, String.valueOf(hotelId));
 
         return restExchange.getBody();
     }
