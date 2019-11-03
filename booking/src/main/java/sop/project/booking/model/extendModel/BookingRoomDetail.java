@@ -1,7 +1,7 @@
 package sop.project.booking.model.extendModel;
 
 import sop.project.booking.model.Booking;
-import sop.project.booking.model.RoomTypeDetail;
+import sop.project.booking.model.extendModel.requestModel.RoomTypeRequest;
 
 import java.util.Date;
 import java.util.List;
@@ -14,7 +14,7 @@ public class BookingRoomDetail {
     private Date bookingStartDate = new Date();
     private Date bookingEndDate = new Date();
     private long totalPrice;
-    private List<RoomTypeDetail> roomTypeDetail;
+    private List<RoomTypeRequest> roomTypeRequests;
 
     public Booking createBooking() {
         Booking booking = new Booking();
@@ -57,7 +57,39 @@ public class BookingRoomDetail {
         return totalPrice;
     }
 
-    public List<RoomTypeDetail> getRoomDetail() {
-        return roomTypeDetail;
+    public List<RoomTypeRequest> getRoomTypeRequests() {
+        return roomTypeRequests;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public void setHotelId(long hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+
+    public void setBookingCreateDate(Date bookingCreateDate) {
+        this.bookingCreateDate = bookingCreateDate;
+    }
+
+    public void setBookingStartDate(Date bookingStartDate) {
+        this.bookingStartDate = bookingStartDate;
+    }
+
+    public void setBookingEndDate(Date bookingEndDate) {
+        this.bookingEndDate = bookingEndDate;
+    }
+
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setRoomTypeRequests(List<RoomTypeRequest> roomTypeRequests) {
+        this.roomTypeRequests = roomTypeRequests;
     }
 }
