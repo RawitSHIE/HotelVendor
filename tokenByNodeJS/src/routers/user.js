@@ -9,7 +9,7 @@ router.post('/users', async (req, res) => {
     try{
         await user.save()
         const token = await user.generateAuthToken()
-        res.status(201).send({token})
+        res.status(201).send(token)
     }
     catch(e){
         res.status(400).send(e)
@@ -20,7 +20,7 @@ router.post('/users/login', async (req, res) => {
     try{
         const user = await User.findByCredentials(req.body.username, req.body.password)
         const token = await user.generateAuthToken()
-        res.send({token})
+        res.send(token)
     }
     catch(e){
         res.status(400).send(e)
@@ -28,8 +28,8 @@ router.post('/users/login', async (req, res) => {
 })
 
 router.get('/users/me', auth, async (req, res) => {
-    //return username
-    res.send(req.user.username)
+    //return userId can't return number
+    res.send(req.user.userId + "")
 })
 
 module.exports = router
