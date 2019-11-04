@@ -1,5 +1,6 @@
 package sop.project.booking.model.extendModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import sop.project.booking.model.Booking;
 import sop.project.booking.model.extendModel.requestModel.RoomTypeRequest;
 
@@ -10,10 +11,16 @@ public class BookingRoomDetail {
     private long userId;
     private long hotelId;
     private BookingStatus bookingStatus;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Bangkok")
     private Date bookingCreateDate = new Date();
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Bangkok")
     private Date bookingStartDate = new Date();
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Bangkok")
     private Date bookingEndDate = new Date();
-    private long totalPrice;
+
     private List<RoomTypeRequest> roomTypeRequests;
 
     public Booking createBooking() {
@@ -24,7 +31,6 @@ public class BookingRoomDetail {
         booking.setBookingCreateDate(bookingCreateDate);
         booking.setBookingStartDate(bookingStartDate);
         booking.setBookingEndDate(bookingEndDate);
-        booking.setTotalPrice(totalPrice);
 
         return booking;
     }
@@ -53,10 +59,6 @@ public class BookingRoomDetail {
         return bookingEndDate;
     }
 
-    public long getTotalPrice() {
-        return totalPrice;
-    }
-
     public List<RoomTypeRequest> getRoomTypeRequests() {
         return roomTypeRequests;
     }
@@ -83,10 +85,6 @@ public class BookingRoomDetail {
 
     public void setBookingEndDate(Date bookingEndDate) {
         this.bookingEndDate = bookingEndDate;
-    }
-
-    public void setTotalPrice(long totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public void setRoomTypeRequests(List<RoomTypeRequest> roomTypeRequests) {
