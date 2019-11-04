@@ -11,13 +11,14 @@ import sop.project.booking.exception.NotFoundException;
 import sop.project.booking.model.Booking;
 import sop.project.booking.model.RoomTypeDetail;
 import sop.project.booking.model.extendModel.BookingRoomDetail;
-import sop.project.booking.model.extendModel.requestModel.Hotel;
-import sop.project.booking.model.extendModel.requestModel.User;
+import sop.project.booking.model.extendModel.requestModel.*;
 import sop.project.booking.model.extendModel.response.BookingFullDetail;
 import sop.project.booking.repository.BookingRepository;
 import sop.project.booking.repository.RoomTypeDetailRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @SpringBootApplication
@@ -40,23 +41,34 @@ public class BookingController {
             value = "/createBooking",
             produces = "application/json",
             method = RequestMethod.POST)
-//  TODO: CREATE CONSTRAINT FOR AVAILIBILITY (FOR EACH DATE)
     public Object createBooking(@RequestBody BookingRoomDetail bookingRoomTypeDetail) {
         Hotel hotel = serviceDiscoveryClient.getHotel(bookingRoomTypeDetail.getHotelId());
         User user = serviceDiscoveryClient.getUser(bookingRoomTypeDetail.getUserId());
+        SelectDate selectDate = new SelectDate();
+        selectDate.setStartDate(bookingRoomTypeDetail.getBookingStartDate());
+        selectDate.setEndDate(bookingRoomTypeDetail.getBookingEndDate());
         if (hotel != null && user != null) {
+            Date currentDate = new Date();
+            bookingRoomTypeDetail.setBookingCreateDate(currentDate);
+            if (bookingRoomTypeDetail.getBookingStartDate().after(bookingRoomTypeDetail.getBookingEndDate())
+                    || bookingRoomTypeDetail.getBookingCreateDate().after(bookingRoomTypeDetail.getBookingStartDate()) ) {
+                return "invalid date";
+            }
+            HashMap<String, Long> remainAvailableRoom = remainAvailableRoom(hotel.getHotelId(), selectDate);
             Booking booking = bookingRepository.save(bookingRoomTypeDetail.createBooking());
             List<String> roomTypes = new ArrayList<>();
             serviceDiscoveryClient.getHotelFullDetail(hotel.getHotelId()).getRoomTypes().forEach(roomType -> {
                 roomTypes.add(roomType.getRoomTypeName());
             });
             for (int i = 0; i < bookingRoomTypeDetail.getRoomTypeRequests().size(); i++) {
-                String roomRequestName = bookingRoomTypeDetail.getRoomTypeRequests().get(i).getRoomTypeName();
-                if (roomTypes.size() == 0 || !roomTypes.contains(roomRequestName)) {
+                RoomTypeRequest roomRequest = bookingRoomTypeDetail.getRoomTypeRequests().get(i);
+                if (roomTypes.size() == 0 || !roomTypes.contains(roomRequest.getRoomTypeName())) {
                     return "invalid room type";
                 }
+                if (roomRequest.getQuantity() > remainAvailableRoom.get(roomRequest.getRoomTypeName())){
+                    return "request quantity exceed availibility";
+                }
             }
-
             bookingRoomTypeDetail.getRoomTypeRequests().forEach(roomTypeRequest -> {
                 RoomTypeDetail roomTypeDetail = new RoomTypeDetail();
                 roomTypeDetail.setRoomTypeName(roomTypeRequest.getRoomTypeName());
@@ -70,8 +82,10 @@ public class BookingController {
             roomTypeDetailRepository.findAll().forEach(roomTypeDetail -> {
                 if (roomTypeDetail.getBooking().getId() == booking.getId()) {
                     roomTypeDetails.add(roomTypeDetail);
+                    booking.setTotalPrice(booking.getTotalPrice() + roomTypeDetail.getPrice());
                 }
             });
+            bookingRepository.save(booking);
 
             return new BookingFullDetail(hotel, user, booking, roomTypeDetails);
         }
@@ -137,9 +151,44 @@ public class BookingController {
         return serviceDiscoveryClient.getUser(userId);
     }
 
-//    TODO: CREATE CHECK AVAILIBILITY FUNCTION
-    public int isAvailable(long hotelId, String roomTypeName) {
-        return 0;
+    @RequestMapping(
+            value="/freeroom/{hotelId}",
+            produces = {"application/json"},
+            method = RequestMethod.POST)
+    public Object remainRoom(@PathVariable long hotelId, @RequestBody SelectDate selectDate) {
+        HashMap<String, Long> availableRooms = remainAvailableRoom(hotelId, selectDate);
+        HotelFullDetail hotelFullDetail = serviceDiscoveryClient.getHotelFullDetail(hotelId);
+        List<RoomType> availableRoomTypes = hotelFullDetail.getRoomTypes();
+        availableRoomTypes.forEach(roomType -> {
+            roomType.setQuantity(availableRooms.get(roomType.getRoomTypeName()));
+        });
+
+        return availableRoomTypes;
+    }
+
+    public HashMap<String, Long> remainAvailableRoom(long hotelId, SelectDate selectDate) {
+        HotelFullDetail hotelFullDetail = serviceDiscoveryClient.getHotelFullDetail(hotelId);
+        HashMap<String, Long> availableRooms = new HashMap<String, Long>();
+        hotelFullDetail.getRoomTypes().forEach(roomType -> {
+            availableRooms.put(roomType.getRoomTypeName(), roomType.getQuantity());
+        });
+        bookingRepository.findAll().forEach(booking -> {
+            if (booking.getHotelId() == hotelId) {
+                if (booking.getBookingStartDate().before(selectDate.getEndDate())
+                        && booking.getBookingEndDate().after(selectDate.getStartDate())) {
+                    roomTypeDetailRepository.findAll().forEach(roomTypeDetail -> {
+                        if (roomTypeDetail.getBooking().getId() == booking.getId()) {
+                            availableRooms.put(
+                                    roomTypeDetail.getRoomTypeName(),
+                                    availableRooms.get(roomTypeDetail.getRoomTypeName()) - roomTypeDetail.getQuantity()
+                            );
+                        }
+                    });
+                }
+            }
+        });
+
+        return availableRooms;
     }
 
     public static void main(String[] args) {
