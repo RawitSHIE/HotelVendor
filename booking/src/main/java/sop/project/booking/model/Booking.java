@@ -1,5 +1,6 @@
 package sop.project.booking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import sop.project.booking.model.extendModel.BookingStatus;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,13 +24,16 @@ public class Booking extends AuditModel{
     private BookingStatus bookingStatus;
 
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Bangkok")
     private Date bookingCreateDate;
 
     @NotNull
-    private Date bookingStartDate = new Date();
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Bangkok")
+    private Date bookingStartDate;
 
     @NotNull
-    private Date bookingEndDate = new Date();
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Bangkok")
+    private Date bookingEndDate;
 
     @NotNull
     private long totalPrice;
