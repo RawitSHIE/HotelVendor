@@ -15,8 +15,8 @@ public class Hotel extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long hotelId;
-
-    @NotNull
+    
+	@NotNull
     @Size(min = 1, max = 30)
     private String hotelName;
 
@@ -49,6 +49,14 @@ public class Hotel extends AuditModel {
 
     @NotNull
     private boolean availible;
+    
+    @ElementCollection
+    @CollectionTable(
+    		name = "hotel_user",
+    		joinColumns = @JoinColumn(name = "hotel_id")
+    )
+    @Column(name = "user_id")
+    private List<Integer> user_id = new ArrayList<Integer>();
 
     @NotNull
     @ElementCollection
@@ -139,6 +147,14 @@ public class Hotel extends AuditModel {
     public void setAvailible(boolean availible) {
         this.availible = availible;
     }
+
+	public List<Integer> getUsers_id() {
+		return user_id;
+	}
+
+	public void setUsers_id(List<Integer> users_id) {
+		this.user_id = users_id;
+	}
 
     public void setTel(Set<String> tel) {
         this.tel = tel;
