@@ -11,14 +11,14 @@ import java.util.Set;
 @Entity
 @Table(name = "hotel")
 public class Hotel extends AuditModel {
-
+	
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long hotelId;
     
-	@NotNull
-    @Size(min = 1, max = 30)
-    private String hotelName;
+    @NotNull
+	@Size(min = 1, max = 30)
+	private String hotelName;
 
     @NotNull
     @Size(min = 1, max=100)
