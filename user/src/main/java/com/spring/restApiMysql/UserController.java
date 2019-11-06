@@ -17,7 +17,7 @@ public class UserController {
 	UserRepository userRepository;
 	
 	@Autowired
-    ServiceDiscoveryClient serviceDiscoveryClient;
+	ServiceDiscoveryClient serviceDiscoveryClient;
 
 	@GetMapping("/alluser")
 	public List<User> index(){
