@@ -17,7 +17,7 @@ public class UserController {
 	UserRepository userRepository;
 	
 	@Autowired
-	AuthService authservice;
+	ServiceDiscoveryClient serviceDiscoveryClient;
 
 	@GetMapping("/alluser")
 	public List<User> index(){
@@ -34,8 +34,9 @@ public class UserController {
 	public String create(@RequestBody User user) throws Exception {
 		String username = user.getUsername();
 		String password = user.getPassword();
-		String token = authservice.genTokenForNewUser(username, password);
 		userRepository.save(user);
+		int id = user.getId();
+		String token = serviceDiscoveryClient.genTokenForNewUser(id, username, password);
 		return user.toString() + "\ntoken " + token;
 	}
 	
@@ -46,7 +47,8 @@ public class UserController {
 		List<User> users = userRepository.findAll();
 		for(User user: users){
 			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-				String token = authservice.genTokenLogin(username, password);
+				int id = user.getId();
+				String token = serviceDiscoveryClient.genTokenLogin(id, username, password);
 				return "you're in. " + user.getFirstName() + " " + user.getLastName() + " authen : " + token;
 			}
 		}
@@ -54,9 +56,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/me")
-	public String auth(@RequestHeader("Authorization") String value) throws Exception  {
-		String username = authservice.getUsername("Authorization", value);
-		System.out.println(username);
-		return username;
+	public int auth(@RequestHeader("Authorization") String value) throws Exception  {
+		int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+		return userId;
 	}
 }
