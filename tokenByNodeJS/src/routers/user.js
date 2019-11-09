@@ -32,4 +32,25 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user.userId + "")
 })
 
+router.post('/users/update', auth, async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['username', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    const userId = req.user.userId
+    
+    if(!isValidOperation){
+        return res.status(404).send({ errer: 'Invalid updates!' })
+    }
+
+    try{
+        const user = await User.findOne({ userId })
+        updates.forEach((update) => user[update] = req.body[update])
+        await user.save()
+        res.send("updates complete")
+    }
+    catch(e){
+        res.status(400).send(e)
+    }
+})
+
 module.exports = router
