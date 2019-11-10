@@ -11,7 +11,6 @@ import java.util.Set;
 @Entity
 @Table(name = "hotel")
 public class Hotel extends AuditModel {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long hotelId;
@@ -56,13 +55,13 @@ public class Hotel extends AuditModel {
 	@ElementCollection
 	@CollectionTable(name = "hotel_tel", joinColumns = @JoinColumn(name = "hotel_id"))
 	@Column(name = "tel")
-	private Set<String> tel = new HashSet<>();
+	private List<String> tel = new ArrayList<>();
 
 	@NotNull
 	@ElementCollection
 	@CollectionTable(name = "hotel_email", joinColumns = @JoinColumn(name = "hotel_id"))
 	@Column(name = "email")
-	private Set<String> email = new HashSet<>();
+	private List<String> email = new ArrayList<>();
 
 	public long getHotelId() {
 		return hotelId;
@@ -96,11 +95,11 @@ public class Hotel extends AuditModel {
 		return availible;
 	}
 
-	public Set<String> getTel() {
+	public List<String> getTel() {
 		return tel;
 	}
 
-	public Set<String> getEmail() {
+	public List<String> getEmail() {
 		return email;
 	}
 
@@ -144,11 +143,11 @@ public class Hotel extends AuditModel {
 		this.user_id = users_id;
 	}
 
-	public void setTel(Set<String> tel) {
+	public void setTel(List<String> tel) {
 		this.tel = tel;
 	}
 
-	public void setEmail(Set<String> email) {
+	public void setEmail(List<String> email) {
 		this.email = email;
 	}
 
