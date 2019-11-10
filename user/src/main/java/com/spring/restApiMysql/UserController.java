@@ -53,10 +53,15 @@ public class UserController {
 			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
 				int id = user.getId();
 				String token = serviceDiscoveryClient.genTokenLogin(id, username, password);
-				return "you're in. " + user.getFirstName() + " " + user.getLastName() + " authen : " + token;
+				return token;
 			}
 		}
 		return "incorrect username or password";
+	}
+
+	@PostMapping("/logout")
+	public String logout(@RequestHeader("Authorization") String value) throws Exception {
+		return serviceDiscoveryClient.logout("Authorization", value);
 	}
 	
 	@GetMapping("/user/me")
