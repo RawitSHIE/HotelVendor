@@ -3,6 +3,7 @@ package com.spring.restApiMysql;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -53,10 +54,15 @@ public class UserController {
 			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
 				int id = user.getId();
 				String token = serviceDiscoveryClient.genTokenLogin(id, username, password);
-				return "you're in. " + user.getFirstName() + " " + user.getLastName() + " authen : " + token;
+				return token;
 			}
 		}
 		return "incorrect username or password";
+	}
+
+	@PostMapping("/logout")
+	public String logout(@RequestHeader("Authorization") String value) throws Exception {
+		return serviceDiscoveryClient.logout("Authorization", value);
 	}
 	
 	@GetMapping("/user/me")
@@ -66,27 +72,27 @@ public class UserController {
 	}
 
 	@PostMapping("/user/update")
-	public Object updateUser(@RequestHeader("Authorization") String value, @RequestBody User user) throws Exception {
+	public Object updateUser(@RequestHeader("Authorization") String value, @RequestBody Map<String, Object> body) throws Exception {
 		int userId = serviceDiscoveryClient.getUserId("Authorization", value);
 		User this_user = userRepository.findById(userId).orElse(null);
-		if(user.getUsername()!=null) {
-			this_user.setUsername(user.getUsername());
+		if(body.get("username")!=null) {
+			this_user.setUsername((String) body.get("username"));
 			serviceDiscoveryClient.updateUser("Authorization", value, this_user.getUsername(), this_user.getPassword());
 		}
-		if(user.getPassword()!=null) {
-			this_user.setPassword(user.getPassword());
+		if(body.get("password")!=null) {
+			this_user.setPassword((String) body.get("password"));
 			serviceDiscoveryClient.updateUser("Authorization", value, this_user.getUsername(), this_user.getPassword());
 		}
-		if(user.getFirstName()!=null)
-			this_user.setFirstName(user.getFirstName());
-		if(user.getLastName()!=null)
-			this_user.setLastName(user.getLastName());
-		if(user.getMiddleName()!=null)
-			this_user.setMiddleName(user.getMiddleName());
-		if(user.getTel()!=null)
-			this_user.setTel(user.getTel());
-		if(user.getEmail()!=null)
-			this_user.setEmail(user.getEmail());
+		if(body.get("firstName")!=null)
+			this_user.setFirstName((String) body.get("firstName"));
+		if(body.get("lastName")!=null)
+			this_user.setLastName((String) body.get("lastName"));
+		if(body.get("middleName")!=null)
+			this_user.setMiddleName((String) body.get("middleName"));
+		if(body.get("tel")!=null)
+			this_user.setTel((List<String>) body.get("tel"));
+		if(body.get("email")!=null)
+			this_user.setEmail((String) body.get("email"));
 		return userRepository.save(this_user);
 	}
 }

@@ -2,7 +2,9 @@ package com.spring.restApiMysql;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,14 +34,14 @@ public class User {
 			joinColumns = @JoinColumn(name = "user_id")
 	)
 	@Column(name = "tel")
-	private Set<String> tel = new HashSet<String>();
+	private List<String> tel = new ArrayList<>();
 
 	@NotNull(message = "can't be empty")
 	private String email;
 	
 	public User() {}
 	
-	public User(String username, String password, String firstName, String middleName, String lastName, Set<String> tel, String email) {
+	public User(String username, String password, String firstName, String middleName, String lastName, List<String> tel, String email) {
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
@@ -49,7 +51,7 @@ public class User {
 		this.email = email;
 	}
 
-	public User(int id, String username, String password, String firstName, String middleName, String lastName, Set<String> tel, String email) {
+	public User(int id, String username, String password, String firstName, String middleName, String lastName, List<String> tel, String email) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -108,12 +110,12 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public Set<String> getTel() {
+	public List<String> getTel() {
 		return tel;
 	}
 
-	public void setTel(Set<String> tel) {
-		this.tel = tel;
+	public void setTel(List<String> tel) {
+		this.tel = (List<String>) tel;
 	}
 
 	public String getEmail() {

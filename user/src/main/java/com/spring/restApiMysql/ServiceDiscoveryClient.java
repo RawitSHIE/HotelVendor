@@ -63,12 +63,22 @@ public class ServiceDiscoveryClient {
 		}
 	}
 
+	public String logout(String header, String value) throws Exception {
+	    try {
+	        List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
+	        String serviceUri = String.format("%s/users/logout", instances.get(0).getUri().toString());
+            return sendPostOnlyHeader(serviceUri, header, value);
+        } finally {
+	        close();
+        }
+    }
+
 	public String updateUser(String header, String value, String username, String password) throws Exception{
 	    try {
             List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
             String serviceUri = String.format("%s/users/update", instances.get(0).getUri().toString());
             return sendPostWithHeader(serviceUri, header, value, username, password);
-        }finally{
+        } finally {
             close();
         }
     }
@@ -96,6 +106,16 @@ public class ServiceDiscoveryClient {
             }
         }
 		return "invalid token!";
+    }
+
+    private String sendPostOnlyHeader(String url, String header, String value) throws Exception {
+	    HttpPost post = new HttpPost(url);
+	    post.addHeader(header, value);
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault();
+             CloseableHttpResponse response = httpClient.execute(post)) {
+            return EntityUtils.toString(response.getEntity());
+        }
     }
 	
 	private String sendPost(String url, int userId, String username, String password) throws Exception {
