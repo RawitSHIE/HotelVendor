@@ -10,8 +10,8 @@ import sop.project.hotel.exception.NotFoundException;
 import sop.project.hotel.model.*;
 import sop.project.hotel.model.responseModel.HotelFullDetail;
 import sop.project.hotel.respository.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 @SpringBootApplication
 @RestController
@@ -54,35 +54,36 @@ public class HotelController {
             produces = {"application/json"},
             method = RequestMethod.POST
     )
-    public Object updatehotel(@RequestBody Hotel hotel,
+    public Object updatehotel(@RequestBody Map<String, Object> body,
                               @PathVariable("hotelId") long hotelId) {
-        return hotelRespository.findById(hotelId).map(thatHotel -> {
-            if (!hotel.getHotelName().isEmpty())
-                thatHotel.setHotelName(hotel.getHotelName());
-            if (!hotel.getCountry().isEmpty())
-                thatHotel.setCountry(hotel.getCountry());
-            if (!hotel.getProvinceState().isEmpty())
-                thatHotel.setProvinceState(hotel.getProvinceState());
-            if (!hotel.getDistrict().isEmpty())
-                thatHotel.setDistrict(hotel.getDistrict());
-            if (!hotel.getStreet().isEmpty())
-                thatHotel.setStreet(hotel.getStreet());
-            if (!hotel.getAdditionalDetail().isEmpty())
-                thatHotel.setAdditionalDetail(hotel.getAdditionalDetail());
-            if (!hotel.getHotelImages().isEmpty())
-                thatHotel.setHotelImages(hotel.getHotelImages());
-            if (!hotel.getTel().isEmpty())
-                thatHotel.setTel(hotel.getTel());
-            if (!hotel.getEmail().isEmpty())
-                thatHotel.setEmail(hotel.getEmail());
 
-            thatHotel.setAvailible(hotel.getAvailible());
+        return hotelRespository.findById(hotelId).map(thatHotel -> {
+            if (body.get("hotelName") != null)
+                thatHotel.setHotelName((String) body.get("hotelName"));
+            if (body.get("country") != null)
+                thatHotel.setCountry((String) body.get("country"));
+            if (body.get("provinceState") != null)
+                thatHotel.setProvinceState((String) body.get("provinceState"));
+            if (body.get("district") != null)
+                thatHotel.setDistrict((String) body.get("district"));
+            if (body.get("street") != null)
+                thatHotel.setStreet((String) body.get("street"));
+            if (body.get("additionalDetail") != null)
+                thatHotel.setAdditionalDetail((String) body.get("additionalDetail"));
+            if (body.get("hotelImages") != null)
+                thatHotel.setHotelImages((List<String>) body.get("hotelImages"));
+            if (body.get("tel") != null)
+                thatHotel.setTel((List<String>) body.get("tel"));
+            if (body.get("email") != null)
+                thatHotel.setEmail((List<String>) body.get("email"));
+            if (body.get("availible") != null)
+                thatHotel.setAvailible((boolean) body.get("availible"));
 
             return hotelRespository.save(thatHotel);
         }).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
+
     }
 
-//    room
     @RequestMapping(
             value = "/createroomtype/{hotelId}",
             produces = {"application/json"},
@@ -170,6 +171,7 @@ public class HotelController {
             return roomTypeRepository.save(roomType);
         }).orElseThrow(() -> new NotFoundException("no room found"));
     }
+
 
     public static void main(String[] args) {
         SpringApplication.run(HotelController.class, args);
