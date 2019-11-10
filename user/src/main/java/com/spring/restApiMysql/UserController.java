@@ -2,15 +2,19 @@ package com.spring.restApiMysql;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
 @EnableDiscoveryClient
-
+@EnableJpaAuditing
 public class UserController {
 
 	@Autowired
@@ -56,8 +60,33 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/me")
-	public int auth(@RequestHeader("Authorization") String value) throws Exception  {
+	public Optional<User> auth(@RequestHeader("Authorization") String value) throws Exception  {
 		int userId = serviceDiscoveryClient.getUserId("Authorization", value);
-		return userId;
+		return userRepository.findById(userId);
+	}
+
+	@PostMapping("/user/update")
+	public Object updateUser(@RequestHeader("Authorization") String value, @RequestBody User user) throws Exception {
+		int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+		User this_user = userRepository.findById(userId).orElse(null);
+		if(user.getUsername()!=null) {
+			this_user.setUsername(user.getUsername());
+			serviceDiscoveryClient.updateUser("Authorization", value, this_user.getUsername(), this_user.getPassword());
+		}
+		if(user.getPassword()!=null) {
+			this_user.setPassword(user.getPassword());
+			serviceDiscoveryClient.updateUser("Authorization", value, this_user.getUsername(), this_user.getPassword());
+		}
+		if(user.getFirstName()!=null)
+			this_user.setFirstName(user.getFirstName());
+		if(user.getLastName()!=null)
+			this_user.setLastName(user.getLastName());
+		if(user.getMiddleName()!=null)
+			this_user.setMiddleName(user.getMiddleName());
+		if(user.getTel()!=null)
+			this_user.setTel(user.getTel());
+		if(user.getEmail()!=null)
+			this_user.setEmail(user.getEmail());
+		return userRepository.save(this_user);
 	}
 }

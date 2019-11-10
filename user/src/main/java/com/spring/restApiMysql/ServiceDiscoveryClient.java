@@ -62,6 +62,16 @@ public class ServiceDiscoveryClient {
 			close();
 		}
 	}
+
+	public String updateUser(String header, String value, String username, String password) throws Exception{
+	    try {
+            List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
+            String serviceUri = String.format("%s/users/update", instances.get(0).getUri().toString());
+            return sendPostWithHeader(serviceUri, header, value, username, password);
+        }finally{
+            close();
+        }
+    }
 	
 	private String sendGet(String url, String header, String value) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -94,6 +104,24 @@ public class ServiceDiscoveryClient {
         
         // add request parameter, form parameters
         jsonPost.put("userId", userId);
+        jsonPost.put("username", username);
+        jsonPost.put("password", password);
+        StringEntity se = new StringEntity(jsonPost.toString());
+        se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        post.setEntity(se);
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault();
+             CloseableHttpResponse response = httpClient.execute(post)) {
+            return EntityUtils.toString(response.getEntity());
+        }
+    }
+
+    private String sendPostWithHeader(String url, String header, String value, String username, String password) throws Exception{
+        HttpPost post = new HttpPost(url);
+        JSONObject jsonPost = new JSONObject();
+        post.addHeader(header, value);
+
+        // add request parameter, form parameters
         jsonPost.put("username", username);
         jsonPost.put("password", password);
         StringEntity se = new StringEntity(jsonPost.toString());
