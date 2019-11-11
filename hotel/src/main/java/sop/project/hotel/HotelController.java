@@ -24,6 +24,9 @@ public class HotelController {
     @Autowired
     private RoomTypeRepository roomTypeRepository;
 
+    @Autowired
+    private ServiceDiscoveryClient serviceDiscoveryClient;
+
 //  hotel
     @RequestMapping(
             value = "/allhotel",
@@ -54,34 +57,42 @@ public class HotelController {
             produces = {"application/json"},
             method = RequestMethod.POST
     )
-    public Object updatehotel(@RequestBody Map<String, Object> body,
-                              @PathVariable("hotelId") long hotelId) {
+    public Object updatehotel(@RequestHeader("Authorization") String value, @RequestBody Map<String, Object> body,
+                              @PathVariable("hotelId") long hotelId) throws Exception {
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+        boolean canUpdate = false;
+        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
+        for(int user_id: hotel.getUsers_id()){
+            if(user_id == userId) {
+                canUpdate = true;
+            }
+        }
+        if(canUpdate == false)
+            return "you can't update (permission)";
+        if (body.get("hotelName") != null)
+            hotel.setHotelName((String) body.get("hotelName"));
+        if (body.get("country") != null)
+            hotel.setCountry((String) body.get("country"));
+        if (body.get("provinceState") != null)
+            hotel.setProvinceState((String) body.get("provinceState"));
+        if (body.get("district") != null)
+            hotel.setDistrict((String) body.get("district"));
+        if (body.get("street") != null)
+            hotel.setStreet((String) body.get("street"));
+        if (body.get("additionalDetail") != null)
+            hotel.setAdditionalDetail((String) body.get("additionalDetail"));
+        if (body.get("hotelImages") != null)
+            hotel.setHotelImages((List<String>) body.get("hotelImages"));
+        if (body.get("user_id") != null)
+            hotel.setUsers_id((List<Integer>) body.get("user_id"));
+        if (body.get("tel") != null)
+            hotel.setTel((List<String>) body.get("tel"));
+        if (body.get("email") != null)
+            hotel.setEmail((List<String>) body.get("email"));
+        if (body.get("availible") != null)
+            hotel.setAvailible((boolean) body.get("availible"));
 
-        return hotelRespository.findById(hotelId).map(thatHotel -> {
-            if (body.get("hotelName") != null)
-                thatHotel.setHotelName((String) body.get("hotelName"));
-            if (body.get("country") != null)
-                thatHotel.setCountry((String) body.get("country"));
-            if (body.get("provinceState") != null)
-                thatHotel.setProvinceState((String) body.get("provinceState"));
-            if (body.get("district") != null)
-                thatHotel.setDistrict((String) body.get("district"));
-            if (body.get("street") != null)
-                thatHotel.setStreet((String) body.get("street"));
-            if (body.get("additionalDetail") != null)
-                thatHotel.setAdditionalDetail((String) body.get("additionalDetail"));
-            if (body.get("hotelImages") != null)
-                thatHotel.setHotelImages((List<String>) body.get("hotelImages"));
-            if (body.get("tel") != null)
-                thatHotel.setTel((List<String>) body.get("tel"));
-            if (body.get("email") != null)
-                thatHotel.setEmail((List<String>) body.get("email"));
-            if (body.get("availible") != null)
-                thatHotel.setAvailible((boolean) body.get("availible"));
-
-            return hotelRespository.save(thatHotel);
-        }).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
-
+        return hotelRespository.save(hotel);
     }
 
     @RequestMapping(

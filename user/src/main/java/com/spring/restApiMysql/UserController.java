@@ -42,7 +42,7 @@ public class UserController {
 		userRepository.save(user);
 		int id = user.getId();
 		String token = serviceDiscoveryClient.genTokenForNewUser(id, username, password);
-		return user.toString() + "\ntoken " + token;
+		return token;
 	}
 	
 	@PostMapping("/login")
