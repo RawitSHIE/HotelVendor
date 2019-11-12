@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="css/room_css.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    
+    
+    <title>HOTEL</title>
+</head>
+<body>
+    <div id="app"> 
+        
+        <!-- test VUE can run -->
+        <!-- {{ message }} -->
+        
+        
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">HOTELVENDER</a>
+            
+            <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
+                <!-- <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul> -->
+                <div class="mr-auto"></div>
+                <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">login</button>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">register</button>
+                    
+                </form>
+            </div>
+        </nav>
+        
+        
+        <div class="container" style="border: 1;">
+            <div class="row">
+                <div class="col-9">
+                    <h1 class="mt-2">Hotel name : </h1>
+                </div>
+                
+                <div class="col-4">
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="container">
+            
+            <div class="card m-auto p-3" style="width: 50em;">
+                <div class="row ml-2 mt-4">
+                    <div class="col">                    
+                        <h2>Hotel KMITL</h2>
+                    </div>
+                    <div class="col text-right mr-4">
+                        <span class="span-bg" style="color: rgb(0, 166, 81);">4 ห้องว่าง</span>
+                        
+                    </div> 
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        
+                        <img src="img/room1.jpg" class="w-100 m-4" style="border-radius: 10px;"> 
+                        <div class="row">
+                            <div class="col ml-4">
+                                <span class="span-bg" style="color: rgb(0, 166, 81);">ตู้เย็น</span>
+                                <span class="span-bg" style="color: rgb(0, 166, 81);">ระเบียง</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <div class="col m-4">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-bed  mr-2"></i>
+                                
+                            </span>
+                            1 เตียงคิงไซส์
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-user-friends mr-2"></i>
+                            2 ผู้เข้าพัก
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            <span style="color: rgb(0, 166, 81);">
+                                <i class="fas fa-utensils mr-2"></i>
+                                อาหารเช้า
+                            </span>
+                        </div>
+                        <div class="col-4">
+                            <span style="color: rgb(0, 166, 81);">
+                                <i class="fas fa-wifi mr-2"></i>
+                                บริการ WiFi 
+                            </span>
+                            
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-2">
+                                    จำนวนห้อง
+                                </div>
+                                <div class="col">
+                                    <form>
+                                        <select class="form-control w-50" style="position: absolute; right: 10px;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div class="row mt-2">
+                        <div class="col">
+                            <span style="color: rgb(0, 166, 81);">
+                                <i class="fas fa-smoking-ban mr-2"></i>
+                                ห้องปลอดบุหรี่
+                            </span>
+                        </div>
+                        
+                        <div class="col-4 text-right">
+                            <b style="color: rgb(255, 145, 0); font-size: 1.3em;">
+                                THB4570.00
+                            </b><br>
+                            <small style="color: grey;">/ห้อง/คืน</small>
+                            <div>
+                                
+                                
+                                
+                            </div>
+                            <div>
+                                <a href="./reserve.html">
+                                    <button type="button" class="btn btn-sm mt-2" style="background-color: orange;">จองเลยตอนนี้!</button>
+                                    
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script>
+    const app = new Vue(
+    {
+        el: '#app',
+        data: {
+            message : 'Hello world'
+        }
+    }
+    )
+    
+</script>
+<script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+html {
+    background: ghostwhite;
+}
+
+#app {
+    background: ghostwhite;
+}
+.container {
+    background: ghostwhite;
+}
+.span-bg {
+    padding: 4px 18px;
+    background-color: #f2faf6;
+    border-radius: 14px;
+    margin-top: 4px;
+}
