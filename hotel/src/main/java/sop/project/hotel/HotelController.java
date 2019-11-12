@@ -99,9 +99,17 @@ public class HotelController {
             value = "/createroomtype/{hotelId}",
             produces = {"application/json"},
             method = RequestMethod.POST)
-    public Object createRoomType(@RequestBody RoomType roomType,
-                                 @PathVariable("hotelId") long hotelId) {
+    public Object createRoomType(@RequestHeader("Authorization") String value, @RequestBody RoomType roomType,
+                                 @PathVariable("hotelId") long hotelId) throws Exception {
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         return hotelRespository.findById(hotelId).map( hotel -> {
+            boolean canUpdate = false;
+            for(int user_id: hotel.getUsers_id()){
+                if(userId == user_id)
+                    canUpdate = true;
+            }
+            if(canUpdate == false)
+                return "you can't update (permission)";
             List<String> allType = new ArrayList<String>();
             List<RoomType> types = new ArrayList<RoomType>();
 
@@ -165,19 +173,29 @@ public class HotelController {
             produces = {"application/json"},
             method = RequestMethod.POST
     )
-    public Object updateRoomType(@PathVariable("hotelId") long hotelId,
+    public Object updateRoomType(@RequestHeader("Authorization") String value, @PathVariable("hotelId") long hotelId,
                                  @PathVariable("roomTypeId") long roomTypeId,
-                                 @RequestBody RoomType newRoomTypeDetail) {
+                                 @RequestBody Map<String, Object> body) throws Exception {
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+        boolean canUpdate = false;
+        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
+        for(int user_id: hotel.getUsers_id()){
+            if(user_id == userId) {
+                canUpdate = true;
+            }
+        }
+        if(canUpdate == false)
+            return "you can't update (permission)";
         RoomType roomTypes = new RoomType();
         return roomTypeRepository.findById(roomTypeId).map(roomType -> {
-            if (!newRoomTypeDetail.getRoomTypeName().isEmpty())
-                roomType.setRoomTypeName(newRoomTypeDetail.getRoomTypeName());
-            if (newRoomTypeDetail.getPrice() == 0)
-                roomType.setPrice(newRoomTypeDetail.getPrice());
-            if (newRoomTypeDetail.getQuantity() == 0)
-                roomType.setQuantity(newRoomTypeDetail.getQuantity());
-            if (!newRoomTypeDetail.getRoomTypeImages().isEmpty())
-                roomType.setRoomTypeImages(newRoomTypeDetail.getRoomTypeImages());
+            if (body.get("roomTypeName") != null)
+                roomType.setRoomTypeName((String) body.get("roomTypeName"));
+            if (body.get("price") != null)
+                roomType.setPrice((Double) body.get("price"));
+            if (body.get("quantity") != null)
+                roomType.setQuantity((Long) body.get("quantity"));
+            if (body.get("roomTypeImages") != null)
+                roomType.setRoomTypeImages((List<String>) body.get("roomTypeImages"));
 
             return roomTypeRepository.save(roomType);
         }).orElseThrow(() -> new NotFoundException("no room found"));
