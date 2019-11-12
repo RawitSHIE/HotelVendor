@@ -1,3 +1,15 @@
+#app {
+  background: rgb(240, 240, 240);
+}
+html  {
+  background: rgb(240, 240, 240);
+}
+
+
+.container {
+  background: none !important;
+}
+
 #chooseRoom {
     width: 4em;
     margin-left: auto;
@@ -12,6 +24,16 @@
 #headTable h6 {
     font-size: 1.25em;
 }
+
+
+.shadow {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.text-shadow {
+  text-shadow: 0px 2px 3px rgba(0,0,0,.13) ,1px 2px 2px rgba(0,0,0,.1) , -1px -2px 2px rgba(0,0,0,.05);
+}
+
 
 input[type="date"] {
     display:block;
@@ -71,3 +93,8 @@ input[type="date"] {
   input[type="date"]:hover::-webkit-calendar-picker-indicator { opacity:0.05; }
   input[type="date"]:hover::-webkit-calendar-picker-indicator:hover { opacity:0.15; }
   
+
+
+  .border-left-warning{
+    border-left:.25rem solid #f6c23e!important
+  }

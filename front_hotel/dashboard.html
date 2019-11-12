@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="css/index_css.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+    
+    
+    <title>HOTEL</title>
+</head>
+<body>
+    <div id="app"> 
+        
+        <nav class="navbar navbar-toggleable-md shadow-lg mb-5">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="m-4" href="#" style="color:orange; font-size: 2em;">HOTELVENDER</a>
+            
+            <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="room.html">room</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reserve.html">reserve</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">dash board</a>
+                    </li>
+                    
+                </ul>
+                <div class="mr-auto"></div>
+                
+                
+                
+                <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">login</button>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">register</button>
+                    
+                </form>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <div class="card mb-4 shadow">
+                <div class="card-header">
+                    Room Type
+                </div>
+                <div class="card-body">
+                    <div class="row m-2 mt-4">
+                        <div class="col">
+                            Show   <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
+                            style="width: 3em; height: 2em; display: inline;">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>15</option>
+                            <option>20</option>
+                        </select> entries
+                    </div>
+                    <div class="col text-right">
+                        Search: <input class="form-control" style="display: inline; width: 12em; height: 2em;">
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="table-responsive">
+                    
+                    <table class="table table-bordered m-2">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Rooms</th>
+                                <th scope="col">Status</th>
+                
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Master bedroom</td>
+                                <td>10 /25</td>
+                                <td><span class="badge badge-pill badge-success">Available</span>
+                                </td>
+                     
+                                
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Suit Room</td>
+                                <td>30 /30</td>
+                                <td><span class="badge badge-pill badge-danger pl-3 pr-3">Full</span></td>
+                             
+                       
+                                
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Normal Room</td>
+                                <td>7 /10</td>
+                                <td><span class="badge badge-pill badge-success">Available</span>
+                      
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                <!-- <div class="row">
+                    <div class="col text-right m-2">
+                        <button class="btn btn-warning">
+                            Previous
+                        </button>
+                        <button class="btn btn-warning">
+                                Next
+                        </button>
+
+                    </div>
+                </div> -->
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div class="container">
+            <div class="card mb-4 shadow">
+                <div class="card-header">
+                    Customer
+
+                </div>
+                <div class="card-body">
+                    <div class="row m-2 mt-4">
+                        <div class="col">
+                            Show   <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
+                            style="width: 3em; height: 2em; display: inline;">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>15</option>
+                            <option>20</option>
+                        </select> entries
+                    </div>
+                    <div class="col text-right">
+                        Search: <input class="form-control" style="display: inline; width: 12em; height: 2em;">
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="table-responsive">
+                    
+                    <table class="table table-bordered m-2">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Check-in</th>
+                                <th scope="col">Check-out</th>
+                                <th scope="col">Room</th>
+                                <th scope="col">Tel</th>
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>lorem</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@mdo</td>
+                                <td>@twitter</td>
+                                <td>@mdo</td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                <div class="row">
+                    <div class="col text-right m-2">
+                        <button class="btn btn-warning">
+                            Previous
+                        </button>
+                        <button class="btn btn-warning">
+                                Next
+                        </button>
+
+                    </div>
+                </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<style>
+
+.card-header {
+    background: #ffe7c5;
+    border: none;
+    font-weight: bold;
+
+}
+
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+                info: null,
+                loading: true,
+                errored: false,
+                message : 'hello'
+            }
+        },
+        filters: {
+            currencydecimal (value) {
+                return value.toFixed(2)
+            }
+        },
+        mounted () {
+            axios
+            .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+            .then(response => {
+                this.info = response.data.bpi
+            })
+            .catch(error => {
+                console.log(error)
+                this.errored = true
+            })
+            .finally(() => this.loading = false)
+        }
+    })
+    
+</script>
+
+
+</body>
+</html>
