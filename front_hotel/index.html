@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="css/index_css.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
@@ -18,90 +20,203 @@
 </head>
 <body>
     <div id="app"> 
+        {{ info }}
         
-        <!-- test VUE can run -->
-        <!-- {{ message }} -->
-        
-        
-        <nav class="navbar navbar-toggleable-md navbar-light bg-faded shadow-lg">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="#">HOTELVENDER</a>
+        <!-- <h1>Bitcoin Price Index</h1>
             
-            <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="room.html">room</a>
-                    </li>
-                    <li class="nav-item">
+            <section v-if="errored">
+                <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+            </section>
+            
+            <section v-else>
+                <div v-if="loading">Loading...</div>
+                
+                <div
+                v-else
+                v-for="currency in info"
+                class="currency"
+                >
+                {{ currency.description }}:
+                <span class="lighten">
+                    <span v-html="currency.symbol"></span>{{ currency.rate_float | currencydecimal }}
+                </span>
+            </div>
+            
+        </section> -->
+        
+        <div class="bg">
+            
+            <div class="overlay"></div>
+            
+            <nav class="navbar navbar-toggleable-md shadow-lg mb-5">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="m-4" href="#" style="color:orange; font-size: 2em;">HOTELVENDER</a>
+                
+                <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="room.html">room</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="reserve.html">reserve</a>
                         </li>
-                </ul>
-                <div class="mr-auto"></div>
-                <form class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">login</button>
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">register</button>
-                    
-                </form>
-            </div>
-        </nav>
-        
-        
-        <div class="container-fluid" id="banner">
-            <div class="container" id="content">
-                <h1 class="text-center">Find Hotel </h1>
-                
-                <div class="container text-center">
-                            <div class="search-box-wrapper">
-                                <input type="text" placeholder="Search..." class="search-box-input">
-                                <button class="search-box-button">
-                                    
-                                    <span style="color: Mediumslateblue;">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </button>
-                                <div class="dropdown ml-2 p-1">
-                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-list"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                          <button class="dropdown-item" type="button">Action</button>
-                                          <button class="dropdown-item" type="button">Another action</button>
-                                          <button class="dropdown-item" type="button">Something else here</button>
-                                        </div>
-                                      </div>
 
+                        <li class="nav-item">
+                                <a class="nav-link" href="dashboard.html">dashboard</a>
+                            </li>
+
+                    </ul>
+                    <div class="mr-auto"></div>
+                    
+                    
+                    
+                    <form class="form-inline my-2 my-lg-0">
+                        <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">login</button>
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">register</button>
+                        
+                    </form>
+                </div>
+            </nav>
+            
+            <div class="container-fluid" id="banner">
+                
+                
+                <div class="container" id="content">
+                    <h1 class="text-center text-shadow" style="color: aliceblue;">Find Hotel</h1>
+                    
+                    <div class="container text-center">
+                        <div class="search-box-wrapper mt-5">
+                            <input type="text" placeholder="Search..." class="search-box-input shadow">
+                            <button class="search-box-button shadow">
+                                
+                                <span style="color: Mediumslateblue;">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </button>
+                            
+                            <!-- <div class="dropdown ml-2 p-1">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button class="dropdown-item" type="button">Action</button>
+                                    <button class="dropdown-item" type="button">Another action</button>
+                                    <button class="dropdown-item" type="button">Something else here</button>
+                                </div>
+                            </div> -->
+                            
+                        </div>
+                        
+                        
+                        <div class="row ml-2 mt-2">
+                            
+                            <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01" class="mr-2">
+                            <input class="mr-2"/>
+                            <input class="mr-2"/>
+                            <input class="mr-2"/>
+                            
+                            
+                            <!-- <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01">    -->
+                        </div>
+                        <div class="row justify-content-center">
+                            
+                            <a href="#hotel"><button class="btn mt-5 shadow text-shadow" id="myBtn" onclick="" title="Go to top" 
+                                style="border-radius: 100px; background: orange; color: white;
+                                padding: .75rem 2.5rem .75rem 2.5rem;
+                                font-size: 1.2em;
+                                ">search</button></a>
+                                
                             </div>
-                       
-                            <div class="row justify-content-md-center mt-2">
-                                        <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01" class="mr-2">
-                                        <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01">    
-                            </div>
-                           
+                        </div>
+                        
                     </div>
                     
-                </div>
+                </div>    
                 
-            </div>    
+            </div>
         </div>
-        
+
+        <div class="col ">
+
+         <a href="room.html" class="nounderline">   
+        <div class="card flex-row flex-wrap shadow ml-auto mr-auto m-5" style="width: 50%;" id="hotelCard">
+                <div class="card border-0" style="width: 18em;">
+                     <img src="img/room1.jpg" alt="" style="width: 100%;" class="m-0 p-0">
+                </div>
+                <div class="card-block px-5">
+                    <h4 class="card-title mb-1"> Million Hotel Dealsl </h4>
+                    <i class="fas fa-map-marker-alt"></i> <small>Pattaya, Thailand</small> <br>
+
+      
+                </div>
+
+                <div class="w-100"></div>
+            
+            </div>
+        </a>
+<!--         </div>
+
+        <div class="card shadow text-center ml-auto mr-auto p-5" style="top: -100px; border: none; position: relative; width: 70%; height: 20em;">
+                <h1 class="text-left">hotel transivania</h1>
+
+            <div class="row">
+                <div class="col text-left">
+                        <hr>
+                        <img src="img/room1.jpg" width="300px" height="180px"style="border-radius: 10px; overflow: hidden;"> 
+
+                </div>
+                <div class="col">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora soluta nisi optio! Repellat reprehenderit est ab architecto aut, sapiente earum odit, laudantium esse aperiam soluta. Culpa commodi ea natus id!</div>
+            </div>
+            
+        </div> -->
+        <div class="container" id="hotel">
+            
+            
+            
+        </div>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
     
     <script>
-        const app = new Vue(
-        {
+        new Vue({
             el: '#app',
-            data: {
-                message : 'Hello world'
+            data () {
+                return {
+                    info: null,
+                    loading: true,
+                    errored: false,
+                    message : 'hello'
+                }
+            },
+            filters: {
+                currencydecimal (value) {
+                    return value.toFixed(2)
+                }
+            },
+            mounted () {
+                axios
+                .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+                .then(response => {
+                    this.info = response.data.bpi
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.errored = true
+                })
+                .finally(() => this.loading = false)
             }
-        }
-        )
+        })
         
     </script>
     
