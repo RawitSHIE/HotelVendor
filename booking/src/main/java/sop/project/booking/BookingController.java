@@ -41,9 +41,11 @@ public class BookingController {
             value = "/createBooking",
             produces = "application/json",
             method = RequestMethod.POST)
-    public Object createBooking(@RequestBody BookingRoomDetail bookingRoomTypeDetail) {
+    public Object createBooking(@RequestHeader("Authorization") String value, @RequestBody BookingRoomDetail bookingRoomTypeDetail) throws Exception {
         Hotel hotel = serviceDiscoveryClient.getHotel(bookingRoomTypeDetail.getHotelId());
-        User user = serviceDiscoveryClient.getUser(bookingRoomTypeDetail.getUserId());
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+        bookingRoomTypeDetail.setUserId(userId);
+        User user = serviceDiscoveryClient.getUser(userId);
         SelectDate selectDate = new SelectDate();
         selectDate.setStartDate(bookingRoomTypeDetail.getBookingStartDate());
         selectDate.setEndDate(bookingRoomTypeDetail.getBookingEndDate());

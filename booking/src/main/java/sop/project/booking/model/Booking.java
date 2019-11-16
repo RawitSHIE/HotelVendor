@@ -13,8 +13,7 @@ public class Booking extends AuditModel{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
-
-    @NotNull
+    
     private long userId;
 
     @NotNull
