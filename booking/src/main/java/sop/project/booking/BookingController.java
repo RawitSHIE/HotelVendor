@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @SpringBootApplication
 @RestController
@@ -99,8 +100,11 @@ public class BookingController {
             value = "/getbookingdetail/{bookingId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public Object getBooking(@PathVariable("bookingId") long bookingId) {
+    public Object getBooking(@RequestHeader("Authorization") String value, @PathVariable("bookingId") long bookingId) throws Exception {
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         return bookingRepository.findById(bookingId).map(booking -> {
+            if(booking.getUserId() != userId)
+                return "you can't get booking detail (permission)";
             List<RoomTypeDetail> roomTypeDetails = new ArrayList<RoomTypeDetail>();
             roomTypeDetailRepository.findAll().forEach(roomTypeDetail -> {
                 if (roomTypeDetail.getBooking().getId() == bookingId) {
@@ -118,15 +122,25 @@ public class BookingController {
             value = "/getbookingbyhotel/{hotelId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public Object getBookingByHotel(@PathVariable("hotelId") long hotelId) {
+    public Object getBookingByHotel(@RequestHeader("Authorization") String value, @PathVariable("hotelId") long hotelId) throws Exception {
         List<Booking> bookings = new ArrayList<Booking>();
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+        AtomicBoolean permission = new AtomicBoolean(false);
         bookingRepository.findAll().forEach(booking -> {
             if (booking.getHotelId() == hotelId) {
-                bookings.add(booking);
+                Hotel hotel = serviceDiscoveryClient.getHotel(hotelId);
+                hotel.getUsers_id().forEach(user_id -> {
+                    if (user_id == userId) {
+                        bookings.add(booking);
+                        permission.set(true);
+                    }
+                });
             }
         });
-
-        return bookings;
+        if (!permission.get())
+            return "you can't get booking detail (permission)";
+        else
+            return bookings;
     }
 
     @RequestMapping(
