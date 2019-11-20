@@ -21,7 +21,7 @@ const eureka = new Eureka({
         hostName: 'localhost',
         ipAddr: '127.0.0.1',
         port:  {
-            '$': 3000,
+            '$': 8080,
             '@enabled': 'true',
         },
         vipAddress: 'authservice',
@@ -34,8 +34,8 @@ const eureka = new Eureka({
         fetchRegistry: true
     },
     eureka: {
-        host: 'localhost',
-        port: 8761,
+        host: 'https://hoteldiscovery.appspot.com/',
+        port: 80,
         servicePath: '/eureka/apps/'
     }
 });
