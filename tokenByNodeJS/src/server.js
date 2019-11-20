@@ -34,7 +34,7 @@ const eureka = new Eureka({
         fetchRegistry: true
     },
     eureka: {
-        host: 'https://hoteldiscovery.appspot.com/',
+        host: 'hoteldiscovery.appspot.com',
         port: 80,
         servicePath: '/eureka/apps/'
     }
