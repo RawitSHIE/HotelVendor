@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node server/server.js",
-    "dev": "nodemon server/server.js"
+    "start": "node tokenByNodeJS/server.js",
+    "dev": "nodemon tokenByNodeJS/server.js"
   },
   "keywords": [],
   "author": "",
