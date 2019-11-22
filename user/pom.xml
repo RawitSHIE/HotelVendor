@@ -109,9 +109,6 @@
 				<version>2.0.0</version>
 				<configuration>
 					<deploy.projectId>hoteluser</deploy.projectId>
-					<deploy.version>v04</deploy.version>
-					<deploy.promote>true</deploy.promote>
-					<deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
 				</configuration>
 			</plugin>
 		</plugins>
