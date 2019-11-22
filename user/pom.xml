@@ -103,6 +103,9 @@
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
+				<configuration>
+					<deploy.projectId>hoteluser</deploy.projectId>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
