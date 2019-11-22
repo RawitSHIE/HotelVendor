@@ -109,8 +109,9 @@
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>${appengine.maven.plugin}</version>
 				<configuration>
-					<deploy.projectId>hoteluser</deploy.projectId>
-					<deploy.version>${appengine.maven.plugin}</deploy.version>
+					<project>hoteluser</project>
+					<deploy.promote>true</deploy.promote>
+					<deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
 				</configuration>
 			</plugin>
 		</plugins>
