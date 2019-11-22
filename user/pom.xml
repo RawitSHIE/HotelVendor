@@ -105,7 +105,7 @@
 				<artifactId>appengine-maven-plugin</artifactId>
 				<configuration>
 					<deploy.projectId>hoteluser</deploy.projectId>
-					<deploy.version>2.0.0</deploy.version>
+					<deploy.version>2.2.0</deploy.version>
 				</configuration>
 			</plugin>
 		</plugins>
