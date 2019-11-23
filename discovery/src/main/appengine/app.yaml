@@ -1,7 +1,5 @@
 runtime: java
 env: flex
-runtime_config:
-  jdk: openjdk11
 handlers:
-- url: /.*
-  script: this field is required, but ignored
+  - url: /.*
+    script: this field is required, but ignored

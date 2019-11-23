@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 
 // connecting database
-mongoose.connect('mongodb://127.0.0.1:27017/users-token-api', {
+mongoose.connect('mongodb+srv://satawatnack:1234567890@cluster0-xpbvt.gcp.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true
 })
