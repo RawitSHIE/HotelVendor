@@ -3,7 +3,7 @@ require('./db/mongoose')
 const userRouter = require('./routers/user')
 
 const app = express()
-const port = process.env.port || 3000
+const port = process.env.port || 8080
 
 app.use(express.json())
 app.use(userRouter)
@@ -21,11 +21,11 @@ const eureka = new Eureka({
         hostName: 'localhost',
         ipAddr: '127.0.0.1',
         port:  {
-            '$': 3000,
+            '$': 8080,
             '@enabled': 'true',
         },
         vipAddress: 'authservice',
-        statusPageUrl: 'http://localhost:3000/',
+        statusPageUrl: 'authservice-259910.appspot.com',
         dataCenterInfo:  {
             '@class': 'com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo',
             name: 'MyOwn',
@@ -34,8 +34,8 @@ const eureka = new Eureka({
         fetchRegistry: true
     },
     eureka: {
-        host: 'localhost',
-        port: 8761,
+        host: 'discovery-259910.appspot.com',
+        port: 80,
         servicePath: '/eureka/apps/'
     }
 });
