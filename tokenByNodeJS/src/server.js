@@ -20,11 +20,8 @@ const eureka = new Eureka({
         instanceId: 'authservice',
         hostName: 'authservice-259910.appspot.com',
         ipAddr: '0.0.0.0/0',
-        port:  {
-            '$': 8080,
-            '@enabled': 'true',
-        },
-        vipAddress: 'authservice',
+        port:  8080,
+        vipAddress: 'authservice-259910.appspot.com',
         statusPageUrl: 'authservice-259910.appspot.com',
         dataCenterInfo:  {
             '@class': 'com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo',
