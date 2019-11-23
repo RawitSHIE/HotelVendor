@@ -33,8 +33,7 @@ public class ServiceDiscoveryClient {
 	public String genTokenForNewUser(int userId, String username, String password) throws Exception {
         try {
             List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
-            String serviceUri = String.format("%s/users", instances.get(0).getUri().toString());
-            System.out.println(serviceUri + "----------------");
+            String serviceUri = String.format("https://%s/users", instances.get(0).getHost());
             String token = sendPost(serviceUri, userId, username, password);
             return token;
         } finally {
@@ -45,7 +44,7 @@ public class ServiceDiscoveryClient {
 	public String genTokenLogin(int userId, String username, String password) throws Exception {
         try {
         	List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
-            String serviceUri = String.format("%s/users/login", instances.get(0).getUri().toString());
+            String serviceUri = String.format("https://%s/users/login", instances.get(0).getHost());
             String token = sendPost(serviceUri, userId, username, password);
             return token;
         } finally {
@@ -56,7 +55,7 @@ public class ServiceDiscoveryClient {
 	public int getUserId(String header, String value) throws Exception {
 		try {
 			List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
-            String serviceUri = String.format("%s/users/me", instances.get(0).getUri().toString());
+            String serviceUri = String.format("https://%s/users/me", instances.get(0).getHost());
 			int userId = Integer.parseInt(sendGet(serviceUri, header, value));
 			return userId;
 		} finally {
@@ -67,7 +66,7 @@ public class ServiceDiscoveryClient {
 	public String logout(String header, String value) throws Exception {
 	    try {
 	        List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
-	        String serviceUri = String.format("%s/users/logout", instances.get(0).getUri().toString());
+            String serviceUri = String.format("https://%s/users/logout", instances.get(0).getHost());
             return sendPostOnlyHeader(serviceUri, header, value);
         } finally {
 	        close();
@@ -77,7 +76,7 @@ public class ServiceDiscoveryClient {
 	public String updateUser(String header, String value, String username, String password) throws Exception{
 	    try {
             List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
-            String serviceUri = String.format("%s/users/update", instances.get(0).getUri().toString());
+            String serviceUri = String.format("https://%s/users/update", instances.get(0).getHost());
             return sendPostWithHeader(serviceUri, header, value, username, password);
         } finally {
             close();

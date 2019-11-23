@@ -39,9 +39,9 @@ public class UserController {
 	public String create(@RequestBody User user) throws Exception {
 		String username = user.getUsername();
 		String password = user.getPassword();
+		userRepository.save(user);
 		int id = user.getId();
 		String token = serviceDiscoveryClient.genTokenForNewUser(id, username, password);
-		userRepository.save(user);
 		return token;
 	}
 	
