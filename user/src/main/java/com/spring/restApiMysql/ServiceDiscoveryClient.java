@@ -34,6 +34,7 @@ public class ServiceDiscoveryClient {
         try {
             List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
             String serviceUri = String.format("%s/users", instances.get(0).getUri().toString());
+            System.out.println(serviceUri + "----------------");
             String token = sendPost(serviceUri, userId, username, password);
             return token;
         } finally {
