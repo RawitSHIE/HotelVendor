@@ -14,6 +14,7 @@ import sop.project.hotel.respository.*;
 import java.util.*;
 
 @SpringBootApplication
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @EnableJpaAuditing
 @EnableDiscoveryClient

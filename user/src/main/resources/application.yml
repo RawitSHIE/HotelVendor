@@ -11,6 +11,8 @@ spring:
 eureka:
   instance:
     preferIpAddress: true
+    home-page-url: https://user-259905.appspot.com
+    hostname: https://user-259905.appspot.com
   client:
     registerWithEureka: true
     fetchRegistry: true
