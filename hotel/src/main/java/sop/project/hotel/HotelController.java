@@ -173,7 +173,8 @@ public class HotelController {
             produces = {"application/json"},
             method = RequestMethod.POST
     )
-    public Object updateRoomType(@RequestHeader("Authorization") String value, @PathVariable("hotelId") long hotelId,
+    public Object updateRoomType(@RequestHeader("Authorization") String value,
+                                 @PathVariable("hotelId") long hotelId,
                                  @PathVariable("roomTypeId") long roomTypeId,
                                  @RequestBody Map<String, Object> body) throws Exception {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
