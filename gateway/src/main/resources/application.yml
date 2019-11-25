@@ -12,6 +12,15 @@ eureka:
 zuul:
   ignored-services: '*'
   routes:
-    hotelroomdetail: /hotelroomdetail/**
-    userdetail: /userdetail/**
-    booking: /booking/**
+    hotelroomdetail:
+      path: /hotelroomdetail/**
+      sensitiveHeaders:
+    userdetail:
+      path: /userdetail/**
+      sensitiveHeaders:
+    booking:
+      path: /booking/**
+      sensitiveHeaders:
+    authservice:
+      path: /authservice/**
+      sensitiveHeaders:
