@@ -39,24 +39,20 @@ public class ServiceDiscoveryClient {
     private String sendGet(String url, String header, String value) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet request = new HttpGet(url);
-
         // add request header
         request.addHeader(header, value);
-
         try (CloseableHttpResponse response = httpClient.execute(request)) {
-
             // Get HttpResponse Status
             System.out.println(response.getStatusLine().toString());
-
             HttpEntity entity = response.getEntity();
             Header headers = entity.getContentType();
-
             if (entity != null) {
                 // return it as a String
                 String result = EntityUtils.toString(entity);
                 return result;
             }
         }
+
         return "invalid token!";
     }
 
