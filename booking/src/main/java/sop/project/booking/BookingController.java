@@ -42,27 +42,36 @@ public class BookingController {
             value = "/createBooking",
             produces = "application/json",
             method = RequestMethod.POST)
-    public Object createBooking(@RequestHeader("Authorization") String value, @RequestBody BookingRoomDetail bookingRoomTypeDetail) throws Exception {
+    public Object createBooking(@RequestHeader("Authorization") String value,
+                                @RequestBody BookingRoomDetail bookingRoomTypeDetail) throws Exception {
         Hotel hotel = serviceDiscoveryClient.getHotel(bookingRoomTypeDetail.getHotelId());
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         bookingRoomTypeDetail.setUserId(userId);
+
         User user = serviceDiscoveryClient.getUser(userId);
         SelectDate selectDate = new SelectDate();
         selectDate.setStartDate(bookingRoomTypeDetail.getBookingStartDate());
         selectDate.setEndDate(bookingRoomTypeDetail.getBookingEndDate());
+
         if (hotel != null && user != null) {
             Date currentDate = new Date();
             bookingRoomTypeDetail.setBookingCreateDate(currentDate);
-            if (bookingRoomTypeDetail.getBookingStartDate().after(bookingRoomTypeDetail.getBookingEndDate())
-                    || bookingRoomTypeDetail.getBookingCreateDate().after(bookingRoomTypeDetail.getBookingStartDate()) ) {
+
+            if (bookingRoomTypeDetail.getBookingStartDate()
+                    .after(bookingRoomTypeDetail.getBookingEndDate())
+                    || bookingRoomTypeDetail.getBookingCreateDate()
+                    .after(bookingRoomTypeDetail.getBookingStartDate()) ) {
                 return "invalid date";
             }
-            HashMap<String, Long> remainAvailableRoom = remainAvailableRoom(hotel.getHotelId(), selectDate);
-            Booking booking = bookingRepository.save(bookingRoomTypeDetail.createBooking());
+
+            HashMap<String, Long> remainAvailableRoom =
+                    remainAvailableRoom(hotel.getHotelId(), selectDate);
             List<String> roomTypes = new ArrayList<>();
-            serviceDiscoveryClient.getHotelFullDetail(hotel.getHotelId()).getRoomTypes().forEach(roomType -> {
+            serviceDiscoveryClient.getHotelFullDetail(hotel.getHotelId())
+                    .getRoomTypes().forEach(roomType -> {
                 roomTypes.add(roomType.getRoomTypeName());
             });
+
             for (int i = 0; i < bookingRoomTypeDetail.getRoomTypeRequests().size(); i++) {
                 RoomTypeRequest roomRequest = bookingRoomTypeDetail.getRoomTypeRequests().get(i);
                 if (roomTypes.size() == 0 || !roomTypes.contains(roomRequest.getRoomTypeName())) {
@@ -72,6 +81,9 @@ public class BookingController {
                     return "request quantity exceed availibility";
                 }
             }
+
+            Booking booking = bookingRepository.save(bookingRoomTypeDetail.createBooking());
+
             bookingRoomTypeDetail.getRoomTypeRequests().forEach(roomTypeRequest -> {
                 RoomTypeDetail roomTypeDetail = new RoomTypeDetail();
                 roomTypeDetail.setRoomTypeName(roomTypeRequest.getRoomTypeName());
@@ -97,10 +109,31 @@ public class BookingController {
     }
 
     @RequestMapping(
+            value = "/getbookingbyuser/{userId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public Object getBookingByUser(@PathVariable("userId") long userId) {
+        User user = serviceDiscoveryClient.getUser(userId);
+        if (user == null){
+            return "user not found";
+        }
+
+        List<Booking> bookings = new ArrayList<>();
+        bookingRepository.findAll().forEach(booking -> {
+            if (booking.getUserId() == userId) {
+                bookings.add(booking);
+            }
+        });
+
+        return bookings;
+    }
+
+    @RequestMapping(
             value = "/getbookingdetail/{bookingId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public Object getBooking(@RequestHeader("Authorization") String value, @PathVariable("bookingId") long bookingId) throws Exception {
+    public Object getBooking(@RequestHeader("Authorization") String value,
+                             @PathVariable("bookingId") long bookingId) throws Exception {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         return bookingRepository.findById(bookingId).map(booking -> {
             if(booking.getUserId() != userId)
@@ -122,10 +155,12 @@ public class BookingController {
             value = "/getbookingbyhotel/{hotelId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public Object getBookingByHotel(@RequestHeader("Authorization") String value, @PathVariable("hotelId") long hotelId) throws Exception {
+    public Object getBookingByHotel(@RequestHeader("Authorization") String value,
+                                    @PathVariable("hotelId") long hotelId) throws Exception {
         List<Booking> bookings = new ArrayList<Booking>();
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         AtomicBoolean permission = new AtomicBoolean(false);
+
         bookingRepository.findAll().forEach(booking -> {
             if (booking.getHotelId() == hotelId) {
                 Hotel hotel = serviceDiscoveryClient.getHotel(hotelId);
@@ -184,10 +219,10 @@ public class BookingController {
 
     public HashMap<String, Long> remainAvailableRoom(long hotelId, SelectDate selectDate) {
         HotelFullDetail hotelFullDetail = serviceDiscoveryClient.getHotelFullDetail(hotelId);
-        HashMap<String, Long> availableRooms = new HashMap<String, Long>();
-        hotelFullDetail.getRoomTypes().forEach(roomType -> {
-            availableRooms.put(roomType.getRoomTypeName(), roomType.getQuantity());
-        });
+        HashMap<String, Long> availableRooms = new HashMap<>();
+        hotelFullDetail.getRoomTypes().forEach(roomType ->
+                availableRooms.put(roomType.getRoomTypeName(), roomType.getQuantity()));
+
         bookingRepository.findAll().forEach(booking -> {
             if (booking.getHotelId() == hotelId) {
                 if (booking.getBookingStartDate().before(selectDate.getEndDate())
