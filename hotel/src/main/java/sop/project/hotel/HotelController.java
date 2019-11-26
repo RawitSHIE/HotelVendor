@@ -48,7 +48,12 @@ public class HotelController {
             value = "/createhotel",
             produces = {"application/json"},
             method = RequestMethod.POST)
-    public Object createHotel(@RequestBody Hotel hotel){
+    public Object createHotel(@RequestBody Hotel hotel,
+                              @RequestHeader("Authorization") String value) throws Exception{
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+        List<Integer> userIds = new ArrayList<>();
+        userIds.add(userId);
+        hotel.setUsers_id(userIds);
         return hotelRespository.save(hotel);
     }
 
@@ -57,13 +62,14 @@ public class HotelController {
             produces = {"application/json"},
             method = RequestMethod.POST
     )
-    public Object updatehotel(@RequestHeader("Authorization") String value, @RequestBody Map<String, Object> body,
+    public Object updatehotel(@RequestHeader("Authorization") String value,
+                              @RequestBody Map<String, Object> body,
                               @PathVariable("hotelId") long hotelId) throws Exception {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         boolean canUpdate = false;
         Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
         for(int user_id: hotel.getUsers_id()){
-            if(user_id == userId) {
+            if (user_id == userId) {
                 canUpdate = true;
             }
         }
@@ -99,16 +105,17 @@ public class HotelController {
             value = "/createroomtype/{hotelId}",
             produces = {"application/json"},
             method = RequestMethod.POST)
-    public Object createRoomType(@RequestHeader("Authorization") String value, @RequestBody RoomType roomType,
+    public Object createRoomType(@RequestHeader("Authorization") String value,
+                                 @RequestBody RoomType roomType,
                                  @PathVariable("hotelId") long hotelId) throws Exception {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         return hotelRespository.findById(hotelId).map( hotel -> {
             boolean canUpdate = false;
-            for(int user_id: hotel.getUsers_id()){
-                if(userId == user_id)
+            for (int user_id: hotel.getUsers_id()) {
+                if (userId == user_id)
                     canUpdate = true;
             }
-            if(canUpdate == false)
+            if( canUpdate == false )
                 return "you can't update (permission)";
             List<String> allType = new ArrayList<String>();
             List<RoomType> types = new ArrayList<RoomType>();
@@ -179,22 +186,23 @@ public class HotelController {
                                  @RequestBody Map<String, Object> body) throws Exception {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         boolean canUpdate = false;
-        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
-        for(int user_id: hotel.getUsers_id()){
-            if(user_id == userId) {
+        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(
+                () -> new NotFoundException("Hotel Does't Exist"));
+        for (int user_id: hotel.getUsers_id()) {
+            if (user_id == userId) {
                 canUpdate = true;
             }
         }
-        if(canUpdate == false)
+        if (!canUpdate)
             return "you can't update (permission)";
         RoomType roomTypes = new RoomType();
         return roomTypeRepository.findById(roomTypeId).map(roomType -> {
             if (body.get("roomTypeName") != null)
                 roomType.setRoomTypeName((String) body.get("roomTypeName"));
             if (body.get("price") != null)
-                roomType.setPrice((Double) body.get("price"));
+                roomType.setPrice((double) body.get("price"));
             if (body.get("quantity") != null)
-                roomType.setQuantity((Long) body.get("quantity"));
+                roomType.setQuantity(((Integer) body.get("quantity")).longValue());
             if (body.get("roomTypeImages") != null)
                 roomType.setRoomTypeImages((List<String>) body.get("roomTypeImages"));
 

@@ -70,7 +70,7 @@ public class RoomType extends AuditModel{
         this.price = price;
     }
 
-    public void setQuantity(long quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 
