@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sop.project.booking.exception.NotFoundException;
 import sop.project.booking.model.Booking;
@@ -42,8 +44,8 @@ public class BookingController {
             value = "/createBooking",
             produces = "application/json",
             method = RequestMethod.POST)
-    public Object createBooking(@RequestHeader("Authorization") String value,
-                                @RequestBody BookingRoomDetail bookingRoomTypeDetail) throws Exception {
+    public ResponseEntity createBooking(@RequestHeader("Authorization") String value,
+                                        @RequestBody BookingRoomDetail bookingRoomTypeDetail) throws Exception {
         Hotel hotel = serviceDiscoveryClient.getHotel(bookingRoomTypeDetail.getHotelId());
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         bookingRoomTypeDetail.setUserId(userId);
@@ -61,7 +63,7 @@ public class BookingController {
                     .after(bookingRoomTypeDetail.getBookingEndDate())
                     || bookingRoomTypeDetail.getBookingCreateDate()
                     .after(bookingRoomTypeDetail.getBookingStartDate()) ) {
-                return "invalid date";
+                return new ResponseEntity("invalid date", HttpStatus.NOT_ACCEPTABLE);
             }
 
             HashMap<String, Long> remainAvailableRoom =
@@ -75,10 +77,10 @@ public class BookingController {
             for (int i = 0; i < bookingRoomTypeDetail.getRoomTypeRequests().size(); i++) {
                 RoomTypeRequest roomRequest = bookingRoomTypeDetail.getRoomTypeRequests().get(i);
                 if (roomTypes.size() == 0 || !roomTypes.contains(roomRequest.getRoomTypeName())) {
-                    return "invalid room type";
+                    return new ResponseEntity("invalid room type", HttpStatus.NOT_ACCEPTABLE);
                 }
                 if (roomRequest.getQuantity() > remainAvailableRoom.get(roomRequest.getRoomTypeName())){
-                    return "request quantity exceed availibility";
+                    return new ResponseEntity("request quantity exceed availibility", HttpStatus.NOT_ACCEPTABLE) ;
                 }
             }
 
@@ -102,20 +104,20 @@ public class BookingController {
             });
             bookingRepository.save(booking);
 
-            return new BookingFullDetail(hotel, user, booking, roomTypeDetails);
+            return new ResponseEntity(new BookingFullDetail(hotel, user, booking, roomTypeDetails), HttpStatus.OK);
         }
 
-        return "invalid booking information";
+        return new ResponseEntity("invalid booking information", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @RequestMapping(
             value = "/getbookingbyuser/{userId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public Object getBookingByUser(@PathVariable("userId") long userId) {
+    public ResponseEntity getBookingByUser(@PathVariable("userId") long userId) {
         User user = serviceDiscoveryClient.getUser(userId);
         if (user == null){
-            return "user not found";
+            return new ResponseEntity("user not found", HttpStatus.NOT_ACCEPTABLE);
         }
 
         List<Booking> bookings = new ArrayList<>();
@@ -125,7 +127,7 @@ public class BookingController {
             }
         });
 
-        return bookings;
+        return new ResponseEntity(bookings, HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -137,7 +139,7 @@ public class BookingController {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         return bookingRepository.findById(bookingId).map(booking -> {
             if(booking.getUserId() != userId)
-                return "you can't get booking detail (permission)";
+                return new ResponseEntity("you can't get booking detail (permission)", HttpStatus.FORBIDDEN);
             List<RoomTypeDetail> roomTypeDetails = new ArrayList<RoomTypeDetail>();
             roomTypeDetailRepository.findAll().forEach(roomTypeDetail -> {
                 if (roomTypeDetail.getBooking().getId() == bookingId) {
@@ -147,7 +149,7 @@ public class BookingController {
             Hotel hotel = serviceDiscoveryClient.getHotel(booking.getHotelId());
             User user = serviceDiscoveryClient.getUser(booking.getUserId());
 
-            return new BookingFullDetail(hotel, user, booking, roomTypeDetails);
+            return new ResponseEntity(new BookingFullDetail(hotel, user, booking, roomTypeDetails), HttpStatus.OK);
         }).orElseThrow(() -> new NotFoundException("booking doesn't exist"));
     }
 
@@ -155,8 +157,8 @@ public class BookingController {
             value = "/getbookingbyhotel/{hotelId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public Object getBookingByHotel(@RequestHeader("Authorization") String value,
-                                    @PathVariable("hotelId") long hotelId) throws Exception {
+    public ResponseEntity getBookingByHotel(@RequestHeader("Authorization") String value,
+                                            @PathVariable("hotelId") long hotelId) throws Exception {
         List<Booking> bookings = new ArrayList<Booking>();
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         AtomicBoolean permission = new AtomicBoolean(false);
@@ -173,9 +175,9 @@ public class BookingController {
             }
         });
         if (!permission.get())
-            return "you can't get booking detail (permission)";
+            return new ResponseEntity("you can't get booking detail (permission)", HttpStatus.FORBIDDEN);
         else
-            return bookings;
+            return new ResponseEntity(bookings, HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -208,17 +210,23 @@ public class BookingController {
             method = RequestMethod.POST)
     public Object remainRoom(@PathVariable long hotelId, @RequestBody SelectDate selectDate) {
         HashMap<String, Long> availableRooms = remainAvailableRoom(hotelId, selectDate);
+        if (availableRooms == null) {
+            return new ResponseEntity("Hotel Unreachable", HttpStatus.NOT_ACCEPTABLE);
+        }
         HotelFullDetail hotelFullDetail = serviceDiscoveryClient.getHotelFullDetail(hotelId);
         List<RoomType> availableRoomTypes = hotelFullDetail.getRoomTypes();
         availableRoomTypes.forEach(roomType -> {
             roomType.setQuantity(availableRooms.get(roomType.getRoomTypeName()));
         });
 
-        return availableRoomTypes;
+        return new ResponseEntity(availableRoomTypes, HttpStatus.OK);
     }
 
     public HashMap<String, Long> remainAvailableRoom(long hotelId, SelectDate selectDate) {
         HotelFullDetail hotelFullDetail = serviceDiscoveryClient.getHotelFullDetail(hotelId);
+        if (hotelFullDetail == null) {
+            return null;
+        }
         HashMap<String, Long> availableRooms = new HashMap<>();
         hotelFullDetail.getRoomTypes().forEach(roomType ->
                 availableRooms.put(roomType.getRoomTypeName(), roomType.getQuantity()));
