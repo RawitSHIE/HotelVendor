@@ -61,8 +61,6 @@
                 <div class="row justify-content-center">
                     
                     <div class="row">
-                        {{ searchRoom }}
-                        Searh Room by :
                         <div class="col">
                             <input type="date" placeholder="Quantity " class="form-control ml-auto mr-auto mb-3" v-model="searhtStart">                            
                             
@@ -78,7 +76,18 @@
                         </div>
                         
                         
+                        
                     </div>
+                    
+                    
+                </div>
+                <div v-for="i in searchRoom">
+                    <h6 class="text-center" style="color: whitesmoke;">
+                        Room : {{ i.roomTypeName }} 
+                        Price : {{ i.price }} 
+                        Quantity : {{ i.quantity }}
+                        
+                    </h6>
                     
                 </div>
             </div>
@@ -157,7 +166,6 @@
             
             <div class="card m-5 p-3 shadow" style="width: 100%; display: block;" v-for="room in info">
                 <div class="col text-right mr-4">
-                    <span class="span-bg" style="color: rgb(0, 166, 81);">{{ room.quantity }} ห้องว่าง</span>
                 </div> 
                 <div class="row">
                     <div class="col-4">
@@ -347,15 +355,15 @@
                 axios.post('http://bookingservice-260006.appspot.com/freeroom/'+this.link, {
                     
                     // id,price,tpye
-                    startDate : this.searhtStart, 
-                    endDate : this.searhEnd 
+                    startDate : this.searhtStart+' '+"13:00:00",
+                    endDate : this.searhEnd+' '+"11:00:00",
                     
                     
                 },)
                 .then((response) => {
                     const data = response.data;
                     this.searchRoom =  data;
-    
+                    
                 })
                 
                 .catch(error => {
@@ -423,20 +431,20 @@
                     
                     if(error.response.status == 406){
                         this.response_status = true
-                    swal({
-                        title: "Invalid Date!",
-                        icon: "error",
-                        button: "OK",
-                    })
+                        swal({
+                            title: "Invalid Date!",
+                            icon: "error",
+                            button: "OK",
+                        })
                     }else{
                         this.response_status = true
-                    swal({
-                        title: "Error!",
-                        icon: "error",
-                        button: "OK",
-                    })
+                        swal({
+                            title: "Error!",
+                            icon: "error",
+                            button: "OK",
+                        })
                     }
-                 
+                    
                     
                 })
                 ;
