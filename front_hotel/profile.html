@@ -191,7 +191,7 @@
                             
                             this.info = [];
                             
-                            axios.get('https://hotelservice.appspot.com/allhotel')
+                            axios.get('https://zuulservice-260310.appspot.com/hotelroomdetail/allhotel')
                             .then((response) => {
                                 const data = response.data; // [{}, {}]
                                 this.hotelAll = data;
@@ -205,7 +205,7 @@
                             
                             
                             
-                            axios.get('http://bookingservice-260006.appspot.com//getbookingbyuser',
+                            axios.get('https://zuulservice-260310.appspot.com/booking//getbookingbyuser',
                             {
                                 headers: {
                                     Authorization: localStorage.token
@@ -217,7 +217,7 @@
                             })
                             
                             
-                            axios.get('https://user-259905.appspot.com/user/me',
+                            axios.get('https://zuulservice-260310.appspot.com/userdetail/user/me',
                             {
                                 headers: {
                                     Authorization: localStorage.token
@@ -238,7 +238,7 @@
                             
                             addUser() {
                                 this.tel.push(this.telphone)
-                                axios.post('https://user-259905.appspot.com/user', {
+                                axios.post('https://zuulservice-260310.appspot.com/userdetail/user', {
                                     
                                     username: this.username,
                                     password: this.password,

@@ -14,6 +14,12 @@
     
     
     <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
+    
     
     
     <title>HOTEL</title>
@@ -249,7 +255,7 @@
             
             
             
-            axios.get('http://bookingservice-260006.appspot.com/getbookingbyhotel/'+this.link,
+            axios.get('https://zuulservice-260310.appspot.com/booking/getbookingbyhotel/'+this.link,
             {
                 headers: {
                     Authorization: localStorage.token
@@ -260,7 +266,7 @@
                 this.bookAll = data;
             }),
             
-            axios.get('https://user-259905.appspot.com/alluser')
+            axios.get('https://zuulservice-260310.appspot.com/userdetail/alluser')
             .then((response) => {
                 const data = response.data; // [{}, {}]
                 this.alluser = data;
@@ -271,7 +277,7 @@
             this.info = [];
             
             
-            axios.get('https://user-259905.appspot.com/user/me',
+            axios.get('https://zuulservice-260310.appspot.com/userdetail/user/me',
             {
                 headers: {
                     Authorization: localStorage.token
@@ -283,7 +289,7 @@
             }),
             
             
-            axios.get('https://hotelservice.appspot.com/allhotel')
+            axios.get('https://zuulservice-260310.appspot.com/hotelroomdetail/allhotel')
             .then((response) => {
                 const data = response.data; // [{}, {}]
                 this.info = data;
@@ -309,9 +315,9 @@
             
             
             updateBooking(id) {
-                axios.post('http://bookingservice-260006.appspot.com/updateBookingStatus/'+id, {
+                axios.post('https://zuulservice-260310.appspot.com/booking/updateBookingStatus/'+id, {
 
-                    bookingStatus : "Cancel"
+                    status : "Cancel"
                     
                 },
                 { headers: {
@@ -321,21 +327,36 @@
                 .then((response) => {
                     const data = response.data;
                     this.user = data
+                    if(response.status == 200) {
+                                this.response_status = true
+                                swal({
+                                    title: "Update Success!",
+                                    icon: "success",
+                                    button: "OK",
+                                });
+                            }
                     
                 });
             },
             
             
-            logout() {
-                axios.post('https://hotelservice.appspot.com/createhotel', {
+              logout() {
+                        axios.post('https://zuulservice-260310.appspot.com/userdetail/logout', 
+                        {
+                            
+                            
+                        }, {headers: {
+                            Authorization: localStorage.token
+                        }})
+                        .then((response) => {
+                            const data = response.data;
+                            this.user = data
+                            this.token = ''
+                            localStorage.token  = ''
+                            
+                        });
+                    },
                     
-                })
-                .then((response) => {
-                    const data = response.data;
-                    this.user = data
-                    
-                });
-            },
             
             persist(id) {
                 this.link = id
@@ -344,7 +365,7 @@
             },
             
             addUser() {
-                axios.post('https://hotelservice.appspot.com/createhotel', {
+                axios.post('https://zuulservice-260310.appspot.com/hotelroomdetail/createhotel', {
                     
                     hotelName : "EarthHotel",
                     country : "Thailand",

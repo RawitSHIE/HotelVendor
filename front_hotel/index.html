@@ -259,7 +259,7 @@
                     this.info = [];
                     
                     
-                    axios.get('https://user-259905.appspot.com/user/me',
+                    axios.get('https://zuulservice-260310.appspot.com/userdetail/user/me',
                     {
                         headers: {
                             Authorization: localStorage.token
@@ -271,7 +271,7 @@
                     }),
                     
                     
-                    axios.get('https://hotelservice.appspot.com/allhotel')
+                    axios.get('https://zuulservice-260310.appspot.com/hotelroomdetail/allhotel')
                     .then((response) => {
                         const data = response.data; // [{}, {}]
                         this.info = data;
@@ -294,7 +294,7 @@
                 methods: {
                     
                     logout() {
-                        axios.post('https://user-259905.appspot.com/logout', 
+                        axios.post('https://zuulservice-260310.appspot.com/userdetail/logout', 
                         {
                             
                             
@@ -317,7 +317,7 @@
                     },
                     
                     addUser() {
-                        axios.post('https://hotelservice.appspot.com/createhotel', {
+                        axios.post('https://zuulservice-260310.appspot.com/hotelroomdetail/createhotel', {
                             
                             hotelName : "EarthHotel",
                             country : "Thailand",

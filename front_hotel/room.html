@@ -167,7 +167,6 @@
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">End Date :</label>
                         <div class="col-sm-8">
-                            {{ startDate }}                                
                             <input type="date" placeholder="date " class="form-control ml-auto mr-auto mb-3" v-model="endDate">                            
                         </div>
                     </div>
@@ -330,7 +329,7 @@
                 this.token = localStorage.token;
             }
             
-            axios.get('https://user-259905.appspot.com/user/me',
+            axios.get('https://zuulservice-260310.appspot.com/userdetail/user/me',
             {
                 headers: {
                     Authorization: localStorage.token
@@ -345,7 +344,7 @@
             this.info = [];
             
             
-            axios.get('http://hotelservice.appspot.com/getallroomtype/'+this.link)
+            axios.get('https://zuulservice-260310.appspot.com/hotelroomdetail/getallroomtype/'+this.link)
             .then((response) => {
                 const data = response.data; // [{}, {}]
                 this.info = data;
@@ -373,7 +372,7 @@
             
             search(){
                 
-                axios.post('http://bookingservice-260006.appspot.com/freeroom/'+this.link, {
+                axios.post('https://zuulservice-260310.appspot.com/booking/freeroom/'+this.link, {
                     
                     // id,price,tpye
                     startDate : this.searhtStart+' '+"13:00:00",
@@ -412,7 +411,7 @@
                 this.test++
             },
             booking() {
-                axios.post('http://bookingservice-260006.appspot.com/createBooking', {
+                axios.post('https://zuulservice-260310.appspot.com/booking/createBooking', {
                     
                     // id,price,tpye
                     userId : this.user.id,

@@ -12,7 +12,9 @@ html  {
   background: rgb(255, 230, 183);
 }
 
-
+button {
+  cursor: pointer;
+}
 
 #form-1 input{
   width: 100%;
