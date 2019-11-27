@@ -8,6 +8,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -46,7 +48,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestBody Map<String, String> body) throws Exception {
+	public Object login(@RequestBody Map<String, String> body) throws Exception {
 		String username = body.get("username");
 		String password = body.get("password");
 		List<User> users = userRepository.findAll();
@@ -57,7 +59,7 @@ public class UserController {
 				return token;
 			}
 		}
-		return "incorrect username or password";
+		return new ResponseEntity("incorrect username or password", HttpStatus.FORBIDDEN);
 	}
 
 	@PostMapping("/logout")
@@ -75,23 +77,23 @@ public class UserController {
 	public Object updateUser(@RequestHeader("Authorization") String value, @RequestBody Map<String, Object> body) throws Exception {
 		int userId = serviceDiscoveryClient.getUserId("Authorization", value);
 		User this_user = userRepository.findById(userId).orElse(null);
-		if(body.get("username")!=null) {
+		if(body.get("username") != null) {
 			this_user.setUsername((String) body.get("username"));
 			serviceDiscoveryClient.updateUser("Authorization", value, this_user.getUsername(), this_user.getPassword());
 		}
-		if(body.get("password")!=null) {
+		if(body.get("password") != null) {
 			this_user.setPassword((String) body.get("password"));
 			serviceDiscoveryClient.updateUser("Authorization", value, this_user.getUsername(), this_user.getPassword());
 		}
-		if(body.get("firstName")!=null)
+		if(body.get("firstName") != null)
 			this_user.setFirstName((String) body.get("firstName"));
-		if(body.get("lastName")!=null)
+		if(body.get("lastName") != null)
 			this_user.setLastName((String) body.get("lastName"));
-		if(body.get("middleName")!=null)
+		if(body.get("middleName") != null)
 			this_user.setMiddleName((String) body.get("middleName"));
-		if(body.get("tel")!=null)
+		if(body.get("tel") != null)
 			this_user.setTel((List<String>) body.get("tel"));
-		if(body.get("email")!=null)
+		if(body.get("email") != null)
 			this_user.setEmail((String) body.get("email"));
 		return userRepository.save(this_user);
 	}
