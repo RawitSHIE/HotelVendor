@@ -355,14 +355,7 @@
                 .then((response) => {
                     const data = response.data;
                     this.searchRoom =  data;
-                    if(response.status == 200) {
-                        this.response_status = true
-                        swal({
-                            title: "Booking Success!",
-                            icon: "success",
-                            button: "OK",
-                        });
-                    }
+    
                 })
                 
                 .catch(error => {

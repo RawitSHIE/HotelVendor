@@ -106,7 +106,6 @@
                             <div class=" col-lg"> 
                                 
                                 <h1 class="text-center mt-5 text-shadow">Update Hotel
-                                    {{ response_status }}
                                 </h1>
                                 <hr style="width: 50%; border: 1px solid black;" class="mt-0 mb-5">
                                 
@@ -232,9 +231,12 @@
                     
                 </div>
                 
+                <h1 style="color: red; text-align: center;" class="p-5">HOTEL NOT FOUND !</h1>
+                
                 <div class="col a" v-for="hotel in info">
                     <div v-for="yourHotel in hotel.users_id">
                         <div v-if="yourHotel == user.id">
+                            {{ count++ }}
                             <div class="card flex-row flex-wrap shadow ml-auto mr-auto m-5" style="width: 80%;" id="hotelCard">
                                 <div class="card border-0" style="width: 18em;">
                                     <img src="img/room1.jpg" alt="" style="width: 100%;" class="m-0 p-0">
@@ -296,6 +298,7 @@
                 el: '#app',
                 data () {
                     return {
+                        count: '',
                         response_status: false,
                         updateShow: false,
                         addShow: false,

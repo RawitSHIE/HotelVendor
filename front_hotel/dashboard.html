@@ -56,24 +56,19 @@
         </nav>
         
         <div class="container">
+
+            <div class="row">
+                    <button class="btn btn-warning shadow"  style=" border-radius: 30px;" @click="bookingId()">Cancle</button>
+
+            </div>
+
+  
             <div class="card mb-4 shadow">
                 <div class="card-header">
                     Room Type
                 </div>
                 <div class="card-body">
-                    <div class="row m-2 mt-4">
-                        <div class="col">
-                            Choose your Hotel   
-                            <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
-                            style="width: 3em; height: 2em; display: inline;" v-model="hotelId">
-                            <option v-for="hotel in hotelSearchResult"v-bind:value="hotel.hotelId">
-                                {{ hotel.hotelName }} 
-                            </option>
-                        </select> entries
-                    </div>
-                    <div class="col text-right">
-                        Search: <input class="form-control" style="display: inline; width: 12em; height: 2em;">
-                    </div>
+                    
                 </div>
                 
                 
@@ -202,6 +197,7 @@
                 bookAll: '',
                 alluser: '',
                 token: '',
+                bookid: '',
                 
             }
         },
@@ -285,6 +281,10 @@
             }
         },
         methods: {
+
+           bookingId(booked) {
+            this.bookid++
+           },
             
             logout() {
                 axios.post('https://hotelservice.appspot.com/createhotel', {
