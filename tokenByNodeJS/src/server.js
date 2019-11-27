@@ -18,7 +18,7 @@ const eureka = new Eureka({
   instance: {
     app: "authservice",
     instanceId: "authservice",
-    hostName: "localhost",
+    hostName: "authservicesop-259906.appspot.com",
     ipAddr: "127.0.0.1",
     port: {
       $: 8080,
