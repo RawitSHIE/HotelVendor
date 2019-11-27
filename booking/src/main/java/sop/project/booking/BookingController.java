@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SpringBootApplication
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @EnableJpaAuditing
 @EnableDiscoveryClient
