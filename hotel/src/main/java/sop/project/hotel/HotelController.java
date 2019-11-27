@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sop.project.hotel.exception.NotFoundException;
 import sop.project.hotel.model.*;
@@ -60,21 +62,21 @@ public class HotelController {
     @RequestMapping(
             value = "/updatehotel/{hotelId}",
             produces = {"application/json"},
-            method = RequestMethod.POST
-    )
+            method = RequestMethod.POST)
     public Object updatehotel(@RequestHeader("Authorization") String value,
                               @RequestBody Map<String, Object> body,
                               @PathVariable("hotelId") long hotelId) throws Exception {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         boolean canUpdate = false;
-        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
+        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(
+                () -> new NotFoundException("Hotel Does't Exist"));
         for(int user_id: hotel.getUsers_id()){
             if (user_id == userId) {
                 canUpdate = true;
             }
         }
-        if(canUpdate == false)
-            return "you can't update (permission)";
+        if(!canUpdate)
+            return new ResponseEntity( "you can't update (permission)", HttpStatus.FORBIDDEN);
         if (body.get("hotelName") != null)
             hotel.setHotelName((String) body.get("hotelName"));
         if (body.get("country") != null)
@@ -112,11 +114,12 @@ public class HotelController {
         return hotelRespository.findById(hotelId).map( hotel -> {
             boolean canUpdate = false;
             for (int user_id: hotel.getUsers_id()) {
-                if (userId == user_id)
+                if (userId == user_id) {
                     canUpdate = true;
+                }
             }
-            if( canUpdate == false )
-                return "you can't update (permission)";
+            if(!canUpdate)
+                return new ResponseEntity("you can't update (permission)", HttpStatus.FORBIDDEN);
             List<String> allType = new ArrayList<String>();
             List<RoomType> types = new ArrayList<RoomType>();
 
@@ -131,7 +134,7 @@ public class HotelController {
                     allType.add(type.getRoomTypeName());
                 });
                 if (allType.contains(roomType.getRoomTypeName())) {
-                    return "this room type is Already exist";
+                    return new ResponseEntity("this room type is Already exist", HttpStatus.NO_CONTENT);
                 } else {
                     roomType.setHotel(hotel);
 
@@ -148,8 +151,8 @@ public class HotelController {
             value = "/fullhoteldetail/{hotelId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public Object getHotelFullDetail(@PathVariable("hotelId") long hotelId) {
-        Hotel hotel = hotelRespository.findById(hotelId).map(thatHotel -> thatHotel)
+    public ResponseEntity getHotelFullDetail(@PathVariable("hotelId") long hotelId) {
+        Hotel hotel = hotelRespository.findById(hotelId)
                 .orElseThrow(() -> new NotFoundException("no Hotel found"));
         List<RoomType> roomTypes = new ArrayList<RoomType>();
         roomTypeRepository.findAll().forEach(eachType -> {
@@ -157,7 +160,9 @@ public class HotelController {
                 roomTypes.add(eachType);
             }
         });
-        return new HotelFullDetail(hotel.getHotelId(), hotel, roomTypes);
+        return new ResponseEntity(
+                new HotelFullDetail(hotel.getHotelId(), hotel, roomTypes),
+                HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -194,8 +199,8 @@ public class HotelController {
             }
         }
         if (!canUpdate)
-            return "you can't update (permission)";
-        RoomType roomTypes = new RoomType();
+            return new ResponseEntity("you can't update (permission)",HttpStatus.FORBIDDEN);
+
         return roomTypeRepository.findById(roomTypeId).map(roomType -> {
             if (body.get("roomTypeName") != null)
                 roomType.setRoomTypeName((String) body.get("roomTypeName"));
