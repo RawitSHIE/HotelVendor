@@ -111,10 +111,11 @@ public class BookingController {
     }
 
     @RequestMapping(
-            value = "/getbookingbyuser/{userId}",
+            value = "/getbookingbyuser",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public ResponseEntity getBookingByUser(@PathVariable("userId") long userId) {
+    public ResponseEntity getBookingByUser(@RequestHeader("Authorization") String value) throws Exception {
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         User user = serviceDiscoveryClient.getUser(userId);
         if (user == null){
             return new ResponseEntity("user not found", HttpStatus.NOT_ACCEPTABLE);
