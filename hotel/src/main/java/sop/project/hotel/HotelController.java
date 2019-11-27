@@ -179,7 +179,7 @@ public class HotelController {
                                  @RequestBody Map<String, Object> body) throws Exception {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         boolean canUpdate = false;
-        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel Does't Exist"));
+        Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel Doesn't Exist"));
         for(int user_id: hotel.getUsers_id()){
             if(user_id == userId) {
                 canUpdate = true;
