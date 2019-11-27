@@ -13,6 +13,7 @@ import sop.project.booking.exception.NotFoundException;
 import sop.project.booking.model.Booking;
 import sop.project.booking.model.RoomTypeDetail;
 import sop.project.booking.model.extendModel.BookingRoomDetail;
+import sop.project.booking.model.extendModel.BookingStatus;
 import sop.project.booking.model.extendModel.requestModel.*;
 import sop.project.booking.model.extendModel.response.BookingFullDetail;
 import sop.project.booking.repository.BookingRepository;
@@ -154,6 +155,47 @@ public class BookingController {
     }
 
     @RequestMapping(
+            value = "/updateBookingStatus/{bookingId}",
+            produces = {"application/json"},
+            method = RequestMethod.POST)
+    public Object updateBooking(@RequestHeader("Authorization") String value,
+                                @PathVariable("bookingId") long bookingId,
+                                @RequestBody HashMap<String, String> status) throws Exception {
+        Date currentDate = new Date();
+        int userId = serviceDiscoveryClient.getUserId("Authorization", value);
+        return bookingRepository.findById(bookingId).map(booking -> {
+            if (booking.getBookingStartDate().after(currentDate) && status.get("status") != null) {
+                Hotel hotel = serviceDiscoveryClient.getHotel(booking.getHotelId());
+                if (hotel == null) {
+                    return new ResponseEntity("hotel can't be found", HttpStatus.NOT_ACCEPTABLE);
+                }
+
+                boolean canUpdate = false;
+                for (long id : hotel.getUsers_id()){
+                    if (userId == id) {
+                        canUpdate = true;
+                        break;
+                    }
+                }
+                if (!canUpdate){
+                    return new ResponseEntity("you can't get booking detail (permission)", HttpStatus.FORBIDDEN);
+                }
+
+                String newStatus = status.get("status");
+                if (newStatus.equals("Cancel")) {
+                    booking.setBookingStatus(BookingStatus.Cancelled);
+                    return new ResponseEntity(bookingRepository.save(booking), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity("status type not acceptable", HttpStatus.NOT_ACCEPTABLE);
+                }
+            } else {
+                return new ResponseEntity("invalid type request", HttpStatus.BAD_REQUEST);
+            }
+        }).orElseThrow(() -> new NotFoundException("booking doesn't exist"));
+    }
+
+
+    @RequestMapping(
             value = "/getbookingbyhotel/{hotelId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
@@ -236,7 +278,7 @@ public class BookingController {
                 if (booking.getBookingStartDate().before(selectDate.getEndDate())
                         && booking.getBookingEndDate().after(selectDate.getStartDate())) {
                     roomTypeDetailRepository.findAll().forEach(roomTypeDetail -> {
-                        if (roomTypeDetail.getBooking().getId() == booking.getId()) {
+                        if (roomTypeDetail.getBooking().getId() == booking.getId() && booking.getBookingStatus().equals(BookingStatus.Booked)) {
                             availableRooms.put(
                                     roomTypeDetail.getRoomTypeName(),
                                     availableRooms.get(roomTypeDetail.getRoomTypeName()) - roomTypeDetail.getQuantity()
