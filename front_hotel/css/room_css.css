@@ -7,6 +7,20 @@ button {
   cursor: pointer;
 }
 
+.dropdown-menu {
+  background: rgb(225, 136, 2) !important;
+  }
+  
+  .dropdown-item {
+   background:  rgb(225, 136, 2) !important;
+   
+  }
+  
+  .dropdown-item :hover{
+    color: black !important;
+   }
+  
+
 .span-bg {
     padding: 4px 18px;
     background-color: #f2faf6;

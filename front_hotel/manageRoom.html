@@ -13,6 +13,11 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
+    
+    
     
     
     <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
@@ -26,55 +31,57 @@
         
         
         
+
         
-        <!-- <div v-for="r in room.roomTypes">
-            {{ r.roomTypeName }} {{ r.id }} {{ r.price }} {{ r.quantity }}
-        </div> -->
-        {{ room }}
-        
-        <nav class="navbar navbar-toggleable-md shadow-lg mb-5">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="m-4" href="index.html" style="color:orange; font-size: 2em;">HOTELVENDER</a>
-            
-            <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="room.html">room</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="reserve.html">reserve</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.html">dashboard</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="createHotel.html">create hotel</a>
-                    </li>
-                    
-                    
-                </ul>
-                <div class="mr-auto"></div>
+        <nav class="navbar navbar-toggleable-md shadow-lg mb-5" style="background: black;">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="m-4" href="index.html" style="color:orange; font-size: 2em;">HOTELVENDER</a>
                 
-                
-                
-                <form class="form-inline my-2 my-lg-0">
+                <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="manageHotel.html">Manage Hotel</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                    <div class="mr-auto"></div>
                     
-                    <h3 style="color: aliceblue;">{{ user.firstName }}</h3>
-                    <a href="login.html"><button class="btn btn-outline-warning my-2 my-sm-0 mr-2" type="button">login</button></a>
-                    <a><button class="btn btn-outline-warning my-2 my-sm-0 mr-2" type="submit" v-on:submit="logout()">logout</button></a>
                     
-                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">register</button>
                     
-                </form>
-            </div>
-        </nav>
+                    <form class="form-inline my-2 my-lg-0">
+                        
+                        <a href="login.html"><button class="btn btn-outline-warning my-2 my-sm-0 mr-2" type="button">login</button></a>
+                        
+                        
+                        <span v-if="token">
+                            
+                            <div class="dropdown">
+                                <a class="btn btn-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span style="color: black;">{{ user.firstName }}</span><i  style="color: black;" class="ml-2 fas fa-user-circle"></i> 
+                                </a>
+                                
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="profile.html">Profile</a>
+                                    <a class="dropdown-item" href="register.html">Resgister</a>
+                                    <a class="dropdown-item" href="#" @click="logout()">Logout</a>
+                                </div>
+                            </div>
+                            
+                        </span>
+                        
+                        
+                    </form>
+                </div>
+            </nav>
+    
         
         
         <!-- {{ info }} -->

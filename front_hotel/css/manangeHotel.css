@@ -13,6 +13,20 @@ button {
   
 }
 
+.dropdown-menu {
+  background: rgb(225, 136, 2) !important;
+  }
+  
+  .dropdown-item {
+   background:  rgb(225, 136, 2) !important;
+   
+  }
+  
+  .dropdown-item :hover{
+    color: black !important;
+   }
+  
+
 a {
   text-decoration: none;
 }
