@@ -25,45 +25,31 @@
         <!-- test VUE can run -->
         <!-- {{ message }} -->
         
-        {{ info }}
-        {{ tel }}
-        
-        
+
         <div class="container mt-auto mb-auto">
             
             <!-- <h2>Hotel Booking</h2> -->
             
-            <div class="card shadow m-5" style="">
+            <div class="card shadow m-5">
                 <div class="card-body p-0">
                     <div class="row">
-                        <div class=" col-lg bg-login-image" style="display: block; height: 30em;"> </div>
                         <div class=" col-lg"> 
                             
-                            <h1 class="text-center mt-5 text-shadow">Register</h1>
+                            <h1 class="text-center mt-5 text-shadow">Profile</h1>
                             <hr style="width: 50%; border: 1px solid black;" class="mt-0 mb-5">
                             
-                            <div class="row mr-2" id="form-1">
-                                
-                                <div class="col">
-                                    <input v-model="firstname" type="input" placeholder="Firstname" class="form-control ml-auto mr-auto mb-3 " style="border-radius: 25px;">                            
-                                    <input v-model="telphone" type="input" placeholder="Tel" class="form-control ml-auto mr-auto mb-3 " style="border-radius: 25px;">                            
-                                    
-                                </div>
-                                <div class="col">
-                                    <input v-model="lastname" type="input" placeholder="Lastname" class="form-control ml-auto mr-auto mb-3 " style="border-radius: 25px;">    
-                                    <input v-model="email" type="input" placeholder="Email" class="form-control ml-auto mr-auto mb-3 " style="border-radius: 25px;">                            
-                                    
-                                </div>
-                                
-                            </div>
+                         
+                            {{ info.firstName }}
+
+                            {{ info.lastName }}
+
+                            {{ info.email }}
+                            <span v-for="num in info.tel">
+                                {{ num }}
+                            </span>
                             
-                            <div class="mr-2">
-                                <input v-model="username" type="input" placeholder="Username" class="form-control ml-auto mr-auto mb-3 " style="border-radius: 25px;">                            
-                                <input v-model="password" type="password" placeholder="Password" class="form-control ml-auto mr-auto mb-3 " style="border-radius: 25px;">                            
-                            </div>
                             <div class="text-center mt-4 mb-4">
                                 
-                                <button @click="addUser()" class="btn btn-warning shadow"  style="width: 70%; border-radius: 30px;">Register</button>
                             </div>
                             
                             <hr style="width: 70%;">
@@ -111,6 +97,7 @@
                     email: '',
                     username: '',
                     password: '',
+                    bookingdetail: ''
                 }
             },
             
@@ -136,6 +123,18 @@
                 }
                 
                 this.info = [];
+
+
+                axios.get('http://bookingservice-260006.appspot.com//getbookingbyuser',
+                {
+                    headers: {
+                        Authorization: localStorage.token
+                    }
+                })
+                .then((response) => {
+                    const data = response.data; // [{}, {}]
+                    this.info = data;
+                })
                 
                 
                 axios.get('https://user-259905.appspot.com/user/me',

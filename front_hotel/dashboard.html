@@ -7,9 +7,11 @@
     
     <link rel="stylesheet" href="css/index_css.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    
+    
     
     <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
     
@@ -17,8 +19,7 @@
     <title>HOTEL</title>
 </head>
 <body>
-    <div id="app"> 
-        
+    <div id="app">         
         <nav class="navbar navbar-toggleable-md shadow-lg mb-5">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -62,12 +63,12 @@
                 <div class="card-body">
                     <div class="row m-2 mt-4">
                         <div class="col">
-                            Show   <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
-                            style="width: 3em; height: 2em; display: inline;">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
+                            Choose your Hotel   
+                            <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
+                            style="width: 3em; height: 2em; display: inline;" v-model="hotelId">
+                            <option v-for="hotel in hotelSearchResult"v-bind:value="hotel.hotelId">
+                                {{ hotel.hotelName }} 
+                            </option>
                         </select> entries
                     </div>
                     <div class="col text-right">
@@ -83,201 +84,254 @@
                     <table class="table table-bordered m-2">
                         <thead>
                             <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Rooms</th>
-                                <th scope="col">Status</th>
-                
-                                
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Master bedroom</td>
-                                <td>10 /25</td>
-                                <td><span class="badge badge-pill badge-success">Available</span>
-                                </td>
-                     
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Suit Room</td>
-                                <td>30 /30</td>
-                                <td><span class="badge badge-pill badge-danger pl-3 pr-3">Full</span></td>
-                             
-                       
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Normal Room</td>
-                                <td>7 /10</td>
-                                <td><span class="badge badge-pill badge-success">Available</span>
-                      
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                <!-- <div class="row">
-                    <div class="col text-right m-2">
-                        <button class="btn btn-warning">
-                            Previous
-                        </button>
-                        <button class="btn btn-warning">
-                                Next
-                        </button>
-
-                    </div>
-                </div> -->
-                    
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    <div class="container">
-            <div class="card mb-4 shadow">
-                <div class="card-header">
-                    Customer
-
-                </div>
-                <div class="card-body">
-                    <div class="row m-2 mt-4">
-                        <div class="col">
-                            Show   <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
-                            style="width: 3em; height: 2em; display: inline;">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                        </select> entries
-                    </div>
-                    <div class="col text-right">
-                        Search: <input class="form-control" style="display: inline; width: 12em; height: 2em;">
-                    </div>
-                </div>
-                
-                
-                
-                
-                <div class="table-responsive">
-                    
-                    <table class="table table-bordered m-2">
-                        <thead>
-                            <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Check-in</th>
-                                <th scope="col">Check-out</th>
-                                <th scope="col">Room</th>
+                                <th scope="col">Hotel</th>
+                                <th scope="col">Start</th>
+                                <th scope="col">End</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">User</th>
                                 <th scope="col">Tel</th>
                                 
                                 
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>lorem</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
+                            <tr v-for="(book, index) in bookAll">
+                                <th scope="row">
+                                    
+                                    <div v-for="i in info">
+                                        <div v-if="i.hotelId == book.hotelId">
+                                            {{ i.hotelName }}
+                                        </div>    
+                                    </div>
+                                </th>
+                                <td>{{ book.bookingStartDate }}</td>
+                                <td>{{ book.bookingEndDate }}</td>
+                                <td>{{ book.totalPrice }}<span class="badge badge-pill badge-success"></span>
+                                    <td>
+                                        <div v-for="user in alluser">
+                                            <div v-if="user.id == book.userId">
+                                                {{ user.firstName }}  
+                                                
+                                            </div>
+                                        </div>
+                                    </td>
+                                    
+                                    <td>
+                                        <div v-for="user in alluser">
+                                            <div v-if="user.id == book.userId">
+                                                <div v-for="tel in user.tel">
+                                                    {{ tel }}
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </td>
+                                </div>
                                 
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
                                 
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@mdo</td>
-                                <td>@twitter</td>
-                                <td>@mdo</td>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                        </td>
+                        
+                        
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- <div class="row">
+                <div class="col text-right m-2">
+                    <button class="btn btn-warning">
+                        Previous
+                    </button>
+                    <button class="btn btn-warning">
+                        Next
+                    </button>
                     
-                <div class="row">
-                    <div class="col text-right m-2">
-                        <button class="btn btn-warning">
-                            Previous
-                        </button>
-                        <button class="btn btn-warning">
-                                Next
-                        </button>
-
-                    </div>
                 </div>
-                    
-                </div>
-                
-            </div>
+            </div> -->
+            
         </div>
+        
     </div>
-    
+</div>
+</div>
+
+
 </div>
 
 <style>
-
-.card-header {
-    background: #ffe7c5;
-    border: none;
-    font-weight: bold;
-
-}
-
+    
+    .card-header {
+        background: #ffe7c5;
+        border: none;
+        font-weight: bold;
+        
+    }
+    
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 
 <script>
+    
+    
+    
+    Vue.component('button-counter', {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })
+    
     new Vue({
         el: '#app',
         data () {
             return {
-                info: null,
+                hotelId: '',
+                info: [], // json hotel ที่ get มา
                 loading: true,
                 errored: false,
-                message : 'hello'
+                message : 'hello',
+                searchText: "", // ข้อความในกล่องค้นหา
+                name: '',
+                link: '',
+                user: '',
+                bookAll: '',
+                alluser: '',
+                token: '',
+                
             }
         },
-        filters: {
-            currencydecimal (value) {
-                return value.toFixed(2)
+        
+        computed: {
+            hotelSearchResult() { // function search
+                return this.info.filter(hotel => {
+                    let isMatchTitle = hotel.users_id.includes(this.user.id)
+                    let isMatchContent = hotel.users_id.includes(this.user.id)
+                    return isMatchTitle | isMatchContent 
+                })
             }
         },
+        
         mounted () {
-            axios
-            .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-            .then(response => {
-                this.info = response.data.bpi
+            
+            
+            if (localStorage.token) {
+                this.token = localStorage.token;
+            }
+            
+            
+            if (localStorage.link) {
+                this.link = localStorage.link;
+            }
+            
+            
+            axios.get('http://bookingservice-260006.appspot.com/getbookingbyhotel/'+this.link,
+            {
+                headers: {
+                    Authorization: localStorage.token
+                }
+            })
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.bookAll = data;
+            }),
+            
+            axios.get('https://user-259905.appspot.com/alluser')
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.alluser = data;
+            })
+            
+            
+            
+            this.info = [];
+            
+            
+            axios.get('https://user-259905.appspot.com/user/me',
+            {
+                headers: {
+                    Authorization: localStorage.token
+                }
+            })
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.user = data;
+            }),
+            
+            
+            axios.get('https://hotelservice.appspot.com/allhotel')
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.info = data;
             })
             .catch(error => {
                 console.log(error)
                 this.errored = true
             })
             .finally(() => this.loading = false)
+            
+            
+            
+        },
+        
+        
+        watch: {
+            name(newName) {
+                localStorage.name = newName;
+            }
+        },
+        methods: {
+            
+            logout() {
+                axios.post('https://hotelservice.appspot.com/createhotel', {
+                    
+                })
+                .then((response) => {
+                    const data = response.data;
+                    this.user = data
+                    
+                });
+            },
+            
+            persist(id) {
+                this.link = id
+                localStorage.link = this.link;
+                console.log('now pretend I did more stuff...');
+            },
+            
+            addUser() {
+                axios.post('https://hotelservice.appspot.com/createhotel', {
+                    
+                    hotelName : "EarthHotel",
+                    country : "Thailand",
+                    provinceState : "Bangkok",
+                    district : "Ratchathewi",
+                    street : "Payathai Rd",
+                    users_id : [1, 19, 10],
+                    additionalDetail : "Something like that",
+                    availible : true,
+                    tel : ["0910349301", "0812711778", "0818951414"],
+                    email : ["Rawitgun@facebook.com", "Rawitgun@gmail.com"]
+                    
+                    
+                })
+                .then((response) => {
+                    const data = response.data;
+                    this.info.push(data);
+                    
+                });
+                
+                
+            }
         }
     })
+    
+    
+    
     
 </script>
 

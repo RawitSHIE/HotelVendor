@@ -6,43 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-
+    
     <link rel="stylesheet" href="css/index_css.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    
+    
     
     <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
     
     
     <title>HOTEL</title>
 </head>
 <body>
-    <div id="app"> 
-        {{ info }}
+    <div id="app">     
+        {{ info.hotelName }}
+        <section v-if="errored">
+            <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+        </section>
         
-        <!-- <h1>Bitcoin Price Index</h1>
+        <section v-else>
+            <div v-if="loading">Loading...</div>
             
-            <section v-if="errored">
-                <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
-            </section>
             
-            <section v-else>
-                <div v-if="loading">Loading...</div>
-                
-                <div
-                v-else
-                v-for="currency in info"
-                class="currency"
-                >
-                {{ currency.description }}:
-                <span class="lighten">
-                    <span v-html="currency.symbol"></span>{{ currency.rate_float | currencydecimal }}
-                </span>
-            </div>
             
-        </section> -->
+        </section>
         
         <div class="bg">
             
@@ -59,25 +54,39 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
                         </li>
+                        
                         <li class="nav-item">
-                            <a class="nav-link" href="room.html">room</a>
+                            <a class="nav-link" href="manageHotel.html">Manage Hotel</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="reserve.html">reserve</a>
-                        </li>
-
-                        <li class="nav-item">
-                                <a class="nav-link" href="dashboard.html">dashboard</a>
-                            </li>
-
+                        
+                        
+                        
                     </ul>
                     <div class="mr-auto"></div>
                     
                     
                     
                     <form class="form-inline my-2 my-lg-0">
-                        <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">login</button>
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">register</button>
+                        
+                        <a href="login.html"><button class="btn btn-outline-warning my-2 my-sm-0 mr-2" type="button">login</button></a>
+                        
+                        
+                        <span v-if="token">
+                            
+                            <div class="dropdown">
+                                <a class="btn btn-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span style="color: black;">NACKZA{{ user.firstName }}</span><i  style="color: black;" class="ml-2 fas fa-user-circle"></i> 
+                                </a>
+                                
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="profile.html">Profile</a>
+                                    <a class="dropdown-item" href="register.html">Resgister</a>
+                                    <a class="dropdown-item" href="#" @click="logout()">Logout</a>
+                                </div>
+                            </div>
+                            
+                        </span>
+                        
                         
                     </form>
                 </div>
@@ -87,11 +96,11 @@
                 
                 
                 <div class="container" id="content">
-                    <h1 class="text-center text-shadow" style="color: aliceblue;">Find Hotel</h1>
+                    <h1 id="back"  class="text-center text-shadow" style="color: aliceblue;">Find Hotel</h1>
                     
                     <div class="container text-center">
                         <div class="search-box-wrapper mt-5">
-                            <input type="text" placeholder="Search..." class="search-box-input shadow">
+                            <input type="text" placeholder="Search..." class="search-box-input shadow" v-model="searchText">
                             <button class="search-box-button shadow">
                                 
                                 <span style="color: Mediumslateblue;">
@@ -111,115 +120,235 @@
                             </div> -->
                             
                         </div>
-                        
-                        
-                        <div class="row ml-2 mt-2">
+                        <!--                     
                             
-                            <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01" class="mr-2">
-                            <input class="mr-2"/>
-                            <input class="mr-2"/>
-                            <input class="mr-2"/>
+                            // date input
+                            <div class="row ml-2 mt-2">
+                                
+                                <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01" class="mr-2">
+                                <input class="mr-2"/>
+                                <input class="mr-2"/>
+                                <input class="mr-2"/>
+                                
+                                
+                                <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01">   
+                            </div> -->
                             
                             
-                            <!-- <input type="date" value="2017-01-01" min="2005-01-01" max="2019-01-01">    -->
+                            <div class="row justify-content-center">
+                                
+                                <a href="#hotel"><button class="btn mt-5 shadow text-shadow" id="myBtn" onclick="" title="Go to top" 
+                                    style="border-radius: 100px; background: orange; color: white;
+                                    padding: .75rem 2.5rem .75rem 2.5rem;
+                                    font-size: 1.2em;
+                                    ">search</button></a>
+                                    
+                                </div>
+                            </div>
+                            
                         </div>
-                        <div class="row justify-content-center">
-                            
-                            <a href="#hotel"><button class="btn mt-5 shadow text-shadow" id="myBtn" onclick="" title="Go to top" 
-                                style="border-radius: 100px; background: orange; color: white;
-                                padding: .75rem 2.5rem .75rem 2.5rem;
-                                font-size: 1.2em;
-                                ">search</button></a>
+                        
+                    </div>    
+                    
+                </div>
+                
+                
+                <!-- hotelName : "EarthHotel",
+                    country : "Thailand",
+                    provinceState : "Bangkok",
+                    district : "Ratchathewi",
+                    street : "Payathai Rd",
+                    users_id : [1, 19, 10],
+                    additionalDetail : "Something like that",
+                    availible : true,
+                    tel : ["0910349301", "0812711778", "0818951414"],
+                    email : ["Rawitgun@facebook.com", "Rawitgun@gmail.com"]
+                    
+                -->
+                <div id="hotel"></div>
+                <div class="col a" v-for="hotel in hotelSearchResult">
+                    
+                    
+                    <a href="room.html" @click="persist(hotel.hotelId)">   
+                        <div class="card flex-row flex-wrap shadow ml-auto mr-auto m-5" style="width: 50%;" id="hotelCard">
+                            <div class="card border-0" style="width: 18em;">
+                                <img src="img/room1.jpg" alt="" style="width: 100%;" class="m-0 p-0">
+                            </div>
+                            <div class="col m-4">
+                                <h4 class="card-title mb-1"> {{ hotel.hotelName }}</h4>
+                                <i class="fas fa-map-marker-alt"></i> <small>{{ hotel.provinceState}}, {{ hotel.district }}</small> <br>
+                                <small> {{ hotel.additionalDetail }}  </small>  <br>
+                                <small> contact : <span v-for="number in hotel.tel">{{ number }}, </span>  </small>  
                                 
                             </div>
+                            
+                            <div class="w-100"></div>
+                            
                         </div>
-                        
-                    </div>
+                    </a>
                     
-                </div>    
+                </div>
+                
+                <div v-if="!hotelSearchResult.length" class="text-center">
+                    
+                    <h1 style="color: red; padding: 10em;">SORRY! HOTEL NOT FOUND
+                        
+                    </h1>
+                    
+                </div>
+                
                 
             </div>
         </div>
-
-        <div class="col ">
-
-         <a href="room.html" class="nounderline">   
-        <div class="card flex-row flex-wrap shadow ml-auto mr-auto m-5" style="width: 50%;" id="hotelCard">
-                <div class="card border-0" style="width: 18em;">
-                     <img src="img/room1.jpg" alt="" style="width: 100%;" class="m-0 p-0">
-                </div>
-                <div class="card-block px-5">
-                    <h4 class="card-title mb-1"> Million Hotel Dealsl </h4>
-                    <i class="fas fa-map-marker-alt"></i> <small>Pattaya, Thailand</small> <br>
-
-      
-                </div>
-
-                <div class="w-100"></div>
-            
-            </div>
-        </a>
-<!--         </div>
-
-        <div class="card shadow text-center ml-auto mr-auto p-5" style="top: -100px; border: none; position: relative; width: 70%; height: 20em;">
-                <h1 class="text-left">hotel transivania</h1>
-
-            <div class="row">
-                <div class="col text-left">
-                        <hr>
-                        <img src="img/room1.jpg" width="300px" height="180px"style="border-radius: 10px; overflow: hidden;"> 
-
-                </div>
-                <div class="col">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora soluta nisi optio! Repellat reprehenderit est ab architecto aut, sapiente earum odit, laudantium esse aperiam soluta. Culpa commodi ea natus id!</div>
-            </div>
-            
-        </div> -->
-        <div class="container" id="hotel">
-            
-            
-            
-        </div>
-    </div>
-    
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    
-    
-    <script>
-        new Vue({
-            el: '#app',
-            data () {
-                return {
-                    info: null,
-                    loading: true,
-                    errored: false,
-                    message : 'hello'
-                }
-            },
-            filters: {
-                currencydecimal (value) {
-                    return value.toFixed(2)
-                }
-            },
-            mounted () {
-                axios
-                .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-                .then(response => {
-                    this.info = response.data.bpi
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.errored = true
-                })
-                .finally(() => this.loading = false)
-            }
-        })
         
-    </script>
-    
-    
-</body>
-</html>
+        
+        <script>
+            
+            
+            
+            Vue.component('button-counter', {
+                data: function () {
+                    return {
+                        count: 0
+                    }
+                },
+                template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+            })
+            
+            new Vue({
+                el: '#app',
+                data () {
+                    return {
+                        info: [], // json hotel ที่ get มา
+                        loading: true,
+                        errored: false,
+                        message : 'hello',
+                        searchText: "", // ข้อความในกล่องค้นหา
+                        name: '',
+                        link: '',
+                        user: '',
+                        token: '',
+                        
+                    }
+                },
+                
+                computed: {
+                    hotelSearchResult() { // function search
+                        return this.info.filter(hotel => {
+                            let searchText = this.searchText.toLowerCase()
+                            let isMatchTitle = hotel.hotelName.toLowerCase().includes(searchText)
+                            let isMatchContent = hotel.hotelName.toLowerCase().includes(searchText)
+                            return isMatchTitle | isMatchContent 
+                        })
+                    }
+                },
+                
+                mounted () {
+                    
+                    
+                    if (localStorage.token) {
+                        this.token = localStorage.token;
+                    }
+                    
+                    
+                    if (localStorage.link) {
+                        this.link = localStorage.link;
+                    }
+                    
+                    
+                    
+                    this.info = [];
+                    
+                    
+                    axios.get('https://user-259905.appspot.com/user/me',
+                    {
+                        headers: {
+                            Authorization: localStorage.token
+                        }
+                    })
+                    .then((response) => {
+                        const data = response.data; // [{}, {}]
+                        this.user = data;
+                    }),
+                    
+                    
+                    axios.get('https://hotelservice.appspot.com/allhotel')
+                    .then((response) => {
+                        const data = response.data; // [{}, {}]
+                        this.info = data;
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        this.errored = true
+                    })
+                    .finally(() => this.loading = false)
+                    
+                    
+                    
+                },
+                
+                watch: {
+                    name(newName) {
+                        localStorage.name = newName;
+                    }
+                },
+                methods: {
+                    
+                    logout() {
+                        axios.post('https://user-259905.appspot.com/logout', 
+                        {
+                            
+                            
+                        }, {headers: {
+                            Authorization: localStorage.token
+                        }})
+                        .then((response) => {
+                            const data = response.data;
+                            this.user = data
+                            this.token = ''
+                            localStorage.token  = ''
+                            
+                        });
+                    },
+                    
+                    persist(id) {
+                        this.link = id
+                        localStorage.link = this.link;
+                        console.log('now pretend I did more stuff...');
+                    },
+                    
+                    addUser() {
+                        axios.post('https://hotelservice.appspot.com/createhotel', {
+                            
+                            hotelName : "EarthHotel",
+                            country : "Thailand",
+                            provinceState : "Bangkok",
+                            district : "Ratchathewi",
+                            street : "Payathai Rd",
+                            users_id : [1, 19, 10],
+                            additionalDetail : "Something like that",
+                            availible : true,
+                            tel : ["0910349301", "0812711778", "0818951414"],
+                            email : ["Rawitgun@facebook.com", "Rawitgun@gmail.com"]
+                            
+                            
+                        })
+                        .then((response) => {
+                            const data = response.data;
+                            this.info.push(data);
+                            
+                        });
+                        
+                        
+                    }
+                }
+            })
+            
+            
+            
+            
+        </script>
+        
+        
+    </body>
+    </html>
