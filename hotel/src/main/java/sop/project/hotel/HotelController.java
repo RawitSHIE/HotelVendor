@@ -194,7 +194,7 @@ public class HotelController {
             if (body.get("price") != null)
                 roomType.setPrice((Double) body.get("price"));
             if (body.get("quantity") != null)
-                roomType.setQuantity((Long) body.get("quantity"));
+                roomType.setQuantity(((Integer) body.get("quantity")).longValue());
             if (body.get("roomTypeImages") != null)
                 roomType.setRoomTypeImages((List<String>) body.get("roomTypeImages"));
 
