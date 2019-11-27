@@ -288,7 +288,7 @@ public class BookingController {
                         if (roomTypeDetail.getBooking().getId() == booking.getId() && booking.getBookingStatus().equals(BookingStatus.Booked)) {
                             availableRooms.put(
                                     roomTypeDetail.getRoomTypeName(),
-                                    availableRooms.get(roomTypeDetail.getRoomTypeName()) - roomTypeDetail.getQuantity()
+                                    Math.max(availableRooms.get(roomTypeDetail.getRoomTypeName()) - roomTypeDetail.getQuantity(), 0)
                             );
                         }
                     });
