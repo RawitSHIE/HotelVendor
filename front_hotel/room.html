@@ -421,13 +421,22 @@
                     console.log(error)
                     this.errored = true
                     
-                    
-                    this.response_status = true
+                    if(error.response.status == 406){
+                        this.response_status = true
+                    swal({
+                        title: "Invalid Date!",
+                        icon: "error",
+                        button: "OK",
+                    })
+                    }else{
+                        this.response_status = true
                     swal({
                         title: "Error!",
                         icon: "error",
                         button: "OK",
-                    });
+                    })
+                    }
+                 
                     
                 })
                 ;

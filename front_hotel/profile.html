@@ -25,7 +25,10 @@
         <!-- test VUE can run -->
         <!-- {{ message }} -->
         
-
+        
+        
+        
+        
         <div class="container mt-auto mb-auto">
             
             <!-- <h2>Hotel Booking</h2> -->
@@ -38,151 +41,228 @@
                             <h1 class="text-center mt-5 text-shadow">Profile</h1>
                             <hr style="width: 50%; border: 1px solid black;" class="mt-0 mb-5">
                             
-                         
-                            {{ info.firstName }}
-
-                            {{ info.lastName }}
-
-                            {{ info.email }}
-                            <span v-for="num in info.tel">
-                                {{ num }}
-                            </span>
-                            
-                            <div class="text-center mt-4 mb-4">
+                            <div class="row ">
+                                <div class="col-6 text-right">
+                                    <img src="img/profile.jpg" width="120px">
+                                    
+                                </div>
                                 
+                                <div class="col-6">
+                                    
+                                    <h5>  {{ info.firstName }}</h5>
+                                    
+                                    
+                                    <h5>   {{ info.lastName }}</h5> 
+                                    
+                                    <h5>{{ info.email }}</h5>
+                                    <h5>
+                                        <span v-for="num in info.tel">
+                                            {{ num }}
+                                        </span></h5>
+                                        
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                <div class="text-left mt-4 mb-4 ml-5">
+                                    
+                                    
+                                    <h1 class="text-center mt-5">Your Booking</h1>
+                                    <hr>
+                                    
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                Hotel Name
+                                            </th>
+                                            <th>
+                                                Start Date
+                                            </th>
+                                            <th>
+                                                End Date
+                                            </th>
+                                        </tr>
+                                        <tr v-for="u in userBooking">
+                                            <td>
+                                                <div v-for="v in hotelAll">
+                                                    <div v-if="u.hotelId == v.hotelId">
+                                                        
+                                                        {{ v.hotelName }}
+                                                    </div>
+                                                </div>
+                                                
+                                            </td> 
+                                            <td>
+                                                <div v-for="v in hotelAll">
+                                                    <div v-if="u.hotelId == v.hotelId">
+                                                        
+                                                        {{ u.bookingStartDate }}                                                     </div>
+                                                    </div>
+                                                    
+                                                </td> 
+                                                
+                                                <td>
+                                                    <div v-for="v in hotelAll">
+                                                        <div v-if="u.hotelId == v.hotelId">
+                                                            
+                                                            {{ u.bookingEndDate }}                                                     </div>
+                                                        </div>
+                                                        
+                                                    </td> 
+                                                    
+                                                </tr>
+                                                
+                                            </table>
+                                            
+                                        </div>
+                                        
+                                        <hr style="width: 70%;">
+                                        
+                                    </div>
+                                    
+                                </div>
                             </div>
                             
-                            <hr style="width: 70%;">
-                            
                         </div>
-                        
-                    </div>
+                    </div> 
+                    
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/vue"></script>
                 
-            </div>
-        </div> 
-        
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    
-    
-    <script>
-        
-        
-        
-        Vue.component('button-counter', {
-            data: function () {
-                return {
-                    count: 0
-                }
-            },
-            template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
-        })
-        
-        new Vue({
-            el: '#app',
-            data () {
-                return {
-                    info: [], // json hotel ที่ get มา
-                    loading: true,
-                    errored: false,
-                    message : 'hello',
-                    searchText: "", // ข้อความในกล่องค้นหา
-                    link : '',
-                    token: '',
-                    firstname: '',
-                    lastname: '',
-                    telphone: '',
-                    tel: [],
-                    email: '',
-                    username: '',
-                    password: '',
-                    bookingdetail: ''
-                }
-            },
-            
-            computed: {
-                hotelSearchResult() { // function search
-                    return this.info.filter(hotel => {
-                        let searchText = this.searchText.toLowerCase()
-                        let isMatchTitle = hotel.hotelName.toLowerCase().includes(searchText)
-                        let isMatchContent = hotel.hotelName.toLowerCase().includes(searchText)
-                        return isMatchTitle | isMatchContent 
+                
+                <script>
+                    
+                    
+                    
+                    Vue.component('button-counter', {
+                        data: function () {
+                            return {
+                                count: 0
+                            }
+                        },
+                        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
                     })
-                }
-            },
-            
-            mounted () {
-                
-                if (localStorage.token) {
-                    this.token = localStorage.token;
-                }
-                
-                if (localStorage.link) {
-                    this.link = localStorage.link;
-                }
-                
-                this.info = [];
-
-
-                axios.get('http://bookingservice-260006.appspot.com//getbookingbyuser',
-                {
-                    headers: {
-                        Authorization: localStorage.token
-                    }
-                })
-                .then((response) => {
-                    const data = response.data; // [{}, {}]
-                    this.info = data;
-                })
-                
-                
-                axios.get('https://user-259905.appspot.com/user/me',
-                {
-                    headers: {
-                        Authorization: localStorage.token
-                    }
-                })
-                .then((response) => {
-                    const data = response.data; // [{}, {}]
-                    this.info = data;
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.errored = true
-                })
-                .finally(() => this.loading = false)
-            },
-            
-            methods: {
-                
-                addUser() {
-                    this.tel.push(this.telphone)
-                    axios.post('https://user-259905.appspot.com/user', {
+                    
+                    new Vue({
+                        el: '#app',
+                        data () {
+                            return {
+                                hotelAll: '',
+                                userBooking: '',
+                                info: [], // json hotel ที่ get มา
+                                loading: true,
+                                errored: false,
+                                message : 'hello',
+                                searchText: "", // ข้อความในกล่องค้นหา
+                                link : '',
+                                token: '',
+                                firstname: '',
+                                lastname: '',
+                                telphone: '',
+                                tel: [],
+                                email: '',
+                                username: '',
+                                password: '',
+                                bookingdetail: ''
+                            }
+                        },
                         
-                        username: this.username,
-                        password: this.password,
-                        firstName: this.firstname, 
-                        middleName: null,
-                        lastName: this.lastname, 
-                        tel: this.tel,
-                        email: this.email
+                        computed: {
+                            hotelSearchResult() { // function search
+                                return this.info.filter(hotel => {
+                                    let searchText = this.searchText.toLowerCase()
+                                    let isMatchTitle = hotel.hotelName.toLowerCase().includes(searchText)
+                                    let isMatchContent = hotel.hotelName.toLowerCase().includes(searchText)
+                                    return isMatchTitle | isMatchContent 
+                                })
+                            }
+                        },
                         
+                        mounted () {
+                            
+                            if (localStorage.token) {
+                                this.token = localStorage.token;
+                            }
+                            
+                            if (localStorage.link) {
+                                this.link = localStorage.link;
+                            }
+                            
+                            this.info = [];
+                            
+                            axios.get('https://hotelservice.appspot.com/allhotel')
+                            .then((response) => {
+                                const data = response.data; // [{}, {}]
+                                this.hotelAll = data;
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                this.errored = true
+                            })
+                            .finally(() => this.loading = false)
+                            
+                            
+                            
+                            
+                            axios.get('http://bookingservice-260006.appspot.com//getbookingbyuser',
+                            {
+                                headers: {
+                                    Authorization: localStorage.token
+                                }
+                            })
+                            .then((response) => {
+                                const data = response.data; // [{}, {}]
+                                this.userBooking = data;
+                            })
+                            
+                            
+                            axios.get('https://user-259905.appspot.com/user/me',
+                            {
+                                headers: {
+                                    Authorization: localStorage.token
+                                }
+                            })
+                            .then((response) => {
+                                const data = response.data; // [{}, {}]
+                                this.info = data;
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                this.errored = true
+                            })
+                            .finally(() => this.loading = false)
+                        },
                         
+                        methods: {
+                            
+                            addUser() {
+                                this.tel.push(this.telphone)
+                                axios.post('https://user-259905.appspot.com/user', {
+                                    
+                                    username: this.username,
+                                    password: this.password,
+                                    firstName: this.firstname, 
+                                    middleName: null,
+                                    lastName: this.lastname, 
+                                    tel: this.tel,
+                                    email: this.email
+                                    
+                                    
+                                })
+                                .then((response) => {
+                                    const data = response.data;
+                                    
+                                });
+                            }
+                        }
                     })
-                    .then((response) => {
-                        const data = response.data;
-                        
-                    });
-                }
-            }
-        })
-        
-        
-        
-        
-    </script>
-    <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
-    
-</body>
-</html>
+                    
+                    
+                    
+                    
+                </script>
+                <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+                
+            </body>
+            </html>

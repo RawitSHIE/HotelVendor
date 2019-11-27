@@ -19,7 +19,8 @@
     <title>HOTEL</title>
 </head>
 <body>
-    <div id="app">         
+    <div id="app">       
+        {{ bookAll }}  
         <nav class="navbar navbar-toggleable-md shadow-lg mb-5">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -56,13 +57,12 @@
         </nav>
         
         <div class="container">
-
+            
             <div class="row">
-                    <button class="btn btn-warning shadow"  style=" border-radius: 30px;" @click="bookingId()">Cancle</button>
-
+                
             </div>
-
-  
+            
+            
             <div class="card mb-4 shadow">
                 <div class="card-header">
                     Room Type
@@ -85,7 +85,10 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">User</th>
                                 <th scope="col">Tel</th>
-                                
+                                <th scope="col"> Status</th>
+
+                                <th scope="col">Update Status</th>
+
                                 
                                 
                             </tr>
@@ -111,7 +114,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    
+                                   
                                     <td>
                                         <div v-for="user in alluser">
                                             <div v-if="user.id == book.userId">
@@ -120,6 +123,12 @@
                                                 </div>  
                                             </div>
                                         </div>
+                                        <td>{{ book.bookingStatus }}</td>
+
+                                        <td>
+                                                <button class="btn btn-warning shadow"  style=" border-radius: 30px;" @click="updateBooking(book.id)">Cancel</button>
+                                                
+                                            </td>
                                     </td>
                                 </div>
                                 
@@ -225,6 +234,9 @@
             }
             
             
+            
+            
+            
             axios.get('http://bookingservice-260006.appspot.com/getbookingbyhotel/'+this.link,
             {
                 headers: {
@@ -281,10 +293,26 @@
             }
         },
         methods: {
+            
+            
+            
+            updateBooking(id) {
+                axios.post('http://bookingservice-260006.appspot.com/updateBookingStatus/'+id, {
 
-           bookingId(booked) {
-            this.bookid++
-           },
+                    bookingStatus : "Cancel"
+                    
+                },
+                { headers: {
+                    
+                    Authorization: localStorage.token
+                }})
+                .then((response) => {
+                    const data = response.data;
+                    this.user = data
+                    
+                });
+            },
+            
             
             logout() {
                 axios.post('https://hotelservice.appspot.com/createhotel', {
