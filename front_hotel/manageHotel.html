@@ -383,6 +383,24 @@
                 },
                 
                 methods: { 
+
+                    logout() {
+                        axios.post('https://zuulservice-260310.appspot.com/userdetail/logout', 
+                        {
+                            
+                            
+                        }, {headers: {
+                            Authorization: localStorage.token
+                        }})
+                        .then((response) => {
+                            const data = response.data;
+                            this.user = data
+                            this.token = ''
+                            localStorage.token  = ''
+                            
+                        });
+                    },
+                    
                     
                     showUpdate() {
                         if(this.updateShow){
