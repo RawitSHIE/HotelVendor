@@ -13,10 +13,6 @@
 
 โดยระบบจะทำการจัดการ ตารางการจองและห้องให้สำหรับโรงแรม
 และ สามารถระบุวันว่างของห้อง จากวันที่ลูกค้าเลือกได้ และโรงแรมสามารถติดตามการจองห้องของโรงแรมเองได้
-## Busniuess Flow
-> Not yet finalize
-
-![BusniuessChart](/ReadmeResource/BusinessChart.png)
 
 ## API Structure overview Plan
 > Not yet finalize
@@ -37,6 +33,7 @@
 - API ในการ Update Entity Room โดยยึดจาก Entity Booking
 - API ในการ Add และ Update Entity Room ตามโรงแรมที่ต้องการ
 - API ในการ Add และ Update Entity Hotel
+- API Authentication
 
 ### Entity
 - Room
