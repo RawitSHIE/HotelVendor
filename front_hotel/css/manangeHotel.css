@@ -4,10 +4,28 @@ html {
   
 }
 
+#app {
+  background: #fffcf3;
+}
+
 button {
   cursor: pointer;
   
 }
+
+.dropdown-menu {
+  background: rgb(225, 136, 2) !important;
+  }
+  
+  .dropdown-item {
+   background:  rgb(225, 136, 2) !important;
+   
+  }
+  
+  .dropdown-item :hover{
+    color: black !important;
+   }
+  
 
 a {
   text-decoration: none;
@@ -46,19 +64,6 @@ a:hover {
   
   
 }
-
-.dropdown-menu {
-background: rgb(225, 136, 2) !important;
-}
-
-.dropdown-item {
- background:  rgb(225, 136, 2) !important;
- 
-}
-
-.dropdown-item :hover{
-  color: black !important;
- }
 
 .text-shadow {
   text-shadow: 0px 2px 3px rgba(0,0,0,.13) ,1px 2px 2px rgba(0,0,0,.1) , -1px -2px 2px rgba(0,0,0,.05);

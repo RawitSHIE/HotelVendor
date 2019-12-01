@@ -6,14 +6,13 @@
 - การจองห้องของโรงแรม
 
 โดยระบบนี้จะมุ่งเน้นการหาห้องพักให้สำหรับลูกค้า โดยลูกค้าสามารถ Filter หาห้องพักจาก สถานที่ วันเวลา หรือ Rate ราคาได้
-และลูกค้าสามารถติดตรามการจองของตนได้
+และลูกค้าสามารถติดตามการจองของตนได้
 
-โดยจะมีการรวมการจัดการห้องของทางโรงแรมโดยโรมแรมสามารถ
+โดยจะมีการรวมการจัดการห้องของทางโรงแรมโดยโรงแรมสามารถ
 - สามารถเพิ่มหรือลดห้องได้
-- การแจ้งเตือนเกี่ยวกับการจอง
 
 โดยระบบจะทำการจัดการ ตารางการจองและห้องให้สำหรับโรงแรม
-และ สามารถระบุวันว่างของห้อง จากวันที่ลูกค้าเลือกได้ และโรงแรมสามารถติดตามการจองหัองของโรงแรมเองได้
+และ สามารถระบุวันว่างของห้อง จากวันที่ลูกค้าเลือกได้ และโรงแรมสามารถติดตามการจองห้องของโรงแรมเองได้
 ## Busniuess Flow
 > Not yet finalize
 
@@ -22,7 +21,7 @@
 ## API Structure overview Plan
 > Not yet finalize
 <p align="center">
-  <image src="ReadmeResource/apiStructure.png" alt="api overview"/>
+  <image src="ReadmeResource/apiStructure2.png" alt="api overview"/>
 </p>
 
 - Interface คือหน้าการใช้งานของระบบ
@@ -33,12 +32,11 @@
 ## API Endpoint ที่จำเป็นต่อ Busniess
 
 ### Feature Endpoint
-- API ในการรับผิดชอบการ Filter โรงแรมตาม Attribute การ Search ของลูกค้า
+- API ในการรับผิดชอบการ Filter โรงแรมตาม Hotel name การ Search ของลูกค้า
 - API ในการรับชอบการตรวจสอบ สถานะของห้องในการจองในช่วงเวลานั้นโดยไม่เกิดการทับกันของการจอง
 - API ในการ Update Entity Room โดยยึดจาก Entity Booking
-- API ในการ Add และ Update Entity Room ตามโรงแรมต้องการ
-- API การสร้าง Notification ของ Booking ให้กับโรงแรม
-- API การสร้าง Invoice สำหรับการจอง
+- API ในการ Add และ Update Entity Room ตามโรงแรมที่ต้องการ
+- API ในการ Add และ Update Entity Hotel
 
 ### Entity
 - Room
@@ -51,91 +49,61 @@
 ### Hotel
 ```json
 {
-  "hotelId" : "number",
-  "hotelName" : "string",
-  "location" : {
-    "Country" : "string",
-    "provinceState" : "string",
-    "district": "string",
-    "Street": "string",
-    "additionalDetail" : "string",
-    },
-  "isAvailible" : "boolean",
-  "contactInfo" : {
-    "tel" : [
-      "string"
-    ],
-    "email" : [
-      "string"
-    ]
-  }
+	"hotelName" : "string",
+	"country" : "string",
+	"provinceState" : "string",
+	"district" : "string",
+	"street" : "string",
+	"additionalDetail" : "string",
+	"availible" : "boolean",
+	"tel" : ["string"],
+	"email" : ["string"]
 }
 ```
 
 ### Room
 ```json
-{
-  "hotelId" : "number",
-  "room": {
-    "isAvailible" : "boolean",
-    "availible" : "number",
-    "roomTypeAvailible" : "number",
-    "roomType" : [
-      {
-        "roomTypeName" : "string",
-        "availableRoom" : [
-          {
-            "roomNumber" : "string",
-            "price" : "string",
-            "bookedDate" : [
-              {
-                "bookingId" : "string",
-                "bookingdate" : "date"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}
+ { 
+  "roomTypeName" : "string",
+  "price" : "number",
+  "quantity" : "number",
+  "roomTypeImages" : ["string"]
+ }
 ```
 
 ### User
 ```json
 {
-  "userId" : "number",
-  "name" : {
-    "firstName" : "string",
-    "middleName" : "string",
-    "lastName" : "string",
-  },
-  "contactInfo" : {
-    "tel" : "string",
-    "email" : "string",
-  },
+	"username" : "string",
+	"password" : "string",
+	"firstName" : "string",
+  "middleName" :"string",
+	"lastName" : "string",
+	"tel" : ["string"],
+	"email" : "string"
 }
 ```
 
 ### Booking
 ```json
 {
-  "bookingId" : "number",
-  "userId" : "number",
-  "hotelId" : "number",
-  "BookingDetail" : {
-    "bookingStatus" : "string",
-    "bookingCreateDate" : "date-time",
-    "checkInDate" : "date",
-    "checkOutDate" : "date"
-  },
-  "bookedRoom" : [
-    {
-      "roomNumber" : "string",
-      "price" : "number"
-    }
-  ],
-  "totalPrice" : "number"
+	"userId" : "number",
+	"hotelId" : "number",
+	"bookingStatus" : "string",
+	"bookingStartDate" : "date-time",
+	"bookingEndDate" : "date-time",
+	"roomTypeRequests" : [
+        {
+            "roomTypeName" : "string",
+            "price" : "number",
+            "quantity" : "number"
+        },
+        {
+            "roomTypeName" : "string",
+            "price" : "number",
+            "quantity" : "number"
+        }
+	]
 }
 ```
 > price may vary overtime dedicate price store foreach booking is needed*

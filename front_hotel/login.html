@@ -13,6 +13,12 @@
     
     
     
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    
+    
     <title>HOTEL</title>
 </head>
 <body>
@@ -22,13 +28,12 @@
         <!-- {{ message }} -->
         
         
-        
-        
+      
         <div class="container mt-auto mb-auto">
             
             <!-- <h2>Hotel Booking</h2> -->
             
-            <div class="card shadow m-5" style="">
+            <div class="card shadow m-5">
                 <div class="card-body p-0">
                     <div class="row">
                         <div class=" col-lg bg-login-image" style="display: block; height: 30em;"> </div>
@@ -36,12 +41,13 @@
                             
                             <h1 class="text-center mt-5 text-shadow">Welcome</h1>
                             <hr style="width: 50%; border: 1px solid black;" class="mt-0 mb-5">
-                            <input type="input" placeholder="Username" class="form-control ml-auto mr-auto mb-3 " style="width: 70%; border-radius: 25px;">
-                            <input type="input" placeholder="Password" class="form-control ml-auto mr-auto " style="width: 70%; border-radius: 25px;">
+                            <input type="input" placeholder="Username" class="form-control ml-auto mr-auto mb-3 " style="width: 70%; border-radius: 25px;" v-model="username">
+                            <input type="password" placeholder="Password" class="form-control ml-auto mr-auto " style="width: 70%; border-radius: 25px;" v-model="password">
                             
                             <div class="text-center mt-4 mb-4">
                                 
-                                <button class="btn btn-warning shadow"  style="width: 70%; border-radius: 30px;">login</button>
+                                <button class="btn btn-warning shadow"  style="width: 70%; border-radius: 30px;" @click=addUser()>login</button>
+                                
                             </div>
                             
                             <hr style="width: 70%;">
@@ -61,30 +67,83 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     
     <script>
-        const app = new Vue(
-        {
+        new Vue({
             el: '#app',
-            data: {
-                
-                room_count : '1',
-                date_start : '1/1/1',
-                date_end : '2/1/1',
-                price : '4570.00',
-                room: ['1','2','3','4','5']
-            }
-        },
-        Vue.component('button-counter', {
-            data: function () {
+            data () {
                 return {
-                    count: 0
+                    info: '', // json hotel ที่ get มา
+                    loading: true,
+                    errored: false,
+                    message : 'hello',
+                    searchText: "", // ข้อความในกล่องค้นหา
+                    link : '',
+                    username: '',
+                    password: '',
+                    token: '',
+                    
                 }
             },
-            template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
-        })
-        )
-        
-    </script>
-    <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
-    
-</body>
-</html>
+            
+            
+            
+            mounted () {
+                
+                if (localStorage.token) {
+                    this.token = localStorage.token;
+                }
+                
+                // this.info = [];
+                
+                
+                // axios.get('https://user-259905.appspot.com/user/me', {
+                    
+                    // })
+                    // .then((response) => {
+                        //     const data = response.data; // [{}, {}]
+                        //     this.info = data;
+                        
+                        // })
+                        // .catch(error => {
+                            //     console.log(error)
+                            //     this.errored = true
+                            // })
+                            // .finally(() => this.loading = false)
+                        },
+                        
+                        methods: {
+                            
+                            addUser() {
+                                axios.post('https://zuulservice-260310.appspot.com/userdetail/login', {
+                                    
+                                    username: this.username,
+                                    password: this.password
+                                    
+                                    
+                                })
+                                .then((response) => {
+                                    const data = response.data;
+                                    this.info = data;
+                                    
+                                    this.token = this.info
+                                    localStorage.token = this.token;
+     
+                                    if(this.info == "incorrect username or password") {
+                                        this.response_status = true
+                                        swal({
+                                            title: "incorrect username or password",
+                                            icon: "error",
+                                            button: "OK",
+                                        });
+                                    }else{
+                                        window.location.href = 'index.html';
+                                    }
+                                });
+                            }
+                        }
+                    })
+                    
+                </script>
+                <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+                
+            </body>
+            </html>
