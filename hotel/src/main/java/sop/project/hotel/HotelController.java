@@ -16,6 +16,7 @@ import sop.project.hotel.respository.*;
 import java.util.*;
 
 @SpringBootApplication
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @EnableJpaAuditing
 @EnableDiscoveryClient
@@ -205,10 +206,9 @@ public class HotelController {
             if (body.get("roomTypeName") != null)
                 roomType.setRoomTypeName((String) body.get("roomTypeName"));
             if (body.get("price") != null)
-                roomType.setPrice((double) body.get("price"));
-            if (body.get("quantity") != null) {
+                roomType.setPrice((Double) body.get("price"));
+            if (body.get("quantity") != null)
                 roomType.setQuantity(((Integer) body.get("quantity")).longValue());
-            }
             if (body.get("roomTypeImages") != null)
                 roomType.setRoomTypeImages((List<String>) body.get("roomTypeImages"));
 

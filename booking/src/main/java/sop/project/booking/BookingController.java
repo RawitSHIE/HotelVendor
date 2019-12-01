@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SpringBootApplication
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @EnableJpaAuditing
 @EnableDiscoveryClient
@@ -236,6 +237,15 @@ public class BookingController {
     public Object getAllRoomTypes (@PathVariable("hotelId") long hotelId) {
         return serviceDiscoveryClient.getHotelFullDetail(hotelId);
     }
+
+    @RequestMapping(
+            value = "/test/{userId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public Object getAllRoomTypes (@PathVariable("userId") int userId) {
+        return serviceDiscoveryClient.getUser(userId);
+    }
+
 
     @RequestMapping(
             value = "/hoteldetail/{hotelId}",
