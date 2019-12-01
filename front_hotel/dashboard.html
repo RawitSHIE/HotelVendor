@@ -7,72 +7,86 @@
     
     <link rel="stylesheet" href="css/index_css.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    
+    
     
     <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
+    
     
     
     <title>HOTEL</title>
 </head>
 <body>
-    <div id="app"> 
-        
-        <nav class="navbar navbar-toggleable-md shadow-lg mb-5">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="m-4" href="#" style="color:orange; font-size: 2em;">HOTELVENDER</a>
-            
-            <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="room.html">room</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="reserve.html">reserve</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.html">dash board</a>
-                    </li>
-                    
-                </ul>
-                <div class="mr-auto"></div>
+    <div id="app">       
+        <nav class="navbar navbar-toggleable-md shadow-lg mb-5" style="background: black;">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="m-4" href="index.html" style="color:orange; font-size: 2em;">HOTELVENDER</a>
                 
-                
-                
-                <form class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">login</button>
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">register</button>
+                <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="manageHotel.html">Manage Hotel</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                    <div class="mr-auto"></div>
                     
-                </form>
-            </div>
-        </nav>
-        
+                    
+                    
+                    <form class="form-inline my-2 my-lg-0">
+                        
+                        <a href="login.html"><button class="btn btn-outline-warning my-2 my-sm-0 mr-2" type="button">login</button></a>
+                        
+                        
+                        <span v-if="token">
+                            
+                            <div class="dropdown">
+                                <a class="btn btn-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span style="color: black;">{{ user.firstName }}</span><i  style="color: black;" class="ml-2 fas fa-user-circle"></i> 
+                                </a>
+                                
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="profile.html">Profile</a>
+                                    <a class="dropdown-item" href="register.html">Resgister</a>
+                                    <a class="dropdown-item" href="#" @click="logout()">Logout</a>
+                                </div>
+                            </div>
+                            
+                        </span>
+                        
+                        
+                    </form>
+                </div>
+            </nav>
         <div class="container">
+            
+            <div class="row">
+                
+            </div>
+            
+            
             <div class="card mb-4 shadow">
                 <div class="card-header">
                     Room Type
                 </div>
                 <div class="card-body">
-                    <div class="row m-2 mt-4">
-                        <div class="col">
-                            Show   <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
-                            style="width: 3em; height: 2em; display: inline;">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                        </select> entries
-                    </div>
-                    <div class="col text-right">
-                        Search: <input class="form-control" style="display: inline; width: 12em; height: 2em;">
-                    </div>
+                    
                 </div>
                 
                 
@@ -83,201 +97,302 @@
                     <table class="table table-bordered m-2">
                         <thead>
                             <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Rooms</th>
-                                <th scope="col">Status</th>
-                
-                                
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Master bedroom</td>
-                                <td>10 /25</td>
-                                <td><span class="badge badge-pill badge-success">Available</span>
-                                </td>
-                     
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Suit Room</td>
-                                <td>30 /30</td>
-                                <td><span class="badge badge-pill badge-danger pl-3 pr-3">Full</span></td>
-                             
-                       
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Normal Room</td>
-                                <td>7 /10</td>
-                                <td><span class="badge badge-pill badge-success">Available</span>
-                      
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                <!-- <div class="row">
-                    <div class="col text-right m-2">
-                        <button class="btn btn-warning">
-                            Previous
-                        </button>
-                        <button class="btn btn-warning">
-                                Next
-                        </button>
-
-                    </div>
-                </div> -->
-                    
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    <div class="container">
-            <div class="card mb-4 shadow">
-                <div class="card-header">
-                    Customer
-
-                </div>
-                <div class="card-body">
-                    <div class="row m-2 mt-4">
-                        <div class="col">
-                            Show   <select id="select-testing" class="form-control" data-live-search="true" title="Please select"
-                            style="width: 3em; height: 2em; display: inline;">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                        </select> entries
-                    </div>
-                    <div class="col text-right">
-                        Search: <input class="form-control" style="display: inline; width: 12em; height: 2em;">
-                    </div>
-                </div>
-                
-                
-                
-                
-                <div class="table-responsive">
-                    
-                    <table class="table table-bordered m-2">
-                        <thead>
-                            <tr>
-                                <th scope="col">No.</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Check-in</th>
-                                <th scope="col">Check-out</th>
-                                <th scope="col">Room</th>
+                                <th scope="col">Hotel</th>
+                                <th scope="col">Start</th>
+                                <th scope="col">End</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">User</th>
                                 <th scope="col">Tel</th>
+                                <th scope="col"> Status</th>
+
+                                <th scope="col">Update Status</th>
+
                                 
                                 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>lorem</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@mdo</td>
-                                <td>@twitter</td>
-                                <td>@mdo</td>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                <div class="row">
-                    <div class="col text-right m-2">
-                        <button class="btn btn-warning">
-                            Previous
-                        </button>
-                        <button class="btn btn-warning">
-                                Next
-                        </button>
+                            <tr v-for="(book, index) in bookAll">
+                                <th scope="row">
+                                    
+                                    <div v-for="i in info">
+                                        <div v-if="i.hotelId == book.hotelId">
+                                            {{ i.hotelName }}
+                                        </div>    
+                                    </div>
+                                </th>
+                                <td>{{ book.bookingStartDate }}</td>
+                                <td>{{ book.bookingEndDate }}</td>
+                                <td>{{ book.totalPrice }}<span class="badge badge-pill badge-success"></span>
+                                    <td>
+                                        <div v-for="user in alluser">
+                                            <div v-if="user.id == book.userId">
+                                                {{ user.firstName }}  
+                                                
+                                            </div>
+                                        </div>
+                                    </td>
+                                   
+                                    <td>
+                                        <div v-for="user in alluser">
+                                            <div v-if="user.id == book.userId">
+                                                <div v-for="tel in user.tel">
+                                                    {{ tel }}
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <td>{{ book.bookingStatus }}</td>
 
-                    </div>
-                </div>
+                                        <td>
+                                                <button class="btn btn-warning shadow"  style=" border-radius: 30px;" @click="updateBooking(book.id)">Cancel</button>
+                                                
+                                            </td>
+                                    </td>
+                                </div>
+                                
+                                
+                            </div>
+                        </td>
+                        
+                        
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- <div class="row">
+                <div class="col text-right m-2">
+                    <button class="btn btn-warning">
+                        Previous
+                    </button>
+                    <button class="btn btn-warning">
+                        Next
+                    </button>
                     
                 </div>
-                
-            </div>
+            </div> -->
+            
         </div>
+        
     </div>
-    
+</div>
+</div>
+
+
 </div>
 
 <style>
-
-.card-header {
-    background: #ffe7c5;
-    border: none;
-    font-weight: bold;
-
-}
-
+    
+    .card-header {
+        background: #ffe7c5;
+        border: none;
+        font-weight: bold;
+        
+    }
+    
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 
 <script>
+    
+    
+    
+    Vue.component('button-counter', {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })
+    
     new Vue({
         el: '#app',
         data () {
             return {
-                info: null,
+                hotelId: '',
+                info: [], // json hotel ที่ get มา
                 loading: true,
                 errored: false,
-                message : 'hello'
+                message : 'hello',
+                searchText: "", // ข้อความในกล่องค้นหา
+                name: '',
+                link: '',
+                user: '',
+                bookAll: '',
+                alluser: '',
+                token: '',
+                bookid: '',
+                
             }
         },
-        filters: {
-            currencydecimal (value) {
-                return value.toFixed(2)
+        
+        computed: {
+            hotelSearchResult() { // function search
+                return this.info.filter(hotel => {
+                    let isMatchTitle = hotel.users_id.includes(this.user.id)
+                    let isMatchContent = hotel.users_id.includes(this.user.id)
+                    return isMatchTitle | isMatchContent 
+                })
             }
         },
+        
         mounted () {
-            axios
-            .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-            .then(response => {
-                this.info = response.data.bpi
+            
+            
+            if (localStorage.token) {
+                this.token = localStorage.token;
+            }
+            
+            
+            if (localStorage.link) {
+                this.link = localStorage.link;
+            }
+            
+            
+            
+            
+            
+            axios.get('https://zuulservice-260310.appspot.com/booking/getbookingbyhotel/'+this.link,
+            {
+                headers: {
+                    Authorization: localStorage.token
+                }
+            })
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.bookAll = data;
+            }),
+            
+            axios.get('https://zuulservice-260310.appspot.com/userdetail/alluser')
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.alluser = data;
+            })
+            
+            
+            
+            this.info = [];
+            
+            
+            axios.get('https://zuulservice-260310.appspot.com/userdetail/user/me',
+            {
+                headers: {
+                    Authorization: localStorage.token
+                }
+            })
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.user = data;
+            }),
+            
+            
+            axios.get('https://zuulservice-260310.appspot.com/hotelroomdetail/allhotel')
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.info = data;
             })
             .catch(error => {
                 console.log(error)
                 this.errored = true
             })
             .finally(() => this.loading = false)
+            
+            
+            
+        },
+        
+        
+        watch: {
+            name(newName) {
+                localStorage.name = newName;
+            }
+        },
+        methods: {
+            
+            
+            
+            updateBooking(id) {
+                axios.post('https://zuulservice-260310.appspot.com/booking/updateBookingStatus/'+id, {
+
+                    status : "Cancel"
+                    
+                },
+                { headers: {
+                    
+                    Authorization: localStorage.token
+                }})
+                .then((response) => {
+                    const data = response.data;
+                    this.user = data
+                    if(response.status == 200) {
+                                this.response_status = true
+                                swal({
+                                    title: "Update Success!",
+                                    icon: "success",
+                                    button: "OK",
+                                });
+                            }
+                    
+                });
+            },
+            
+            
+              logout() {
+                        axios.post('https://zuulservice-260310.appspot.com/userdetail/logout', 
+                        {
+                            
+                            
+                        }, {headers: {
+                            Authorization: localStorage.token
+                        }})
+                        .then((response) => {
+                            const data = response.data;
+                            this.user = data
+                            this.token = ''
+                            localStorage.token  = ''
+                            
+                        });
+                    },
+                    
+            
+            persist(id) {
+                this.link = id
+                localStorage.link = this.link;
+                console.log('now pretend I did more stuff...');
+            },
+            
+            addUser() {
+                axios.post('https://zuulservice-260310.appspot.com/hotelroomdetail/createhotel', {
+                    
+                    hotelName : "EarthHotel",
+                    country : "Thailand",
+                    provinceState : "Bangkok",
+                    district : "Ratchathewi",
+                    street : "Payathai Rd",
+                    users_id : [1, 19, 10],
+                    additionalDetail : "Something like that",
+                    availible : true,
+                    tel : ["0910349301", "0812711778", "0818951414"],
+                    email : ["Rawitgun@facebook.com", "Rawitgun@gmail.com"]
+                    
+                    
+                })
+                .then((response) => {
+                    const data = response.data;
+                    this.info.push(data);
+                    
+                });
+                
+                
+            }
         }
     })
+    
+    
+    
     
 </script>
 
