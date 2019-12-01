@@ -103,7 +103,37 @@
 	]
 }
 ```
-### API
+## API Endpoint
+[API Documentation](https://documenter.getpostman.com/view/8387942/SWDzeLz8)
+
+### Hotel
+- GET /allhotel
+- GET /hoteldetail/{hotelId}
+- POST /createhotel
+- POST /updatehotel/{hotelId}
+- POST /createroomtype/{hotelId}
+- GET /fullhoteldetail/{hotelId}
+- GET /getallroomtype/{hotelId}
+- POST /updateroomtype/{hotelId}/{roomTypeId}
+
+### User
+- GET /alluser
+- GET /user/{id}
+- POST /user
+- POST /login
+- POST /logout
+- GET /user/me
+- POST /user/update
+
+### Booking
+- POST /createBooking
+- GET /getbookingbyuser/{userId}
+- GET /getbookingdetail/{bookingId}
+- POST /updateBookingStatus/{bookingId}
+- GET /getbookingbyhotel/{hotelId}
+- GET /hoteldetail/allroomtype/{hotelId}
+- POST /freeroom/{hotelId}
+
 
 
 > price may vary overtime dedicate price store foreach booking is needed*
