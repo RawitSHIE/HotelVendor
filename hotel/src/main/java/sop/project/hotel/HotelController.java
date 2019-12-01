@@ -192,7 +192,7 @@ public class HotelController {
         int userId = serviceDiscoveryClient.getUserId("Authorization", value);
         boolean canUpdate = false;
         Hotel hotel = hotelRespository.findById(hotelId).orElseThrow(
-                () -> new NotFoundException("Hotel Does't Exist"));
+                () -> new NotFoundException("Hotel Doesn't Exist"));
         for (int user_id: hotel.getUsers_id()) {
             if (user_id == userId) {
                 canUpdate = true;
@@ -206,8 +206,9 @@ public class HotelController {
                 roomType.setRoomTypeName((String) body.get("roomTypeName"));
             if (body.get("price") != null)
                 roomType.setPrice((double) body.get("price"));
-            if (body.get("quantity") != null)
+            if (body.get("quantity") != null) {
                 roomType.setQuantity(((Integer) body.get("quantity")).longValue());
+            }
             if (body.get("roomTypeImages") != null)
                 roomType.setRoomTypeImages((List<String>) body.get("roomTypeImages"));
 

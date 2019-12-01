@@ -19,10 +19,7 @@ import sop.project.booking.model.extendModel.response.BookingFullDetail;
 import sop.project.booking.repository.BookingRepository;
 import sop.project.booking.repository.RoomTypeDetailRepository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SpringBootApplication
@@ -60,11 +57,21 @@ public class BookingController {
             Date currentDate = new Date();
             bookingRoomTypeDetail.setBookingCreateDate(currentDate);
 
+            if (!hotel.getAvailible()) {
+                return new ResponseEntity("hotel can't create booking", HttpStatus.FORBIDDEN);
+            }
+
             if (bookingRoomTypeDetail.getBookingStartDate()
                     .after(bookingRoomTypeDetail.getBookingEndDate())
                     || bookingRoomTypeDetail.getBookingCreateDate()
                     .after(bookingRoomTypeDetail.getBookingStartDate()) ) {
                 return new ResponseEntity("invalid date", HttpStatus.NOT_ACCEPTABLE);
+            }
+
+            java.util.Calendar cal = GregorianCalendar.getInstance();
+            cal.add(GregorianCalendar.MONTH, 6);
+            if (bookingRoomTypeDetail.getBookingEndDate().after(cal.getTime())) {
+                return new ResponseEntity("hotel can't create booking", HttpStatus.FORBIDDEN);
             }
 
             HashMap<String, Long> remainAvailableRoom =
@@ -281,7 +288,7 @@ public class BookingController {
                         if (roomTypeDetail.getBooking().getId() == booking.getId() && booking.getBookingStatus().equals(BookingStatus.Booked)) {
                             availableRooms.put(
                                     roomTypeDetail.getRoomTypeName(),
-                                    availableRooms.get(roomTypeDetail.getRoomTypeName()) - roomTypeDetail.getQuantity()
+                                    Math.max(availableRooms.get(roomTypeDetail.getRoomTypeName()) - roomTypeDetail.getQuantity(), 0)
                             );
                         }
                     });
