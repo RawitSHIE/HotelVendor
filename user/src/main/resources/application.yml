@@ -11,8 +11,10 @@ spring:
 eureka:
   instance:
     preferIpAddress: true
+    home-page-url: https://user-259905.appspot.com
+    hostname: https://user-259905.appspot.com
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: https://hoteldiscovery.appspot.com/eureka/
+      defaultZone: https://discovery-259910.appspot.com/eureka/

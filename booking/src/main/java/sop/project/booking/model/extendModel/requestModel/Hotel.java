@@ -1,11 +1,12 @@
 package sop.project.booking.model.extendModel.requestModel;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class Hotel  {
+public class Hotel {
     private long hotelId;
     private String hotelName;
     private String country;
@@ -15,8 +16,9 @@ public class Hotel  {
     private List<String> hotelImages = new ArrayList<String>();
     private String additionalDetail;
     private boolean availible;
-    private Set<String> tel = new HashSet<>();
-    private Set<String> email = new HashSet<>();
+    private List<Integer> user_id = new ArrayList<Integer>();
+    private List<String> tel = new ArrayList<>();
+    private List<String> email = new ArrayList<>();
 
     public long getHotelId() {
         return hotelId;
@@ -50,11 +52,11 @@ public class Hotel  {
         return availible;
     }
 
-    public Set<String> getTel() {
+    public List<String> getTel() {
         return tel;
     }
 
-    public Set<String> getEmail() {
+    public List<String> getEmail() {
         return email;
     }
 
@@ -90,11 +92,19 @@ public class Hotel  {
         this.availible = availible;
     }
 
-    public void setTel(Set<String> tel) {
+    public List<Integer> getUsers_id() {
+        return user_id;
+    }
+
+    public void setUsers_id(List<Integer> users_id) {
+        this.user_id = users_id;
+    }
+
+    public void setTel(List<String> tel) {
         this.tel = tel;
     }
 
-    public void setEmail(Set<String> email) {
+    public void setEmail(List<String> email) {
         this.email = email;
     }
 
@@ -102,7 +112,7 @@ public class Hotel  {
         this.hotelImages = hotelImages;
     }
 
-    public void addHotelImages(String imageUrl){
+    public void addHotelImages(String imageUrl) {
         this.hotelImages.add(imageUrl);
     }
 }

@@ -1,6 +1,5 @@
 .bg-login-image {
-  background-image: url("../img/loginbanner.jpeg");
-  
+  background-image: url("../img/regisbanner.jpeg");
   background-position: center;
   background-size: cover;
 }
@@ -12,9 +11,7 @@ html  {
   background: rgb(255, 230, 183);
 }
 
-button {
-  cursor: pointer;
-}
+
 
 #form-1 input{
   width: 100%;
