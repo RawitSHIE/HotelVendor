@@ -74,7 +74,7 @@
 	"username" : "string",
 	"password" : "string",
 	"firstName" : "string",
-  "middleName" :"string",
+    "middleName" :"string",
 	"lastName" : "string",
 	"tel" : ["string"],
 	"email" : "string"
@@ -103,6 +103,9 @@
 	]
 }
 ```
+### API
+
+
 > price may vary overtime dedicate price store foreach booking is needed*
 # 👥Team Member
 
