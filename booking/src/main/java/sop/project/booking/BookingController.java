@@ -239,6 +239,15 @@ public class BookingController {
     }
 
     @RequestMapping(
+            value = "/test/{userId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public Object getAllRoomTypes (@PathVariable("userId") int userId) {
+        return serviceDiscoveryClient.getUser(userId);
+    }
+
+
+    @RequestMapping(
             value = "/hoteldetail/{hotelId}",
             produces = "application/json",
             method = RequestMethod.GET)
@@ -286,7 +295,7 @@ public class BookingController {
                 if (booking.getBookingStartDate().before(selectDate.getEndDate())
                         && booking.getBookingEndDate().after(selectDate.getStartDate())) {
                     roomTypeDetailRepository.findAll().forEach(roomTypeDetail -> {
-                        if (roomTypeDetail.getBooking().getId() == booking.getId()) {
+                        if (roomTypeDetail.getBooking().getId() == booking.getId() && booking.getBookingStatus().equals(BookingStatus.Booked)) {
                             availableRooms.put(
                                     roomTypeDetail.getRoomTypeName(),
                                     Math.max(availableRooms.get(roomTypeDetail.getRoomTypeName()) - roomTypeDetail.getQuantity(), 0)

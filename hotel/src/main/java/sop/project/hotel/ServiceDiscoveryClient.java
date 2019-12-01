@@ -28,7 +28,7 @@ public class ServiceDiscoveryClient {
     public int getUserId(String header, String value) throws Exception {
         try {
             List<ServiceInstance> instances = discoveryClient.getInstances("authservice");
-            String serviceUri = String.format("%s/users/me", instances.get(0).getUri().toString());
+            String serviceUri = String.format("https://%s/users/me", instances.get(0).getHost());
             int userId = Integer.parseInt(sendGet(serviceUri, header, value));
             return userId;
         } finally {

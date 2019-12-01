@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="css/login_css.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    
+    
+    
+    
+    <title>HOTEL</title>
+</head>
+<body>
+    <div id="app"> 
+        
+        <!-- test VUE can run -->
+        <!-- {{ message }} -->
+        
+        
+        
+        
+        
+        <div class="container mt-auto mb-auto">
+            
+            <!-- <h2>Hotel Booking</h2> -->
+            
+            <div class="card shadow m-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class=" col-lg"> 
+                            
+                            <h1 class="text-center mt-5 text-shadow">Profile</h1>
+                            <hr style="width: 50%; border: 1px solid black;" class="mt-0 mb-5">
+                            
+                            <div class="row ">
+                                <div class="col-6 text-right">
+                                    <img src="img/profile.jpg" width="120px">
+                                    
+                                </div>
+                                
+                                <div class="col-6">
+                                    
+                                    <h5>  {{ info.firstName }}</h5>
+                                    
+                                    
+                                    <h5>   {{ info.lastName }}</h5> 
+                                    
+                                    <h5>{{ info.email }}</h5>
+                                    <h5>
+                                        <span v-for="num in info.tel">
+                                            {{ num }}
+                                        </span></h5>
+                                        
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                <div class="text-left mt-4 mb-4 ml-5">
+                                    
+                                    
+                                    <h1 class="text-center mt-5">Your Booking</h1>
+                                    <hr>
+                                    
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                Hotel Name
+                                            </th>
+                                            <th>
+                                                Start Date
+                                            </th>
+                                            <th>
+                                                End Date
+                                            </th>
+                                        </tr>
+                                        <tr v-for="u in userBooking">
+                                            <td>
+                                                <div v-for="v in hotelAll">
+                                                    <div v-if="u.hotelId == v.hotelId">
+                                                        
+                                                        {{ v.hotelName }}
+                                                    </div>
+                                                </div>
+                                                
+                                            </td> 
+                                            <td>
+                                                <div v-for="v in hotelAll">
+                                                    <div v-if="u.hotelId == v.hotelId">
+                                                        
+                                                        {{ u.bookingStartDate }}                                                     </div>
+                                                    </div>
+                                                    
+                                                </td> 
+                                                
+                                                <td>
+                                                    <div v-for="v in hotelAll">
+                                                        <div v-if="u.hotelId == v.hotelId">
+                                                            
+                                                            {{ u.bookingEndDate }}                                                     </div>
+                                                        </div>
+                                                        
+                                                    </td> 
+                                                    
+                                                </tr>
+                                                
+                                            </table>
+                                            
+                                        </div>
+                                        
+                                        <hr style="width: 70%;">
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div> 
+                    
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+                
+                
+                <script>
+                    
+                    
+                    
+                    Vue.component('button-counter', {
+                        data: function () {
+                            return {
+                                count: 0
+                            }
+                        },
+                        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+                    })
+                    
+                    new Vue({
+                        el: '#app',
+                        data () {
+                            return {
+                                hotelAll: '',
+                                userBooking: '',
+                                info: [], // json hotel ที่ get มา
+                                loading: true,
+                                errored: false,
+                                message : 'hello',
+                                searchText: "", // ข้อความในกล่องค้นหา
+                                link : '',
+                                token: '',
+                                firstname: '',
+                                lastname: '',
+                                telphone: '',
+                                tel: [],
+                                email: '',
+                                username: '',
+                                password: '',
+                                bookingdetail: ''
+                            }
+                        },
+                        
+                        computed: {
+                            hotelSearchResult() { // function search
+                                return this.info.filter(hotel => {
+                                    let searchText = this.searchText.toLowerCase()
+                                    let isMatchTitle = hotel.hotelName.toLowerCase().includes(searchText)
+                                    let isMatchContent = hotel.hotelName.toLowerCase().includes(searchText)
+                                    return isMatchTitle | isMatchContent 
+                                })
+                            }
+                        },
+                        
+                        mounted () {
+                            
+                            if (localStorage.token) {
+                                this.token = localStorage.token;
+                            }
+                            
+                            if (localStorage.link) {
+                                this.link = localStorage.link;
+                            }
+                            
+                            this.info = [];
+                            
+                            axios.get('https://zuulservice-260310.appspot.com/hotelroomdetail/allhotel')
+                            .then((response) => {
+                                const data = response.data; // [{}, {}]
+                                this.hotelAll = data;
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                this.errored = true
+                            })
+                            .finally(() => this.loading = false)
+                            
+                            
+                            
+                            
+                            axios.get('https://zuulservice-260310.appspot.com/booking//getbookingbyuser',
+                            {
+                                headers: {
+                                    Authorization: localStorage.token
+                                }
+                            })
+                            .then((response) => {
+                                const data = response.data; // [{}, {}]
+                                this.userBooking = data;
+                            })
+                            
+                            
+                            axios.get('https://zuulservice-260310.appspot.com/userdetail/user/me',
+                            {
+                                headers: {
+                                    Authorization: localStorage.token
+                                }
+                            })
+                            .then((response) => {
+                                const data = response.data; // [{}, {}]
+                                this.info = data;
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                this.errored = true
+                            })
+                            .finally(() => this.loading = false)
+                        },
+                        
+                        methods: {
+                            
+                            addUser() {
+                                this.tel.push(this.telphone)
+                                axios.post('https://zuulservice-260310.appspot.com/userdetail/user', {
+                                    
+                                    username: this.username,
+                                    password: this.password,
+                                    firstName: this.firstname, 
+                                    middleName: null,
+                                    lastName: this.lastname, 
+                                    tel: this.tel,
+                                    email: this.email
+                                    
+                                    
+                                })
+                                .then((response) => {
+                                    const data = response.data;
+                                    
+                                });
+                            }
+                        }
+                    })
+                    
+                    
+                    
+                    
+                </script>
+                <script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+                
+            </body>
+            </html>

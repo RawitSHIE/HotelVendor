@@ -7,206 +7,496 @@
     
     <link rel="stylesheet" href="css/room_css.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    
+    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
     
     
     <title>HOTEL</title>
 </head>
 <body>
     <div id="app"> 
-        
-        <!-- test VUE can run -->
-        <!-- {{ message }} -->
-        
-        
-              
         <div class="bg">
-            
             <div class="overlay"></div>
-            
-            <nav class="navbar navbar-toggleable-md shadow-lg" style="margin-bottom: 6em;">
+            <nav class="navbar navbar-toggleable-md shadow-lg mb-5">
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="m-4" href="#" style="color:orange; font-size: 2em;">HOTELVENDER</a>
+                <a class="m-4" href="index.html" style="color:orange; font-size: 2em;">HOTELVENDER</a>
                 
                 <div class="collapse navbar-collapse p-1" id="navbarTogglerDemo02">
                     <ul class="navbar-nav mr-auto mt-2 mt-md-0">
                         <li class="nav-item active">
                             <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
                         </li>
+                        
                         <li class="nav-item">
-                            <a class="nav-link" href="room.html">room</a>
+                            <a class="nav-link" href="manageHotel.html">Manage Hotel</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="reserve.html">reserve</a>
-                        </li>
+                        
+                        
+                        
                     </ul>
                     <div class="mr-auto"></div>
                     
                     
                     
                     <form class="form-inline my-2 my-lg-0">
-                        <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">login</button>
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">register</button>
+                        
+                        <a href="login.html"><button class="btn btn-outline-warning my-2 my-sm-0 mr-2" type="button">login</button></a>
+                        
+                        
+                        <span v-if="token">
+                            
+                            <div class="dropdown">
+                                <a class="btn btn-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span style="color: black;">{{ user.firstName }}</span><i  style="color: black;" class="ml-2 fas fa-user-circle"></i> 
+                                </a>
+                                
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="profile.html">Profile</a>
+                                    <a class="dropdown-item" href="register.html">Resgister</a>
+                                    <a class="dropdown-item" href="#" @click="logout()">Logout</a>
+                                </div>
+                            </div>
+                            
+                        </span>
+                        
                         
                     </form>
                 </div>
             </nav>
-        
-       
-        <div class="container">
-            <h1 class="text-center text-shadow" style="color: white; font-size: 5em;">Some Thing Hotel</h1>
-           
-            <div class="row justify-content-center">
+            
+            
+            <div class="container">
+                <h1 class="text-center text-shadow" style="color: white; font-size: 5em;">Room</h1>
+                
+                <div class="row justify-content-center">
+                    
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" placeholder="Quantity " class="form-control ml-auto mr-auto mb-3" v-model="searhtStart">                            
                             
-                    <a href="#hotel"><button class="btn mt-5 shadow text-shadow" id="myBtn" onclick="" title="Go to top" 
-                        style="border-radius: 100px; background: orange; color: white;
-                        padding: .75rem 2.5rem .75rem 2.5rem;
-                        font-size: 1.2em;
-                        ">Booking</button></a>
+                        </div>
+                        
+                        <div class="col">
+                            <input type="date" placeholder="Quantity " class="form-control ml-auto mr-auto mb-3" v-model="searhEnd">                            
+                            
+                        </div>
+                        
+                        <div class="col">
+                            <button @click="search()" class="btn btn-warning shadow" type="button" style="border-radius: 30px;">Search</button>
+                        </div>
+                        
+                        
                         
                     </div>
-    </div>
-    </div>
-
-
-
-
-    <div class="col-md-6 mx-auto text-center mb-5 section-heading">
+                    
+                    
+                </div>
+                <div v-for="i in searchRoom">
+                    <h6 class="text-center" style="color: whitesmoke;">
+                        Room : {{ i.roomTypeName }} 
+                        ห้องว่าง({{ i.quantity }})
+                        
+                    </h6>
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div class="col-md-6 mx-auto text-center mb-5 section-heading">
+            
+            
+            
             <h2 id="hotel"  style="font-size: 2.25em; margin-top: 3em;">Our Rooms</h2>
             <hr class="new-hr">
-    </div>
-
-
-   
-
-
-
-
-
-
-
-
-
-
-    <div class="container p-3 shadow" style="background: rgb(237, 237, 237); width: 50em;">
-    <div class="card m-auto p-3 shadow" style="width: 50em;">
-                   
-            <div class="col text-right mr-4">
-                <span class="span-bg" style="color: rgb(0, 166, 81);">4 ห้องว่าง</span>
-                
-            </div> 
+            <button @click="showBooking()" v-if="isRoom" class="btn btn-warning my-2 my-sm-0" type="submit">Book</button>
+            <h2 v-if="!isRoom" style="color: red;">
+                NOT ROOM HERE!
+            </h2>
+            
+            
+            
+        </div>
         
-        <div class="row">
-            <div class="col-4">
+        <div class="card shadow ml-auto mr-auto" id="form" v-if="showBook" style="width: 70%">
+            <div class="card-body p-0">
+                <h1 class="text-center mt-5 text-shadow">Booking</h1>
+                <hr style="width: 50%; border: 1px solid black;" class="mt-0 mb-5">
                 
-                <img src="img/room1.jpg" class="w-100 m-4" style="border-radius: 10px;"> 
-                <div class="row">
-                    <div class="col ml-4">
-                        <span class="span-bg" style="color: rgb(0, 166, 81);">ตู้เย็น</span>
-                        <span class="span-bg" style="color: rgb(0, 166, 81);">ระเบียง</span>
+                <form class="p-5">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Choose your room :</label>
+                        <div class="col-sm-8">
+                            <select v-model="selected" class="form-control" style="width: 30">
+                                <option disabled value="">Chose your Room</option>
+                                <option v-for="r in info" v-bind:value="[r.id, r.price, r.roomTypeName]">
+                                    {{ r.roomTypeName }} 
+                                </option>                                    
+                            </select>
+                        </div>
                     </div>
                     
-                </div>
-            </div>
-            
-            
-            
-            <div class="col m-4">
-                <div class="row">
-                    <div class="col-4">
-                        <i class="fas fa-bed  mr-2"></i>
-                        
-                    </span>
-                    1 เตียงคิงไซส์
-                </div>
-                <div class="col-4">
-                    <i class="fas fa-user-friends mr-2"></i>
-                    2 ผู้เข้าพัก
-                </div>
-            </div>
-            <hr>
-            
-            <div class="row">
-                <div class="col-4">
-                    <span style="color: rgb(0, 166, 81);">
-                        <i class="fas fa-utensils mr-2"></i>
-                        อาหารเช้า
-                    </span>
-                </div>
-                <div class="col-4">
-                    <span style="color: rgb(0, 166, 81);">
-                        <i class="fas fa-wifi mr-2"></i>
-                        บริการ WiFi 
-                    </span>
-                    
-                </div>
-                <div class="col">
-                    <div class="row">
-                        
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">Quantity :</label>
+                        <div class="col-sm-8">
+                            <input type="input" placeholder="Quantity " class="form-control ml-auto mr-auto mb-3" v-model="quantity">                            
+                        </div>
                     </div>
                     
-                </div>
-                
-                
-            </div>
-            
-            <div class="row mt-2">
-                <div class="col">
-                    <span style="color: rgb(0, 166, 81);">
-                        <i class="fas fa-smoking-ban mr-2"></i>
-                        ห้องปลอดบุหรี่
-                    </span>
-                </div>
-                
-                <div class="col-4 text-right">
-                    <b style="color: rgb(255, 145, 0); font-size: 1.3em;">
-                        THB4570.00
-                    </b><br>
-                    <small style="color: grey;">/ห้อง/คืน</small>
-                    <div>
-                        
-                        
-                        
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">Start Date :</label>
+                        <div class="col-sm-8">
+                            <input type="date" placeholder="date " class="form-control ml-auto mr-auto mb-3" v-model="startDate">                            
+                        </div>
                     </div>
-                    <div>
-                        <a href="./reserve.html">
-                            <button type="button" class="btn btn-sm mt-2" style="background-color: orange;">จองเลยตอนนี้!</button>
-                            
-                        </a>
+                    
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">End Date :</label>
+                        <div class="col-sm-8">
+                            <input type="date" placeholder="date " class="form-control ml-auto mr-auto mb-3" v-model="endDate">                            
+                        </div>
                     </div>
-                </div>
+                    
+                    <div class="text-center ">
+                        
+                        <button @click="booking()" class="btn btn-warning shadow mt-4" type="button" style="width: 70%; border-radius: 30px;">Book Now!</button>
+                    </div>
+                </form>
+                
             </div>
             
         </div>
+        
+        
+        <div class="container p-3" style=" width: 50em;">
+            
+            <div class="card m-5 p-3 shadow" style="width: 100%; display: block;" v-for="room in info">
+                <div class="col text-right mr-4">
+                </div> 
+                <div class="row">
+                    <div class="col-4">
+                        
+                        <img src="img/room1.jpg" class="w-100 m-4" style="border-radius: 10px;"> 
+                        <div class="row">
+                            <div class="col ml-4">
+                                <span class="span-bg" style="color: rgb(0, 166, 81);">ตู้เย็น</span>
+                                <span class="span-bg" style="color: rgb(0, 166, 81);">ระเบียง</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <div class="col m-4">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-bed  mr-2"></i>
+                                
+                            </span>
+                            {{ room.roomTypeName }}
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-user-friends mr-2"></i>
+                            2 ผู้เข้าพัก
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            <span style="color: rgb(0, 166, 81);">
+                                <i class="fas fa-utensils mr-2"></i>
+                                อาหารเช้า
+                            </span>
+                        </div>
+                        <div class="col-4">
+                            <span style="color: rgb(0, 166, 81);">
+                                <i class="fas fa-wifi mr-2"></i>
+                                บริการ WiFi 
+                            </span>
+                            
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div class="row mt-2">
+                        <div class="col">
+                            <span style="color: rgb(0, 166, 81);">
+                                <i class="fas fa-smoking-ban mr-2"></i>
+                                ห้องปลอดบุหรี่
+                            </span>
+                        </div>
+                        
+                        <div class="col-4 text-right">
+                            <b style="color: rgb(255, 145, 0); font-size: 1.3em;">
+                                {{ room.price }}.00฿
+                            </b><br>
+                            <small style="color: grey;">/ห้อง/คืน</small>
+                            <div>
+                                
+                                
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                
+                
+                
+                
+                
+            </div>
+        </div>
+        
+        
     </div>
 </div>
-</div>
 
 
+<script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
 
-</div>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 <script>
-    const app = new Vue(
-    {
+    
+    new Vue({
         el: '#app',
-        data: {
-            message : 'Hello world'
+        data () {
+            return {
+                searchRoom: '',
+                searhEnd: '',
+                searhtStart: '',
+                bookingResponse: '',
+                showBook: false,
+                test: 0,
+                quantity: '',
+                roomName: '',
+                price: '',
+                selected: '',
+                startDate: '',
+                endDate: '',
+                addShow: true,
+                info: [], // json hotel ที่ get มา
+                loading: true,
+                errored: false,
+                searchText: "", // ข้อความในกล่องค้นหา
+                link : '',
+                token: '',
+                user: '',
+                isRoom: false
+                
+            }
+        },
+        
+        compute: {
+            
+            check(){
+                
+            }
+        },
+        
+        mounted () {
+            
+            if (localStorage.link) {
+                this.link = localStorage.link;
+            }
+            
+            if (localStorage.token) {
+                this.token = localStorage.token;
+            }
+            
+            axios.get('https://zuulservice-260310.appspot.com/userdetail/user/me',
+            {
+                headers: {
+                    Authorization: localStorage.token
+                }
+            })
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.user = data;
+            }),
+            
+            
+            this.info = [];
+            
+            
+            axios.get('https://zuulservice-260310.appspot.com/hotelroomdetail/getallroomtype/'+this.link)
+            .then((response) => {
+                const data = response.data; // [{}, {}]
+                this.info = data;
+                
+                if(this.info.length < 1){
+                    this.isRoom =  false
+                }else{
+                    this.isRoom = true
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                this.errored = true
+            })
+            .finally(() => this.loading = false)
+            
+            
+            
+            
+        },
+        
+        
+        
+        methods: {    
+            
+            logout() {
+                axios.post('https://zuulservice-260310.appspot.com/userdetail/logout', 
+                {
+                    
+                    
+                }, {headers: {
+                    Authorization: localStorage.token
+                }})
+                .then((response) => {
+                    const data = response.data;
+                    this.user = data
+                    this.token = ''
+                    localStorage.token  = ''
+                    
+                });
+            },
+            
+            
+            
+            search(){
+                
+                axios.post('https://zuulservice-260310.appspot.com/booking/freeroom/'+this.link, {
+                    
+                    // id,price,tpye
+                    startDate : this.searhtStart+' '+"13:00:00",
+                    endDate : this.searhEnd+' '+"11:00:00",
+                    
+                    
+                },)
+                .then((response) => {
+                    const data = response.data;
+                    this.searchRoom =  data;
+                    
+                })
+                
+                .catch(error => {
+                    console.log(error)
+                    this.errored = true
+                    
+                    
+                    this.response_status = true
+                    swal({
+                        title: "Error!",
+                        icon: "error",
+                        button: "OK",
+                    });
+                    
+                })
+                ;
+                
+            },
+            
+            showBooking() {
+                this.showBook = !this.showBook
+            },
+            
+            onChange() {
+                this.test++
+            },
+            booking() {
+                axios.post('https://zuulservice-260310.appspot.com/booking/createBooking', {
+                    
+                    // id,price,tpye
+                    userId : this.user.id,
+                    hotelId : this.link,
+                    bookingStatus : "Booked",
+                    bookingStartDate : this.startDate+' '+"13:00:00",
+                    bookingEndDate :  this.endDate+' '+"11:00:00",
+                    roomTypeRequests : [
+                    {
+                        "roomTypeName": this.selected[2],
+                        "price": this.selected[1],
+                        "quantity": this.quantity
+                    }
+                    ]
+                    
+                    
+                },  { headers: {
+                    
+                    Authorization: localStorage.token
+                }})
+                .then((response) => {
+                    const data = response.data;
+                    
+                    if(response.status == 200) {
+                        this.response_status = true
+                        swal({
+                            title: "Booking Success!",
+                            icon: "success",
+                            button: "OK",
+                        });
+                    }
+                })
+                
+                .catch(error => {
+                    console.log(error)
+                    this.errored = true
+                    
+                    if(error.response.status == 406){
+                        this.response_status = true
+                        swal({
+                            title: "Invalid Date!",
+                            icon: "error",
+                            button: "OK",
+                        })
+                    }else{
+                        this.response_status = true
+                        swal({
+                            title: "Error!",
+                            icon: "error",
+                            button: "OK",
+                        })
+                    }
+                    
+                    
+                })
+                ;
+            }
         }
-    }
-    )
+    })
+    
+    
+    
     
 </script>
-<script src="https://kit.fontawesome.com/599456d19b.js" crossorigin="anonymous"></script>
+
+
 
 </body>
 </html>
