@@ -13,10 +13,6 @@
 
 โดยระบบจะทำการจัดการ ตารางการจองและห้องให้สำหรับโรงแรม
 และ สามารถระบุวันว่างของห้อง จากวันที่ลูกค้าเลือกได้ และโรงแรมสามารถติดตามการจองห้องของโรงแรมเองได้
-## Busniuess Flow
-> Not yet finalize
-
-![BusniuessChart](/ReadmeResource/BusinessChart.png)
 
 ## API Structure overview Plan
 > Not yet finalize
@@ -37,6 +33,7 @@
 - API ในการ Update Entity Room โดยยึดจาก Entity Booking
 - API ในการ Add และ Update Entity Room ตามโรงแรมที่ต้องการ
 - API ในการ Add และ Update Entity Hotel
+- API Authentication
 
 ### Entity
 - Room
@@ -77,7 +74,7 @@
 	"username" : "string",
 	"password" : "string",
 	"firstName" : "string",
-  "middleName" :"string",
+    	"middleName" :"string",
 	"lastName" : "string",
 	"tel" : ["string"],
 	"email" : "string"
@@ -106,6 +103,39 @@
 	]
 }
 ```
+## API Endpoint
+[API Documentation](https://documenter.getpostman.com/view/8387942/SWDzeLz8)
+
+### Hotel
+- GET /allhotel
+- GET /hoteldetail/{hotelId}
+- POST /createhotel
+- POST /updatehotel/{hotelId}
+- POST /createroomtype/{hotelId}
+- GET /fullhoteldetail/{hotelId}
+- GET /getallroomtype/{hotelId}
+- POST /updateroomtype/{hotelId}/{roomTypeId}
+
+### User
+- GET /alluser
+- GET /user/{id}
+- POST /user
+- POST /login
+- POST /logout
+- GET /user/me
+- POST /user/update
+
+### Booking
+- POST /createBooking
+- GET /getbookingbyuser/{userId}
+- GET /getbookingdetail/{bookingId}
+- POST /updateBookingStatus/{bookingId}
+- GET /getbookingbyhotel/{hotelId}
+- GET /hoteldetail/allroomtype/{hotelId}
+- POST /freeroom/{hotelId}
+
+
+
 > price may vary overtime dedicate price store foreach booking is needed*
 # 👥Team Member
 
